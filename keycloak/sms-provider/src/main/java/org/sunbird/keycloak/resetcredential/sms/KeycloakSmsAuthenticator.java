@@ -44,7 +44,7 @@ public class KeycloakSmsAuthenticator implements Authenticator {
         logger.debug("KeycloakSmsAuthenticator@authenticate called ... context = " + context);
 
         UserModel user = context.getUser();
-        logger.debug("KeycloakSmsAuthenticator@authenticate - User = " + user.getUsername());
+        logger.debug("KeycloakSmsAuthenticator@authenticate - UserName = " + user.getUsername() + ", UserEmail = " + user.getEmail());
 
         List<String> mobileNumberCreds = user.getAttribute(KeycloakSmsAuthenticatorConstants.ATTR_MOBILE);
 
