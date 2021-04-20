@@ -62,6 +62,25 @@ public class KeycloakSmsAuthenticator implements Authenticator {
             sendSMS(otpResponse, context, mobileNumber);
           }
           if (StringUtils.isNotBlank(userEmail)) {
+            if(userEmail.contains("*")) {
+        		  try {
+	        		  MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
+	        		  String username = formData.getFirst("username");
+	        		  if(StringUtils.isNotBlank(username)) {
+	        			  userEmail = username;
+	        			  StringBuilder str = new StringBuilder("KeycloakSmsAuthenticator@authenticate - ");
+	        			  str.append("context.user.userEmail: ").append(user.getEmail());
+	        			  str.append("context.httpRequest.username: ").append(username);
+	        			  str.append(" -- using username from httpRequest instead of user.email");
+	        			  logger.info(str.toString());
+	        		  } else {
+                          logger.error("KeycloakSmsAuthenticator@authenticate - Failed to get username from context.httpRequest");
+                      }
+        		  }catch (Exception e) {
+        			  logger.error("Failed to replace masked email with context.httpRequest.username");
+        			  logger.error(e);
+        		  }
+        	}
             sendEmailViaSunbird(otpResponse, context, userEmail);
           }
         } else {
