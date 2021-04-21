@@ -1,8 +1,11 @@
 @import "./fonts/notosans/notosans.css";
+@import "./fonts/poppins/poppins.css";
 body{
-    font-family: "Noto Sans";
+    font-family: "Poppins Regular";
     position: relative;
-    letter-spacing: 0.2px;
+    letter-spacing: 0.2px; 
+    background: url(../img/iGOT_Web_HD_BG@2x.png) no-repeat center center fixed;
+    background-size: cover;
 }
 .ui.container.fullpage-background-image{
     max-width: 320px !important;
@@ -10,29 +13,110 @@ body{
     box-shadow: none !important;
     border: 0 !important;
     border-radius: 0 !important;
+    border-radius: 6px !important;
+    border: none !important;
+    box-shadow: 0px 20px 60px #3E3E3E29 !important;
 }
 .fs-14{
     font-size: 14px !important;
 }
-.fs-22{
-    font-size: 22px !important;
+.custom-grid{
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1.3fr 1fr;
+    /* grid-gap: 10rem; */
+    min-height: 100vh;
+    width: 100vw;
+    /* max-height: inherit;
+    height: inherit; */
+}
+
+.login-section{
+    height: 100%;
+    display: flex !important;;
+    align-items: center;
+    justify-content: center;
+    width: 100% !important;
+    min-width: 100%;
+    /* overflow-y: auto;
+    overflow-x: hidden;
+    justify-content: center;
+    min-height: 100%;
+    max-height: inherit; */
+}
+
+.custom-wrapper .custom-grid .left-box {
+    background: transparent;
+    height: 100%;
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: none !important;
+    padding: 5px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+}
+
+.dots-menu{
+    position: relative;
+    z-index: 900;
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-container{
+    flex: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 430px;
+    max-width: 100%;
+    padding: 5rem 0 2rem 0;
+}
+
+.dot {
+    height: 12px;
+    width: 12px;
+    margin: 0px 8px;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+    background: #BEBEBE 0% 0% no-repeat padding-box;
+    color: rgba(255,255,255, 0);
+    
+}
+  
+.dot.active {
+    background: #00A9F4 0% 0% no-repeat padding-box;
 }
 @media screen and (min-width: 768px) {
     body{
         background-size: cover;
         background-repeat: no-repeat;
         min-height: 100vh;
-        background: url(../img/bg.svg) no-repeat center center fixed;
+        background: url(../img/iGOT_Web_HD_BG@2x.png) no-repeat center center fixed;
         background-size: cover;
-
+        
      }
      .ui.container.fullpage-background-image{
         max-width: 944px !important;
-        padding: 20px 0 !important;
-        margin: 30px auto!important;
-        box-shadow: 0 2px 16px 0 rgba(0,0,0,0.2) !important;
-        border-radius: 4px !important;
-        border: 1px solid #d8dee2 !important;
+        /* padding: 20px 0 !important; */
+        /* margin: 30px auto!important; */
+        box-shadow: 0px 20px 60px #3E3E3E29 !important;;
+        width: auto;
+        min-width: auto;
+        border-radius: 6px !important;
+        border: none !important;
+    }
+
+    .custom-wrapper .custom-grid .left-box{
+        box-shadow: none !important;
     }
 }
 .ui.button:focus{
@@ -44,20 +128,42 @@ body{
 .w-95 {
     width: 95px !important;
 }
+
 .activeLabelColor{
     color:#024f9d !important;
 }
-input{
-    border: 1px solid #9B9B9B !important;
+.ui.form input[type=text], .ui.form input[type=password], .ui.form input[type=email]{
+    border-radius: 8px;
+    border: 1px solid #70707069;
+    font-family: 'Poppins Regular', 'Noto Sans', sans-serif;
 }
-input:focus{
+
+.ui.form .field {
+    margin: 0 0 2.2em;
+}
+
+input:focus{ 
     border: 1px solid #024f9d !important;
 }
-.signInWithGoogle{
-    /* vertical-align: bottom; */
-    height: 18px !important;
-    margin-right: 8px;
 
+input::placeholder{
+    color: #BEBEBE;
+}
+
+input[type='password']::placeholder {
+    font-size: 1em;
+    vertical-align: middle;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    -webkit-text-security: disc !important;
+}
+
+.signInWithGoogle{
+    vertical-align: bottom;
+    height: 18px !important;
+    margin-right: 5px;
+    
 }
 .ui.basic.blue.button.googleButton{
     color: #333 !important;
@@ -80,45 +186,73 @@ input:focus{
     color: #F9F9F9;
 }
 .or{
-    color: #333;
-    background-image:linear-gradient(#ccc,#ccc),linear-gradient(#ccc,#ccc);
+    color: #9B9B9B;
+    background-image:linear-gradient(#979797,#979797),linear-gradient(#979797,#979797);
     background-size:45% 1px;
     background-position:center left,center right;
     background-repeat:no-repeat;
-    font-weight: 700;
-    font-size: 12px;
 }
 .signUpMsg{
-    font-size: 12px;
-    line-height: 17px;
+    font-family: 'Poppins Medium', 'Noto Sans', sans-serif;
+    font-size: 14px;
     text-align: center;
-    /*margin-top: auto !important;*/
-    margin-bottom: 10px !important;
+    color: #707070;
 }
-.formMsg{
+
+.page-info{
+    font-family: 'Poppins Medium', 'Noto Sans', sans-serif;
+    font-size: 14px;
+    text-align: center;
+    color: #707070;
+}
+
+.page-title{
+    font-family: 'Poppins Medium', 'Noto Sans', sans-serif;
     font-size: 16px;
-    line-height: 22px;
+    text-align: center;
+    color: #707070;
+}
+
+.signUpLink {
+    font-family: 'Poppins SemiBold', 'Noto Sans', sans-serif;
+    color: rgb(0, 116, 182,1);
+    transition: all .23s ease-in;
+}
+.signUpLink:hover {
+    color: rgb(0, 116, 182, 0.8);
+}
+
+.formMsg{
+    font-size: 14px;	
+    line-height: normal;
 }
 .signInHead{
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 16px;
+    font-family: 'Poppins SemiBold', 'Noto Sans', sans-serif;
 }
 .ui.form .field>label {
-    font-size: 1.05em;
+    font-family: 'Poppins Regular', 'Noto Sans', sans-serif;
+    font-size: 1em;
     font-weight: 500;
+    color: #222222;
+    font-weight: normal;
+    margin: 0 0 .715rem 0;
 }
 .forgetPasswordLink{
-    color: #024f9d;
+    color: rgb(0, 116, 182,1) !important;
     font-size: 12px;
     line-height: 17px;
-    float: right;
+    position: absolute;
+    right: 0;
+    top: 97px;
+    transition: all .25s ease-in;
+    font-family: 'Poppins Medium', 'Noto Sans', sans-serif;
 }
 .forgetPasswordLink:hover,
 .forgetPasswordLink:focus{
-    color: #002e50;
+    color:rgb(0, 116, 182, .8) !important;
     outline: none;
-    cursor: pointer;
-    /* font-weight:bold; */
+    font-weight:bold;
 }
 .textCenter {
     text-align: center !important;
@@ -126,20 +260,26 @@ input:focus{
 .mb-28{
     margin-bottom: 28px !important;
 }
-.mb-0{
-    margin-bottom: 0px !important;
+.mb-30{
+    margin-bottom: 30px !important;
+}
+.mb-40{
+    margin-bottom: 40px !important;
 }
 .mt-46{
     margin-top: 46px;
+}
+.mt-20{
+    margin-top: 20px;
+}
+.mt-30{
+    margin-top: 30px;
 }
 .mt-40{
     margin-top: 40px;
 }
 .mt-8 {
     margin-top: 8px !important;
-}
-.mt-16 {
-    margin-top: 16px !important;
 }
 .mb-18 {
     margin-bottom: 18px !important;
@@ -162,6 +302,9 @@ input:focus{
 .mt-36{
     margin-top: 36px !important;
 }
+.mt-40{
+    margin-top: 40px !important;
+}
 .mb-30 {
     margin-bottom: 30px !important;
 }
@@ -174,24 +317,33 @@ input:focus{
 .mt-76{
     margin-top: 76px;
 }
-.backToLogin {
+.backToLogin {	
     color: #E76026 !important;
-    font-size: 14px;
+    font-size: 14px;	
     line-height: 19px;
     margin-top: 10px;
     display: block;
 }
 .logo-image{
-    max-width: 100% !important;
+    /* max-width: 100% !important; */
     width: auto !important;
-    max-height: 56px !important;
-    margin-top: 20px!important;
+    /* max-height: 56px !important; */
+    /* margin-top: 20px!important; */
+    height: 120px !important;
 }
-.button{
+
+.ui.button{
+    font-family: 'Poppins SemiBold', 'Noto Sans', sans-serif !important;
     color: #F9F9F9 !important;
-    font-size: 14px;
+    font-size: 14px;	
     line-height: 19px;
-    background-color:#2CA58D !important;
+    height: 40px;
+    background-color:rgb(0, 116, 182, 1) !important;
+    border-radius: 8px;
+    transition: all .25s ease-in;
+}
+.button:hover{
+    background-color:rgb(0, 116, 182, .8) !important;
 }
 
 .ui.text.success{
@@ -215,19 +367,22 @@ i.icon.eye.slash:before {
 .mt-45{
     margin-top: 45px;
 }
-a{
+/* a{
     color: #024f9d !important;
-}
+} */
 .registerLink{
-    color: #024f9d;
+    color: #024f9d !important;
     font-weight: bold;
-    text-decoration: underline;
 }
 .registerLink:hover,
 .registerLink:focus{
     font-weight: bold;
     outline:none;
     cursor: pointer;
+}
+
+.ui.form{
+    width: 340px;;
 }
 .ui.blue.button{
     box-shadow: 0 0 0 1px #024f9d inset!important;
@@ -236,7 +391,8 @@ a{
     letter-spacing: 3px;
 }
 .ui.form input:not([type]), .ui.form input[type=date], .ui.form input[type=datetime-local], .ui.form input[type=email], .ui.form input[type=file], .ui.form input[type=number], .ui.form input[type=password], .ui.form input[type=search], .ui.form input[type=tel], .ui.form input[type=text], .ui.form input[type=time], .ui.form input[type=url]{
-    font-family: inherit !important;
+    font-family: 'Poppins Regular', 'Noto Sans', sans-serif;
+    
 }
 .loginupdate .ui.text.warning {
     color: #333;
@@ -283,109 +439,78 @@ h1, h2, h3, h4, h5,
 .ui.dropdown,
 .ui.category.search>.results .category>.name
 {
-    font-family: inherit;
+    font-family: 'Poppins Regular', 'Noto Sans', sans-serif;
 }
 .height-fix{
-    min-height:90vh;
+    min-height: auto;
     display: flex !important;
     flex-direction: column;
     justify-content: center;
+    min-height: auto;
+    padding: 4.5rem 6rem !important;
+    align-items: center;
 }
 
-.cursor-pointer {
-    cursor: pointer
-}
-
-.width-100 {
-    width: 100%;
-}
-/* Design System Utilities */
-
-/* 1. Button Utilities */
-
-.sb-btn {
-    -webkit-tap-highlight-color: transparent;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    outline: 0;
-    display: inline-block;
-    border: 1px solid;
-    color: var(--white);
-    cursor: pointer;
-    min-width: 64px;
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
+.custom-wrapper {
+    min-height: 100vh;
     position: relative;
-    text-transform: capitalize;
-    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* padding: 30px; */
 }
 
-.sb-btn-normal {
-    padding: 8px 16px;
-    height: 36px;
-    font-size: 12px;
-}
-
-.sb-btn-primary {
-    border-color: #024f9d;
-    background-color: #024f9d;
-    color: white;
-}
-
-.sb-btn-primary:hover {
-    background-color: #002e50;
-}
-
-.sb-btn-success {
-    border-color: #07bc81;
-    background-color: #07bc81;
-    color: white;
-}
-
-.sb-btn-success:hover {
-    background-color: #008840;
-    border-color: #008840;
-}
-
-.sb-btn-outline-primary {
-    background-color: white;
-    color: #024f9d;
-    border-color: #024f9d;
-}
-
-.sb-btn-outline-primary:hover {
-    border-color: #002e50;
-    color: #002e50;
-    background-color: #edf4f9;
-}
-
-/* Margin Utilities */
-
-.mb-16 {
-    margin-bottom: 16px !important;
-}
-
-.my-16 {
-    margin: 16px 0 !important;
-}
-
-.mx-16 {
-    margin: 0 16px !important;
-}
-
-/* Flex Utilities */
-
-.d-flex {
+.max-container{
+    max-width: 320px;
     display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: inherit;
 }
 
-.flex-ai-center {
-    align-items: center !important;
+.mw-100{
+    max-width: 100% !important;
 }
 
-.flex-jc-center {
-    justify-content: center !important;
+.mySlides {display: none;}
+.mySlides img {
+    width: auto;
+    height: 430px;
+}
+img {vertical-align: middle;}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Fading animation */
+.fade {
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 1.5s;
+    animation-name: fade;
+    animation-duration: 1.5s;
+  }
+  
+  @-webkit-keyframes fade {
+    from {opacity: .4} 
+    to {opacity: 1}
+  }
+  
+  @keyframes fade {
+    from {opacity: .4} 
+    to {opacity: 1}
+  }
+
+
+@media screen and (max-width: 768px) {
+    .custom-wrapper .custom-grid .left-box{
+        display: none !important;
+    }
+    .custom-wrapper .custom-grid{
+        grid-template-columns: 1fr;
+    }
 }

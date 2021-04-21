@@ -118,8 +118,9 @@
                                 </div>
                                 <#if realm.password && realm.registrationAllowed && !usernameEditDisabled??>
                                     <div id="kc-registration" class="field">
-                                        <div class="ui content signUpMsg">
+                                        <div class="ui content mt-40 signUpMsg">
                                             ${msg("noAccount")} <span id="signup" tabindex="0" class="registerLink" onclick=navigate('self')>${msg("registerHere")}</span>
+                                            <span>${msg("noAccount")} <a class="signUpLink" href="${url.registrationUrl}">${msg("doRegister")}</a></span>
                                         </div>
                                     </div>
                                 </#if>
