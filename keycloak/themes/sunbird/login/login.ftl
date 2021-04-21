@@ -93,7 +93,7 @@
                             <span class="ui text error hide" id="inCorrectPasswordError">${msg("inCorrectPasswordError")}</span>
                             </div>
                             <div class="field">
-                                <button id="login" class="mt-16 sb-btn sb-btn-normal sb-btn-primary width-100">${msg("doLogIn")}</button>
+                                <button id="login" class="ui fluid button">${msg("doLogIn")}</button>
                             </div>
 
                             <div id="selfSingUp" class="hide">
