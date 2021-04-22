@@ -4,53 +4,97 @@
         ${msg("emailForgotTitle")}
     <#elseif section = "form">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <div class="ui raised shadow container segment fullpage-background-image">
-        <div class="ui three column grid stackable">
-            <div class="ui column tablet only computer only"></div>
-            <div class="ui column height-fix">
-                <div class="ui header centered">
-                    <img onerror="" alt="">
-                    <div class="signInHead mt-27">${msg("emailForgotTitle")}</div>
-                </div>
-                <div class="ui content center justfy textCenter">
-                    ${msg("enterEmailPhonenumberToGetCode")}
-                </div>
-                <div class="ui content center justfy textCenter mt-8 mb-28">
-                    <#if message?has_content>
-                        <div class="ui text ${message.type}">
-                            ${message.summary}
+    <div class="custom-wrapper">
+        <div class="custom-grid">
+            <div class="ui raised shadow container segment fullpage-background-image left-box">
+                <div class="ui column height-fix" style="padding:0">
+                    <div class="logo" style="width: 320px; max-width:100%">
+                        <img src="${url.resourcesPath}/img/dopt_logo.png" alt="Logo" style="width: inherit;">
+                    </div>
+                    <div class="img-container" style="width: 320px; max-width:100%">
+                        <div class="slideshow-container">
+
+                            <div class="mySlides fade">
+                                <img src="${url.resourcesPath}/img/Hexagon.png" alt="hexagon image">
+                            </div>
+
+                            <div class="mySlides fade">
+                                <img src="${url.resourcesPath}/img/card1.png" alt="card image 1">
+                            </div>
+
+                            <div class="mySlides fade">
+                                <img src="${url.resourcesPath}/img/card2.png" alt="card image 2">
+                            </div>
+
                         </div>
-                    </#if>
+                    </div>
+                    <div class="dots-menu">
+                        <label class="dot">*</label>
+                        <label class="dot">*</label>
+                        <label class="dot">*</label>
+                    </div>
                 </div>
-                <form id="kc-reset-password-form" class="ui form" method="POST" action="${url.loginAction}">
-                    <div class="field mb-36">
-                        <label id="usernameLabel" for="username" class="">
-                            <#if !realm.loginWithEmailAllowed>
-                                ${msg("username")}
-                            <#elseif !realm.registrationEmailAsUsername>
-                                ${msg("emailOrPhone")}
-                            <#else>${msg("email")}
-                            </#if>
-                        </label>
-                        <label id="usernameLabelPlaceholder" for="username" class="activeLabelColor hide">
-                            <#if !realm.loginWithEmailAllowed>${msg("username")}
-                            <#elseif !realm.registrationEmailAsUsername>${msg("placeholderForEmailOrPhone")}
-                            <#else>${msg("email")}
-                            </#if>
-                        </label>
-                        <input type="text" id="username" class="mt-8" name="username" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)" autofocus/>
+                
+            </div>
+            <div class="ui raised shadow container segment fullpage-background-image login-section">
+                <div class="ui one column grid stackable">
+                    <div class="ui column height-fix">
+                        <div class="max-container">
+                            <div class="ui header mb-30 centered">
+                                <img onerror="" alt="">
+                                <div class="signInHead mt-30">${msg("emailForgotTitle")}</div>
+                            </div>
+                            <div class="ui  mb-40 content center justfy textCenter signUpMsg">
+                                ${msg("enterEmailPhonenumberToGetCode")}
+                            </div>
+                            <div class="ui content center justfy textCenter ">
+                                <#if message?has_content>
+                                    <div class="ui mb-40 text ${message.type}">
+                                        ${message.summary}
+                                    </div>
+                                </#if>
+                            </div>
+                            <form id="kc-reset-password-form" class="ui form" method="POST" action="${url.loginAction}">
+                                <div class="field mb-36">
+                                    <label id="usernameLabel" for="username" class="">
+                                        <#if !realm.loginWithEmailAllowed>
+                                            ${msg("username")}
+                                        <#elseif !realm.registrationEmailAsUsername>
+                                            ${msg("emailOrPhone")}
+                                        <#else>${msg("email")}
+                                        </#if>
+                                    </label>
+                                    <label id="usernameLabelPlaceholder" for="username" class="activeLabelColor hide">
+                                        <#if !realm.loginWithEmailAllowed>${msg("username")}
+                                        <#elseif !realm.registrationEmailAsUsername>${msg("placeholderForEmailOrPhone")}
+                                        <#else>${msg("email")}
+                                        </#if>
+                                    </label>
+                                    <input type="text" id="username" class="mt-8" name="username" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)" autofocus/>
+                                </div>
+                                <div class="field">
+                                    <button id="login" class="ui fluid submit button">
+                                    ${msg("doReset")}
+                                    </button>
+                                </div>
+                            </form>
+                            <div class="${properties.kcFormOptionsWrapperClass!} ui content signUpMsg mt-40 textCenter">
+                                <#--  <span>
+                                    <a id="versionLink" class="backToLogin signUpLink" onclick="javascript:makeDivUnclickable()" href="${url.loginUrl}">
+                                        <span class="fs-14"><< </span> 
+                                        ${msg("backToLogin")}
+                                    </a>
+                                </span>  -->
+                                <span>${msg("doYouRemember")} 
+                                    <a id="versionLink" class=" signUpLink" onclick="javascript:makeDivUnclickable()" href="${url.loginUrl}">
+                                        ${msg("doSignIn")}
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="field">
-                        <button id="login" class="ui fluid submit button">
-                        ${msg("doReset")}
-                        </button>
-                    </div>
-                </form>
-                <div class="${properties.kcFormOptionsWrapperClass!} signUpMsg mb-56 mt-45 textCenter">
-                    <span><a id="versionLink" class="backToLogin" onclick="javascript:makeDivUnclickable()" href="${url.loginUrl}"><span class="fs-14"><< </span> ${msg("backToLogin")}</a></span>
                 </div>
             </div>
-            <div class="ui column tablet only computer only"></div>
         </div>
     </div>
     <#elseif section = "info" >
