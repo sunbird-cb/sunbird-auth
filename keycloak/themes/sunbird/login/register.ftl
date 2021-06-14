@@ -17,12 +17,15 @@
                                 <img src="${url.resourcesPath}/img/Hexagon.png" alt="hexagon image">
                             </div>
 
-                            <div class="mySlides fade">
-                                <img src="${url.resourcesPath}/img/card1.png" alt="card image 1">
+                            <#--  <div class="mySlides fade">
+                                <img alt="Slides" src="${url.resourcesPath}/img/card1.png">
                             </div>
 
                             <div class="mySlides fade">
-                                <img src="${url.resourcesPath}/img/card2.png" alt="card image 2">
+                                <img alt="Slides" src="${url.resourcesPath}/img/card2.png">
+                            </div>  -->
+                            <div class="mySlides fade">
+                                <img alt="Slides" src="${url.resourcesPath}/img/card3.png">
                             </div>
 
                         </div>

@@ -19,12 +19,15 @@
                                 <img alt="Slides" src="${url.resourcesPath}/img/Hexagon.png">
                             </div>
 
-                            <div class="mySlides fade">
+                            <#--  <div class="mySlides fade">
                                 <img alt="Slides" src="${url.resourcesPath}/img/card1.png">
                             </div>
 
                             <div class="mySlides fade">
                                 <img alt="Slides" src="${url.resourcesPath}/img/card2.png">
+                            </div>  -->
+                            <div class="mySlides fade">
+                                <img alt="Slides" src="${url.resourcesPath}/img/card3.png">
                             </div>
 
                         </div>
