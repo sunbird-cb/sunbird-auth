@@ -325,11 +325,11 @@ input[type='password']::placeholder {
     display: block;
 }
 .logo-image{
-    /* max-width: 100% !important; */
+    max-width: 100% !important;
     width: auto !important;
     /* max-height: 56px !important; */
     /* margin-top: 20px!important; */
-    height: 120px !important;
+    /* height: 120px !important; */
 }
 
 .ui.button{
