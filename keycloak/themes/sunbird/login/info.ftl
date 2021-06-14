@@ -33,7 +33,7 @@
                     <div class="dots-menu">
                         <label class="dot">*</label>
                         <label class="dot">*</label>
-                        <label class="dot">*</label>
+                        <#--  <label class="dot">*</label>  -->
                     </div>
                 </div>
                 
