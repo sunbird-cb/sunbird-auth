@@ -44,11 +44,24 @@
                     <div class="ui column height-fix">
                         <div class="max-container mw-100">
                             <div id="kc-info-message">
-                                <p class="instruction signUpMsg">${message.summary}</p>
+                                <!--<p class="instruction signUpMsg">${message.summary}</p>-->
                                 <#if skipLink??>
                                 <#else>
                                     <#if pageRedirectUri??>
                                         <p class="signUpMsg"><a class="signUpLink" href="${pageRedirectUri}">${msg("backToApplication")}</a></p>
+                                    <#elseif actionUri??>
+                                        <div class="ui text active centered inline large loader">Loading.. Please wa<p><a id="click-here-to-proceed" href="${actionUri}">${kcSanitize(msg("proceedWithAction"))?no_esc}</a></p>it..</div>
+                                        <div id="kc-info-message-hide" style="display:none">
+                                            <p><a id="click-here-to-proceed" href="${actionUri}">${kcSanitize(msg("proceedWithAction"))?no_esc}</a></p>
+                                            <script type="text/javascript">
+                                                window.onload = function() {
+                                                    function autoClick() {
+                                                        document.getElementById("click-here-to-proceed").click();
+                                                    }
+                                                    setInterval(autoClick, 500);
+                                                }
+                                            </script>
+                                         </div>
                                     <#elseif client.baseUrl??>
                                         <p class="signUpMsg"><a class="signUpLink" href="${client.baseUrl}">${msg("backToApplication")}</a></p>
                                     </#if>
