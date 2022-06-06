@@ -48,7 +48,16 @@
                                 <#if skipLink??>
                                 <#else>
                                     <#if pageRedirectUri??>
-                                        <p class="signUpMsg"><a class="signUpLink" href="${pageRedirectUri}">${msg("backToApplication")}</a></p>
+                                        <p class="signUpMsg"><a id="backToApplication" class="signUpLink" href="${pageRedirectUri}">${msg("backToApplication")}</a></p>
+<script type="text/javascript">
+                 window.onload = function() {
+                 function autoClick() {
+                document.getElementById("backToApplication").click();
+               }
+              setInterval(autoClick, 500);
+           }
+                                            </script>
+
                                     <#elseif actionUri??>
                                         <div class="ui text active centered inline large loader">Loading.. Please wa<p><a id="click-here-to-proceed" href="${actionUri}">${kcSanitize(msg("proceedWithAction"))?no_esc}</a></p>it..</div>
                                         <div id="kc-info-message-hide" style="display:none">
@@ -95,5 +104,6 @@
         }
 
     </script>
+
     </#if>
 </@layout.registrationLayout>
