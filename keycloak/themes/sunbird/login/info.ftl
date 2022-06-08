@@ -48,13 +48,14 @@
                                 <#if skipLink??>
                                 <#else>
                                     <#if pageRedirectUri??>
+                                        <p class="signUpMsg">You have activated your account successfully. You will need to sign in to start using it. You will be redirected to the home page automatically</p>
                                         <p class="signUpMsg"><a id="backToApplication" class="signUpLink" href="${pageRedirectUri}">${msg("backToApplication")}</a></p>
 <script type="text/javascript">
                  window.onload = function() {
                  function autoClick() {
                 document.getElementById("backToApplication").click();
                }
-              setInterval(autoClick, 500);
+              setInterval(autoClick, 5000);
            }
                                             </script>
 
@@ -67,7 +68,7 @@
                                                     function autoClick() {
                                                         document.getElementById("click-here-to-proceed").click();
                                                     }
-                                                    setInterval(autoClick, 500);
+                                                    setInterval(autoClick, 5000);
                                                 }
                                             </script>
                                          </div>

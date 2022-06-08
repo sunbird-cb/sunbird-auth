@@ -9,6 +9,7 @@
         <div class="custom-grid">
             <div class="ui raised shadow container segment fullpage-background-image left-box">
                 <div class="ui column height-fix" style="padding:0">
+
                     <div class="logo" style="width: 320px; max-width:100%">
                         <img alt="Logo" src="${url.resourcesPath}/img/dopt_logo.png" style="width: inherit;">
                     </div>
@@ -49,6 +50,7 @@
                                 <img onerror="" alt="Error">
                                 <#--  <div class="signInHead mt-27">${msg("doSignIn")}</div>  -->
                             </div>
+
                             <div class="formMsg  textCenter">
                                 <#if message?has_content>
                                 <div class="ui text mb-30 ${message.type}">
@@ -95,9 +97,26 @@
                                 <input placeholder="${msg('passwordPlaceholder')}" class=" mt-8" id="password" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)" name="password" type="password" autocomplete="off" />
                             <span class="ui text error hide" id="inCorrectPasswordError">${msg("inCorrectPasswordError")}</span>
                             </div>
+<div class="field">
+
+<#if recaptchaRequired??>
+    <div class="form-group">
+        <div class="${properties.kcInputWrapperClass!}">
+            <div class="g-recaptcha" data-size="compact" data-sitekey="${recaptchaSiteKey}"></div>
+        </div>
+    </div>
+</#if>
+</div>
                             <div class="field">
                                 <button id="login" class="ui fluid button">${msg("doLogIn")}</button>
                             </div>
+
+                                <div id="kc-registration" class="field">
+                                        <div class="ui content mt-40 signUpMsg">
+                                            <span>${msg("noAccount")} <a class="signUpLink" href="${client.baseUrl}public/signup">${msg("registerHere")}</a></span>
+                                        </div>
+                                    </div>
+
 
                             <div id="selfSingUp" class="hide">
                                 <p class="or my-16 textCenter">OR</p>
