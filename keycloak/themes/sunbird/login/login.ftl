@@ -111,7 +111,7 @@
                                 <button id="login" class="ui fluid button">${msg("doLogIn")}</button>
                             </div>
                             <div class="field">
-                                <button id="login" onclick="navigateToParichay('parichay')" class="ui fluid button">${msg("loginWithParichay")}</button>
+                                <button id="loginp" onclick="navigateToParichay('parichay')" class="ui fluid button">${msg("loginWithParichay")}</button>
                             </div>
                                 <div id="kc-registration" class="field">
                                         <div class="ui content mt-40 signUpMsg">
