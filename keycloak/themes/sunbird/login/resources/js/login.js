@@ -302,7 +302,9 @@ var navigate = function(type) {
 		}
 	}
 }
-
+var parichayLogin= function(){
+	redirect('https://igot-dev.in/apis/public/v8/parichay/auth')
+}
 var initialize = () => {
 	getValueFromSession('redirect_uri');
 	if (!sessionStorage.getItem('session_url')) {

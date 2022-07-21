@@ -110,7 +110,9 @@
                             <div class="field">
                                 <button id="login" class="ui fluid button">${msg("doLogIn")}</button>
                             </div>
-
+                            <div class="field">
+                                <button id="login" class="ui fluid button">${msg("loginWithParichay")}</button>
+                            </div>
                                 <div id="kc-registration" class="field">
                                         <div class="ui content mt-40 signUpMsg">
                                             <span>${msg("noAccount")} <a class="signUpLink" href="${client.baseUrl}public/signup">${msg("registerHere")}</a></span>
