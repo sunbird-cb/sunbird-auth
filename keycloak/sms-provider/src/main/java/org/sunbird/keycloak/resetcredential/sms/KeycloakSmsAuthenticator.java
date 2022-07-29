@@ -58,8 +58,11 @@ public class KeycloakSmsAuthenticator implements Authenticator {
         if (StringUtils.isNotBlank(mobileNumber) || StringUtils.isNotBlank(userEmail)) {
           Map<String, Object> otpResponse = generateOTP(context);
 
-          if (StringUtils.isNotBlank(mobileNumber)) {
-            sendSMS(otpResponse, context, mobileNumber);
+          String useSms = System.getenv(Constants.SEND_OTP_VIA_SMS);
+          if(StringUtils.isNotBlank(useSms) && "true".equalsIgnoreCase(useSms)) {
+            if (StringUtils.isNotBlank(mobileNumber)) {
+              sendSMS(otpResponse, context, mobileNumber);
+            }
           }
           if (StringUtils.isNotBlank(userEmail)) {
             if(userEmail.contains("*")) {
