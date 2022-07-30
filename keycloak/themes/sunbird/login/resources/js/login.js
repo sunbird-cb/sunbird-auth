@@ -284,7 +284,8 @@ var viewPassword = function(previewButton){
 var urlMap = {
 	google: '/google/auth',
 	state: '/sign-in/sso/select-org',
-	self: '/signup'
+	self: '/signup',
+	parichay:'/apis/public/v8/parichay/auth'
 }
 var navigate = function(type) {
 	var version = getValueFromSession('version');
@@ -302,7 +303,11 @@ var navigate = function(type) {
 		}
 	}
 }
-
+var navigateToParichay= function(type){
+	if(type == 'parichay'){
+		redirect(urlMap[type]);
+	}
+}
 var initialize = () => {
 	getValueFromSession('redirect_uri');
 	if (!sessionStorage.getItem('session_url')) {
