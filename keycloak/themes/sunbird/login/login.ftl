@@ -62,13 +62,13 @@
                             </div>
                             <div class="field ${properties.kcFormGroupClass!} type-container mw-100">
                                 <div>
-                                    <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="usePasswordRB" checked=true> &nbsp;&nbsp;
+                                    <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="usePasswordRB" checked=true>&nbsp;
                                     <label id="usePasswordLabel" for="usePasswordRB" class="">
                                         Use Password Login
                                     </label>
                                 </div>
                                 <div>
-                                    <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="useOTPRB" class="">
+                                    <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="useOTPRB" class="">&nbsp;
                                     <label id="useOTPLabel" for="useOTPRB" class="">
                                         Use OTP Login
                                     </label>
@@ -180,13 +180,16 @@
 
                                     <div class="field">
                                         <div>
-                                            <label id="passwordLabel" for="password" class="">
+                                            <label id="phoneLabel" for="password" class="">
+                                                Phone Number
+                                            </label>
+                                            <label id="phoneLabelPlaceholder" for="password" class="activeLabelColor hide">
                                                 Phone Number
                                             </label>
                                         </div>
-                                        <input tabindex="0" required id="user.attributes.mobile_number"  placeholder="Phone number"
+                                        <input tabindex="0" required id="phoneNumber"
                                         class="mdc-text-field__input ${properties.kcInputClass!} mt-8" 
-                                        name="user.attributes.mobile_number" type="text" autofocus autocomplete="off">
+                                        name="phoneNumber" type="text" autofocus autocomplete="off" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)">
                                     </div>
                                     
                                     <div class="mdc-card__actions">
