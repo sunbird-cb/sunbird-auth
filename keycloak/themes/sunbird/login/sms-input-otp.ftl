@@ -12,7 +12,7 @@
                             <img onerror="" alt="">
                             <#--  <div class="signInHead mt-27">${msg("emailForgotTitle")}</div>  -->
                         </div>
-                        <div class="ui content textCenter mb-28">
+                        <div class="signInHead mt-27">
                             ${msg("enterCode")}
                         </div>
                         <div class="ui content textCenter mt-8 mb-28">

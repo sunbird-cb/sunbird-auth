@@ -60,18 +60,18 @@
                                 <div id="success-msg" class="ui text success hide">suceess</div>
                                 <div id="error-msg" class="ui text error hide">error</div>
                             </div>
-                            <div class="mt-8 ${properties.kcFormGroupClass!}">
+                            <div class="field ${properties.kcFormGroupClass!} type-container mw-100">
 
                                 <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="usePasswordRB" checked=true> &nbsp;&nbsp;
                                 <label id="usePasswordLabel" for="usePasswordRB" class="">
                                     Use Password Login
                                 </label>
-                                <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="useOTPRB">
+                                <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="useOTPRB" class="ml-16">
                                 <label id="useOTPLabel" for="useOTPRB" class="">
                                     Use OTP Login
                                 </label>
                             </div>
-                            <div id="usePasswordDiv">
+                            <div id="usePasswordDiv" class="mw-100" >
                                 <form id="kc-form-login" onsubmit="login.disabled = true; return true;" class="ui form" method="POST" action="${url.loginAction}">
 				                    <input type="hidden" name="page_type" value="login_with_pass" />
                                     <div class="field">
@@ -161,10 +161,10 @@
                                     </div>
                                 </form>
                             </div>
-                            <div id="useOTPDiv" style="display:none">
+                            <div id="useOTPDiv" class="mw-100" style="display:none">
                                 <form id="kc-form-login" class="${properties.kcFormClass!} ui form" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
                                     <input type="hidden" name="page_type" value="login_page" />
-                                    <div class="${properties.kcFormGroupClass!}">
+                                    <#--  <div class="${properties.kcFormGroupClass!}">
                                         <div class="mdc-text-field mdc-text-field--with-leading-icon ${properties.kcLabelClass!} <#if usernameEditDisabled??>mdc-text-field--disabled</#if>">
                                             <i class="material-icons mdc-text-field__icon" role="button">phone</i>
                                             <input tabindex="0" required id="user.attributes.mobile_number" class="mdc-text-field__input ${properties.kcInputClass!}" name="user.attributes.mobile_number" type="text" autofocus autocomplete="off">
@@ -173,7 +173,7 @@
                                                 Phone Number
                                             </label>
                                         </div>
-                                    </div>
+                                    </div>  -->
 
                                     <div class="field">
                                         <div>
