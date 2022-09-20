@@ -318,13 +318,14 @@ input[type='password']::placeholder {
     margin-top: 76px;
 }
 .ml-16{
-    margin-top: 16px;
+    margin-left: 16px;
 }
 .type-container{
     justify-content: space-between;
     display: flex;
     width: inherit;
     align-items: center;
+    margin: 0 0 2em;
 }
 .backToLogin {	
     color: #E76026 !important;

@@ -61,15 +61,18 @@
                                 <div id="error-msg" class="ui text error hide">error</div>
                             </div>
                             <div class="field ${properties.kcFormGroupClass!} type-container mw-100">
-
-                                <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="usePasswordRB" checked=true> &nbsp;&nbsp;
-                                <label id="usePasswordLabel" for="usePasswordRB" class="">
-                                    Use Password Login
-                                </label>
-                                <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="useOTPRB" class="ml-16">
-                                <label id="useOTPLabel" for="useOTPRB" class="">
-                                    Use OTP Login
-                                </label>
+                                <div>
+                                    <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="usePasswordRB" checked=true> &nbsp;&nbsp;
+                                    <label id="usePasswordLabel" for="usePasswordRB" class="">
+                                        Use Password Login
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="useOTPRB" class="ml-16">
+                                    <label id="useOTPLabel" for="useOTPRB" class="">
+                                        Use OTP Login
+                                    </label>
+                                </div>
                             </div>
                             <div id="usePasswordDiv" class="mw-100" >
                                 <form id="kc-form-login" onsubmit="login.disabled = true; return true;" class="ui form" method="POST" action="${url.loginAction}">
