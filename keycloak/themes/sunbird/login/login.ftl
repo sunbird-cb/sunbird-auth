@@ -180,10 +180,10 @@
 
                                     <div class="field">
                                         <div>
-                                            <label id="phoneLabel" for="password" class="">
+                                            <label id="phoneNumberLabel" for="phoneNumber" class="">
                                                 Phone Number
                                             </label>
-                                            <label id="phoneLabelPlaceholder" for="password" class="activeLabelColor hide">
+                                            <label id="phoneNumberPlaceholder" for="phoneNumber" class="activeLabelColor hide">
                                                 Phone Number
                                             </label>
                                         </div>
