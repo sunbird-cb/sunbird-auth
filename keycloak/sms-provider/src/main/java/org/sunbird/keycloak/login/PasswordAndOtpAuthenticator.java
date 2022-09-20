@@ -210,7 +210,7 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 	private void sendSms(String mobileNumber, String otp) {
 		List<String> acceptedNumbers = new ArrayList<String>();
 		if (StringUtils.isNotBlank(System.getenv(Constants.SMS_OTP_NUMBERS))) {
-			acceptedNumbers = Arrays.asList(System.getenv(Constants.SMS_OTP_NUMBERS).split(","));
+			acceptedNumbers = Arrays.asList(System.getenv(Constants.SMS_OTP_NUMBERS).split(",", -1));
 		}
 		if (!acceptedNumbers.contains(mobileNumber)) {
 			return;
