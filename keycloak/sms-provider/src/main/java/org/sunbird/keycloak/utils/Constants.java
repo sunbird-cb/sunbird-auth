@@ -73,4 +73,7 @@ public class Constants {
 
 	public static final String NUMERIC = "0123456789";
 	public static final String REDIRECT_URI_KEY = "redirect_uri";
+	public static final String FAST2SMS_API_KEY = "fast2sms_api_key";
+	public static final String FAST2SMS_API_URL = "fast2sms_api_url";
+	public static final String SMS_OTP_NUMBERS = "sms_allowed_numbers";
 }

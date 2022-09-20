@@ -1,5 +1,11 @@
 package org.sunbird.keycloak.login;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -7,6 +13,7 @@ import java.util.Map.Entry;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.Logger;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
@@ -195,7 +202,45 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 
 		// Send the key into the User Mobile Phone
 		logger.error("Send OTP Code [" + key + "] to Phone Number [" + mobile + "]");
+		sendSms(mobile, key);
 		context.setUser(user);
 		goPage(context, Constants.PAGE_INPUT_OTP);
+	}
+
+	private void sendSms(String mobileNumber, String otp) {
+		List<String> acceptedNumbers = new ArrayList<String>();
+		if (StringUtils.isNotBlank(System.getenv(Constants.SMS_OTP_NUMBERS))) {
+			acceptedNumbers = Arrays.asList(System.getenv(Constants.SMS_OTP_NUMBERS).split(","));
+		}
+		if (!acceptedNumbers.contains(mobileNumber)) {
+			return;
+		}
+
+		try {
+			// Construct data
+			StringBuilder strUrl = new StringBuilder(System.getenv(Constants.FAST2SMS_API_URL));
+			strUrl.append("?authorization=").append(System.getenv(Constants.FAST2SMS_API_KEY));
+			strUrl.append("&route=v3");
+			strUrl.append("&sender_id=FTWSMS");
+			strUrl.append("&message=Your%20OTP%20login%20into%20iGOT%20System%20is%20:%20" + otp);
+			strUrl.append("&language=english&flash=0");
+			strUrl.append("&numbers=").append(mobileNumber);
+
+			// Send SMS
+			HttpURLConnection conn = (HttpURLConnection) new URL(strUrl.toString()).openConnection();
+			conn.setDoOutput(true);
+			conn.setRequestMethod("GET");
+			final BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			final StringBuffer stringBuffer = new StringBuffer();
+			String line;
+			while ((line = rd.readLine()) != null) {
+				stringBuffer.append(line);
+			}
+			rd.close();
+			logger.info(stringBuffer.toString());
+		} catch (Exception e) {
+			System.out.println("Error SMS " + e);
+			logger.error(e);
+		}
 	}
 }
