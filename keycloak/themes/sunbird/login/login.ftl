@@ -183,7 +183,7 @@
                                             <label id="phoneNumberLabel" for="phoneNumber" class="">
                                                 Phone Number
                                             </label>
-                                            <label id="phoneNumberPlaceholder" for="phoneNumber" class="activeLabelColor hide">
+                                            <label id="phoneNumberLabelPlaceholder" for="phoneNumber" class="activeLabelColor hide">
                                                 Phone Number
                                             </label>
                                         </div>
