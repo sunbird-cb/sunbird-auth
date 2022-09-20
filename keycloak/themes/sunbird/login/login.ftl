@@ -68,7 +68,7 @@
                                     </label>
                                 </div>
                                 <div>
-                                    <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="useOTPRB" class="ml-16">
+                                    <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="useOTPRB" class="">
                                     <label id="useOTPLabel" for="useOTPRB" class="">
                                         Use OTP Login
                                     </label>
