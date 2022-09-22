@@ -60,23 +60,19 @@
                                 <div id="success-msg" class="ui text success hide">suceess</div>
                                 <div id="error-msg" class="ui text error hide">error</div>
                             </div>
-                            <div class="field ${properties.kcFormGroupClass!} type-container mw-100">
-                                <div>
-                                    <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="usePasswordRB" checked=true>&nbsp;
-                                    <label id="usePasswordLabel" for="usePasswordRB" class="">
-                                        Use Password Login
-                                    </label>
-                                </div>
-                                <div>
-                                    <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="useOTPRB" class="">&nbsp;
-                                    <label id="useOTPLabel" for="useOTPRB" class="">
-                                        Use OTP Login
-                                    </label>
-                                </div>
+                            <div class="${properties.kcFormGroupClass!}">
+                                <label id="usePasswordLabel" for="usePasswordRB" class="">
+                                    Use Password Login
+                                </label>
+                                <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="usePasswordRB" checked=true> &nbsp;&nbsp;
+                                <label id="useOTPLabel" for="useOTPRB" class="">
+                                    Use OTP Login
+                                </label>
+                                <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="useOTPRB">
                             </div>
-                            <div id="usePasswordDiv" class="mw-100" >
+                            <div id="usePasswordDiv">
                                 <form id="kc-form-login" onsubmit="login.disabled = true; return true;" class="ui form" method="POST" action="${url.loginAction}">
-				                    <input type="hidden" name="page_type" value="login_with_pass" />
+				    <input type="hidden" name="page_type" value="login_with_pass" />
                                     <div class="field">
                                         <label id="usernameLabel" for="username" class="">
                                             <#if !realm.loginWithEmailAllowed>${msg("username")}
@@ -164,10 +160,10 @@
                                     </div>
                                 </form>
                             </div>
-                            <div id="useOTPDiv" class="mw-100" style="display:none">
-                                <form id="kc-form-login" class="${properties.kcFormClass!} ui form" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
+                            <div id="useOTPDiv" style="display:none">
+                                <form id="kc-form-login" class="${properties.kcFormClass!}" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
                                     <input type="hidden" name="page_type" value="login_page" />
-                                    <#--  <div class="${properties.kcFormGroupClass!}">
+                                    <div class="${properties.kcFormGroupClass!}">
                                         <div class="mdc-text-field mdc-text-field--with-leading-icon ${properties.kcLabelClass!} <#if usernameEditDisabled??>mdc-text-field--disabled</#if>">
                                             <i class="material-icons mdc-text-field__icon" role="button">phone</i>
                                             <input tabindex="0" required id="user.attributes.mobile_number" class="mdc-text-field__input ${properties.kcInputClass!}" name="user.attributes.mobile_number" type="text" autofocus autocomplete="off">
@@ -176,68 +172,19 @@
                                                 Phone Number
                                             </label>
                                         </div>
-                                    </div>  -->
-
-                                    <div class="field">
-                                        <div>
-                                            <label id="phoneNumberLabel" for="phoneNumber" class="">
-                                                Phone Number
-                                            </label>
-                                            <label id="phoneNumberLabelPlaceholder" for="phoneNumber" class="activeLabelColor hide">
-                                                Phone Number
-                                            </label>
-                                        </div>
-                                        <input tabindex="0" required id="phoneNumber"
-                                        class="mdc-text-field__input ${properties.kcInputClass!} mt-8" 
-                                        name="phoneNumber" type="text" autofocus autocomplete="off" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)">
                                     </div>
                                     
                                     <div class="mdc-card__actions">
-                                        <#--  <a href="${url.registrationUrl}" class="mdc-button mdc-card__action mdc-card__action--button">
+                                        <a href="${url.registrationUrl}" class="mdc-button mdc-card__action mdc-card__action--button">
                                             <i class="material-icons mdc-button__icon">arrow_back</i>Sign Up
-                                        </a>  -->
+                                        </a>
                                         
-                                        <div class="field">
-                                            <button tabindex="0" name="login" id="kc-login" type="submit" class="ui fluid button">
+                                        <div class="mdc-card__action-icons">
+                                            <div class="mdc-card__action-buttons">
+                                                <button tabindex="0" name="login" id="kc-login" type="submit" class="mdc-button mdc-button--raised mdc-card__action">
                                                     Request OTP
-                                            </button>
-                                        </div>
-                                        <div class="field">
-                                            <a id="loginp" href="/apis/public/v8/parichay/auth" class="ui fluid button">${msg("loginWithParichay")}</a>
-                                        </div>
-                                        <div id="kc-registration" class="field">
-                                            <div class="ui content mt-40 signUpMsg">
-                                                <span>${msg("noAccount")} <a class="signUpLink" href="${client.baseUrl}public/signup">${msg("registerHere")}</a></span>
-                                            </div>
-                                        </div>
-                                        <div id="selfSingUp" class="hide">
-                                            <p class="or my-16 textCenter">OR</p>
-                                            <div class="field">
-                                                <#if realm.password && social.providers??>
-                                                    <!--div id="kc-social-providers">
-                                                        <#list social.providers as p>
-                                                        <a href="${p.loginUrl}" id="zocial-${p.alias}" class="zocial ${p.providerId} ui fluid blue basic button textCenter">
-                                                        <i class="icon signInWithGoogle"></i>${msg("doSignIn")} ${msg("doSignWithGoogle")}
-                                                        </a>
-                                                        </#list>
-                                                    </div-->
-                                                </#if>
-                                                <button type="button" id="stateButton" class="sb-btn sb-btn-normal sb-btn-success width-100 mb-16" onclick="navigate('state')">
-                                                    ${msg("doSignWithState")}
-                                                </button>
-                                                <button type="button" class="sb-btn sb-btn-normal sb-btn-outline-primary width-100 d-flex flex-ai-center flex-jc-center" onclick="navigate('google')">
-                                                <img class="signInWithGoogle" src="${url.resourcesPath}/img/google.png">
-                                                ${msg("doLogIn")} ${msg("doSignWithGoogle")}
                                                 </button>
                                             </div>
-                                            <#if realm.password && realm.registrationAllowed && !usernameEditDisabled??>
-                                                <div id="kc-registration" class="field">
-                                                    <div class="ui content mt-40 signUpMsg">
-                                                        ${msg("noAccount")} <span id="signup" tabindex="0" class="registerLink" onclick=navigate('self')>${msg("registerHere")}</span>
-                                                        <span>${msg("noAccount")} <a class="signUpLink" href="${url.registrationUrl}">${msg("doRegister")}</a></span>
-                                                    </div>
-                                                </div>
-                                            </#if>
                                         </div>
                                     </div>
                                 </form>
