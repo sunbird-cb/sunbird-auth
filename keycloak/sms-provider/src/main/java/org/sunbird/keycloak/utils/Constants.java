@@ -54,7 +54,7 @@ public class Constants {
 
 	public static final String HTTP_AUTH_HOST = "http://localhost:8090";
 	public static final String ATTR_PHONE_NUMBER_ADMIN = "mobile_number";
-	public static final String ATTR_PHONE_NUMBER = "user.attributes." + ATTR_PHONE_NUMBER_ADMIN;
+	public static final String ATTR_PHONE_NUMBER = "phoneNumber";
 	public static final String ATTR_OTP_CODE = "user.attributes.otp";
 	public static final String ATTR_OTP_USER = "smsCode";
 	public static final String ATTR_USER_NAME = "username";
