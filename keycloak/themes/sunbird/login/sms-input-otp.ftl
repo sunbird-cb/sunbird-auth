@@ -10,9 +10,9 @@
                     <div class="max-container">
                         <div class="ui header centered">
                             <img onerror="" alt="">
-                            <div class="signInHead mt-27">${msg("emailForgotTitle")}</div>
+                            <#--  <div class="signInHead mt-27">${msg("emailForgotTitle")}</div>  -->
                         </div>
-                        <div class="ui content textCenter mb-28">
+                        <div class="signInHead mt-27">
                             ${msg("enterCode")}
                         </div>
                         <div class="ui content textCenter mt-8 mb-28">
@@ -23,9 +23,9 @@
                             </#if>
                         </div>
                         <form id="kc-totp-login-form" class="${properties.kcFormClass!} ui form pre-signin" action="${url.loginAction}" method="post">
-			    <input type="hidden" name="page_type" value="sms_otp_page" />
+			                <input type="hidden" name="page_type" value="sms_otp_page" />
                             <div class="field">
-                                <input id="totp" name="smsCode" type="text" class="mb-28 smsinput" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)"/>
+                                <input id="totp" name="smsCode" type="text" class=" smsinput" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)"/>
                             </div>
                             <div class="field">
                                 <button onclick="javascript:makeDivUnclickable()" class="ui fluid submit button" name="login" id="login" type="submit" value="${msg("doLogIn")}">${msg("doSubmit")}</button>
