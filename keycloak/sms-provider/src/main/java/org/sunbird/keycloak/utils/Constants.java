@@ -64,7 +64,7 @@ public class Constants {
 	public static final String FLAG_PAGE = "page_type";
 	public static final String FLAG_LOGIN_WITH_PASS = "login_with_pass";
 
-	public static final String SESSION_OTP_CODE = "otp-code";
+	public static final String SESSION_OTP_CODE = "smsCode";
 
 	public static final String PAGE_INPUT_OTP = "sms-input-otp.ftl";
 	public static final String LOGIN_PAGE = "login.ftl";
@@ -76,4 +76,6 @@ public class Constants {
 	public static final String FAST2SMS_API_KEY = "fast2sms_api_key";
 	public static final String FAST2SMS_API_URL = "fast2sms_api_url";
 	public static final String SMS_OTP_NUMBERS = "sms_allowed_numbers";
+
+	public static final String INVALID_OTP_ENTERED = "Invalid OTP. Please enter proper OTP.";
 }

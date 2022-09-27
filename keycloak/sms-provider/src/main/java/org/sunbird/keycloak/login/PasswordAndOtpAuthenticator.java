@@ -125,19 +125,24 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 							context.getAuthenticationSession().getAuthNote(Details.REDIRECT_URI));
 					context.success();
 				} else {
-					goErrorPage(context, "Invalid OTP Code.");
+					goErrorPage(context, Constants.PAGE_INPUT_OTP, Constants.INVALID_OTP_ENTERED);
 				}
 			} else {
-				goPage(context, Constants.PAGE_INPUT_OTP);
+				goErrorPage(context, Constants.PAGE_INPUT_OTP, Constants.INVALID_OTP_ENTERED);
 			}
 		} else {
-			goErrorPage(context, "Failed to get OTP Details from Session.");
+			goErrorPage(context, Constants.PAGE_INPUT_OTP, "Failed to get OTP Details from Session.");
 		}
 	}
 
 	private void goErrorPage(AuthenticationFlowContext context, String message) {
 		Response challenge = context.form().setError(message).createForm(Constants.LOGIN_PAGE);
 		context.failureChallenge(AuthenticationFlowError.INTERNAL_ERROR, challenge);
+	}
+
+	private void goErrorPage(AuthenticationFlowContext context, String page, String message) {
+		Response challenge = context.form().setError(message).createForm(page);
+		context.failureChallenge(AuthenticationFlowError.INVALID_CREDENTIALS, challenge);
 	}
 
 	private void goPage(AuthenticationFlowContext context, String page) {
