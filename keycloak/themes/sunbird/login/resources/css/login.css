@@ -34,8 +34,8 @@ body{
 .login-section{
     height: 100%;
     display: flex !important;;
-    align-items: center;
-    /* justify-content: center; */
+    /* align-items: center; */
+    justify-content: center;
     width: 100% !important;
     min-width: 100%;
     /* overflow-y: auto;
@@ -494,7 +494,7 @@ h1, h2, h3, h4, h5,
     flex-direction: column;
     /* justify-content: center; */
     min-height: auto;
-    padding: 4.5rem 6rem !important;
+    padding: 4.5rem 1rem 0 1rem !important;
     align-items: center;
 }
 
