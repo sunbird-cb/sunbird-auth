@@ -119,10 +119,11 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 				if (otp.equals(sessionKey)) {
 					MultivaluedMap<String, String> qParamMap = context.getHttpRequest().getUri()
 							.getQueryParameters(false);
-					logger.info("Validation of username + password is successful... setting redirect_uri with "
+					logger.info("Validation of username + password is successful... "
 							+ qParamMap.getFirst(Constants.REDIRECT_URI_KEY));
-					context.getAuthenticationSession().setAuthNote(Details.REDIRECT_URI,
-							context.getAuthenticationSession().getAuthNote(Details.REDIRECT_URI));
+					context.getAuthenticationSession().removeAuthNote(Constants.SESSION_OTP_CODE);
+//					context.getAuthenticationSession().setAuthNote(Details.REDIRECT_URI,
+//							context.getAuthenticationSession().getAuthNote(Details.REDIRECT_URI));
 					context.success();
 				} else {
 					goErrorPage(context, Constants.PAGE_INPUT_OTP, Constants.INVALID_OTP_ENTERED);
