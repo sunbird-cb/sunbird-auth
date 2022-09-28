@@ -187,10 +187,10 @@
                                     <div class="field">
                                         <div>
                                             <label id="phoneNumberLabel" for="phoneNumber" class="">
-                                                Phone Number
+                                                Email/ Phone Number (10 digit number)
                                             </label>
                                             <label id="phoneNumberLabelPlaceholder" for="phoneNumber" class="activeLabelColor hide">
-                                                Phone Number
+                                                Email/ Phone Number (10 digit number)
                                             </label>
                                         </div>
                                         <input tabindex="0" required id="phoneNumber"
