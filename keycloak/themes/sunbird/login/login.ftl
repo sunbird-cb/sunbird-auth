@@ -187,13 +187,13 @@
                                     <div class="field">
                                         <div>
                                             <label id="phoneNumberLabel" for="phoneNumber" class="">
-                                                Email/ Phone Number (10 digit number)
+                                                Email/Phone number
                                             </label>
                                             <label id="phoneNumberLabelPlaceholder" for="phoneNumber" class="activeLabelColor hide">
-                                                Email/ Phone Number (10 digit number)
+                                                Email/Phone number
                                             </label>
                                         </div>
-                                        <input tabindex="0" required id="phoneNumber"
+                                        <input tabindex="0" required id="phoneNumber" placeholder="Email/Phone number(10 digit number)"
                                         class="mdc-text-field__input ${properties.kcInputClass!} mt-8" 
                                         name="phoneNumber" type="text" autofocus autocomplete="off" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)">
                                     </div>
