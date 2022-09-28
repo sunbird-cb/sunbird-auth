@@ -344,6 +344,41 @@ input[type='password']::placeholder {
     /* height: 120px !important; */
 }
 
+.or-container {
+    height: 40px;
+    position: relative;
+}
+
+.or-holder {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 50%;
+}
+
+.or-divider {
+    height: 1px;
+    position: absolute;
+    width: 100%;
+    border: 1px solid #bcbdc1;
+}
+
+.or-text {
+    background: #e5e5e5;
+    border: 1px solid #b9babe;
+    border-radius: 100%;
+    color: #000;
+    font-size: 14px;
+    height: 34px;
+    line-height: 16px;
+    padding: 7px;
+    text-align: center;
+    width: 34px;
+    position: absolute;
+}
+
 .ui.button{
     font-family: 'Poppins SemiBold', 'Noto Sans', sans-serif !important;
     color: #F9F9F9 !important;
@@ -457,7 +492,7 @@ h1, h2, h3, h4, h5,
     min-height: auto;
     display: flex !important;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     min-height: auto;
     padding: 4.5rem 6rem !important;
     align-items: center;

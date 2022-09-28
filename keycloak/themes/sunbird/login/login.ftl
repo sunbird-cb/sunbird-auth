@@ -64,13 +64,13 @@
                                 <div>
                                     <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="usePasswordRB" checked=true>&nbsp;
                                     <label id="usePasswordLabel" for="usePasswordRB" class="">
-                                        Use Password Login
+                                        Login with password
                                     </label>
                                 </div>
                                 <div>
                                     <input type="radio" onclick="javascript:passwordOrOtp();" name="usePasswordOrOTP" id="useOTPRB" class="">&nbsp;
                                     <label id="useOTPLabel" for="useOTPRB" class="">
-                                        Use OTP Login
+                                        Login with OTP
                                     </label>
                                 </div>
                             </div>
@@ -124,6 +124,12 @@
                                     </div>
                                     <div class="field">
                                         <button id="login" class="ui fluid button">${msg("doLogIn")}</button>
+                                    </div>
+                                    <div class="field or-container">
+                                        <div class="or-holder">
+                                            <span class="or-divider"></span>
+                                            <span class="or-text">or</span>
+                                        </div>
                                     </div>
                                     <div class="field">
                                         <a id="loginp" href="/apis/public/v8/parichay/auth" class="ui fluid button">${msg("loginWithParichay")}</a>
@@ -201,6 +207,12 @@
                                             <button tabindex="0" name="login" id="kc-login" type="submit" class="ui fluid button">
                                                     Request OTP
                                             </button>
+                                        </div>
+                                        <div class="field or-container">
+                                            <div class="or-holder">
+                                                <span class="or-divider"></span>
+                                                <span class="or-text">or</span>
+                                            </div>
                                         </div>
                                         <div class="field">
                                             <a id="loginp" href="/apis/public/v8/parichay/auth" class="ui fluid button">${msg("loginWithParichay")}</a>
