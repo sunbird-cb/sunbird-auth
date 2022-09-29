@@ -85,7 +85,9 @@ public class Constants {
 	public static final String FLOW_ID = "flow_id";
 	public static final String SENDER = "sender";
 	public static final String RECIPIENTS = "recipients";
-	public static final String ATTEMPTED_MOBILE_NUMBER = "attempted_mobile_number";
-	
+	public static final String ATTEMPTED_EMAIL_OR_MOBILE_NUMBER = "attempted_email_or_mobile";
+
 	public static final String MSG91_PROVIDER = "MSG91";
+	public static final String Free2SMS_PROVIDER = "Free2SMS";
+	public static final String ATTR_USER_EMAIL_OR_PHONE = "emailOrPhone";
 }

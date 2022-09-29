@@ -7,14 +7,17 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpResponse;
 import org.jboss.logging.Logger;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
@@ -31,6 +34,7 @@ import org.keycloak.services.messages.Messages;
 import org.sunbird.keycloak.resetcredential.sms.KeycloakSmsAuthenticatorConstants;
 import org.sunbird.keycloak.resetcredential.sms.KeycloakSmsAuthenticatorUtil;
 import org.sunbird.keycloak.utils.Constants;
+import org.sunbird.keycloak.utils.HttpClient;
 import org.sunbird.keycloak.utils.SunbirdModelUtils;
 
 public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticator {
@@ -159,13 +163,13 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 		return validateUserAndPassword(context, formData);
 	}
 
-	private String getMobileNumber(AuthenticationFlowContext context) {
+	private String getEmailOrMobileNumber(AuthenticationFlowContext context) {
 		MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
-		String number = formData.getFirst(Constants.ATTR_PHONE_NUMBER);
-		if (null == number) {
+		String emailOrMobile = formData.getFirst(Constants.ATTR_USER_EMAIL_OR_PHONE);
+		if (null == emailOrMobile) {
 			return "";
 		}
-		return number;
+		return emailOrMobile;
 	}
 
 	private UserModel getUserByMobileNumber(AuthenticationFlowContext context, String mobilePhone) {
@@ -197,8 +201,8 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 	}
 
 	private void sendOtp(AuthenticationFlowContext context, String redirectUri) {
-		String mobile = getMobileNumber(context);
-		UserModel user = getUserByMobileNumber(context, mobile);
+		String emailOrMobile = getEmailOrMobileNumber(context);
+		UserModel user = getUserByMobileNumber(context, emailOrMobile);
 		if (null == user) {
 			goErrorPage(context, "Oops, Member not found.");
 			return;
@@ -208,19 +212,23 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 		String key = generateOTP(context);
 
 		// Put the data into session, to be compared
-		context.getAuthenticationSession().setAuthNote(Constants.ATTEMPTED_MOBILE_NUMBER, mobile);
+		context.getAuthenticationSession().setAuthNote(Constants.ATTEMPTED_EMAIL_OR_MOBILE_NUMBER, emailOrMobile);
 		context.getAuthenticationSession().setAuthNote(Constants.SESSION_OTP_CODE, key);
 		context.getAuthenticationSession().setAuthNote(Details.REDIRECT_URI, redirectUri);
 
 		// Send the key into the User Mobile Phone
-		logger.error("Send OTP Code [" + key + "] to Phone Number [" + mobile + "]");
-		sendSms(context, mobile, key);
-		context.setUser(user);
-		goPage(context, Constants.PAGE_INPUT_OTP);
+		logger.error("Send OTP Code [" + key + "] to Phone Number [" + emailOrMobile + "]");
+		if (sendOtpByEmailOrSms(context, emailOrMobile, key)) {
+			context.setUser(user);
+			goPage(context, Constants.PAGE_INPUT_OTP);
+		} else {
+			goErrorPage(context, "Failed to send out SMS. Please contact Administrator.");
+		}
 	}
 
 	private void resendOtp(AuthenticationFlowContext context) {
-		String mobileNumber = context.getAuthenticationSession().getAuthNote(Constants.ATTEMPTED_MOBILE_NUMBER);
+		String mobileNumber = context.getAuthenticationSession()
+				.getAuthNote(Constants.ATTEMPTED_EMAIL_OR_MOBILE_NUMBER);
 		// Generate Random Digit
 		String key = generateOTP(context);
 
@@ -228,29 +236,43 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 		context.getAuthenticationSession().setAuthNote(Constants.SESSION_OTP_CODE, key);
 		// Send the key into the User Mobile Phone
 		logger.error("Send OTP Code [" + key + "] to Phone Number [" + mobileNumber + "]");
-		sendSms(context, mobileNumber, key);
-		goPage(context, Constants.PAGE_INPUT_OTP);
+		if (sendOtpByEmailOrSms(context, mobileNumber, key)) {
+			goPage(context, Constants.PAGE_INPUT_OTP);
+		} else {
+			goErrorPage(context, "Failed to send out SMS. Please contact Administrator.");
+		}
 	}
 
-	private void sendSms(AuthenticationFlowContext context, String mobileNumber, String otp) {
-
-		AuthenticatorConfigModel configModel = context.getAuthenticatorConfig();
-		String smsProvider = null;
-		if (configModel.getConfig() != null) {
-			smsProvider = configModel.getConfig().get(KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_PROVIDER);
+	private boolean sendOtpByEmailOrSms(AuthenticationFlowContext context, String mobileNumber, String otp) {
+		boolean retValue = false;
+		String userNameType = isEmailOrMobileNumber(mobileNumber);
+		switch (userNameType) {
+		case Constants.PHONE:
+			AuthenticatorConfigModel configModel = context.getAuthenticatorConfig();
+			String smsProvider = null;
+			if (configModel.getConfig() != null) {
+				smsProvider = configModel.getConfig().get(KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_PROVIDER);
+			}
+			if (Constants.MSG91_PROVIDER.equalsIgnoreCase(smsProvider)) {
+				retValue = KeycloakSmsAuthenticatorUtil.send(mobileNumber, otp);
+			} else if (Constants.Free2SMS_PROVIDER.equalsIgnoreCase(smsProvider)) {
+				retValue = sendSmsViaFast2Sms(mobileNumber, otp);
+			}
+			break;
+		case Constants.EMAIL:
+			retValue = sendEmailViaSunbird(context, mobileNumber, otp);
+			break;
 		}
+		return retValue;
+	}
 
-		if (Constants.MSG91_PROVIDER.equalsIgnoreCase(smsProvider)) {
-			KeycloakSmsAuthenticatorUtil.send(mobileNumber, otp);
-			return;
-		}
-
+	private boolean sendSmsViaFast2Sms(String mobileNumber, String otp) {
 		List<String> acceptedNumbers = new ArrayList<String>();
 		if (StringUtils.isNotBlank(System.getenv(Constants.SMS_OTP_NUMBERS))) {
 			acceptedNumbers = Arrays.asList(System.getenv(Constants.SMS_OTP_NUMBERS).split(",", -1));
 		}
 		if (!acceptedNumbers.contains(mobileNumber)) {
-			return;
+			return false;
 		}
 
 		try {
@@ -274,11 +296,14 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 				stringBuffer.append(line);
 			}
 			rd.close();
+
 			logger.info(stringBuffer.toString());
+			return true;
 		} catch (Exception e) {
 			System.out.println("Error SMS " + e);
 			logger.error(e);
 		}
+		return false;
 	}
 
 	private String generateOTP(AuthenticationFlowContext context) {
@@ -291,14 +316,54 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 
 		// Get TTL from config. Default 5 minutes in seconds
 		long ttl = KeycloakSmsAuthenticatorUtil.getConfigLong(context.getAuthenticatorConfig(),
-				KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_TTL, 5 * 60L); 
+				KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_TTL, 5 * 60L);
 
 		logger.debug("Using ttl " + ttl + " (s)");
 		String code = KeycloakSmsAuthenticatorUtil.getSmsCode(nrOfDigits);
-		
+
 		context.getAuthenticationSession().setAuthNote(Constants.SESSION_OTP_CODE, code);
-		context.getAuthenticationSession().setAuthNote(Constants.SESSION_OTP_EXPIRE_TIME, String.valueOf(new Date().getTime() + (ttl * 1000)));
-		
+		context.getAuthenticationSession().setAuthNote(Constants.SESSION_OTP_EXPIRE_TIME,
+				String.valueOf(new Date().getTime() + (ttl * 1000)));
+
 		return code;
+	}
+
+	private boolean sendEmailViaSunbird(AuthenticationFlowContext context, String userEmail, String smsCode) {
+		logger.debug("KeycloakSmsAuthenticator@sendEmailViaSunbird - Sending Email via Sunbird API");
+
+		List<String> emails = new ArrayList<>(Arrays.asList(userEmail));
+		Map<String, Object> otpResponse = new HashMap<String, Object>();
+
+		otpResponse.put(Constants.RECIPIENT_EMAILS, emails);
+		otpResponse.put(Constants.SUBJECT, Constants.MAIL_SUBJECT);
+		otpResponse.put(Constants.REALM_NAME, context.getRealm().getDisplayName());
+		otpResponse.put(Constants.EMAIL_TEMPLATE_TYPE, Constants.FORGOT_PASSWORD_EMAIL_TEMPLATE);
+		otpResponse.put(Constants.BODY, Constants.BODY);
+		otpResponse.put(Constants.OTP, smsCode);
+
+		Map<String, Object> request = new HashMap<>();
+		request.put(Constants.REQUEST, otpResponse);
+
+		HttpResponse response = HttpClient.post(request,
+				(System.getenv(Constants.SUNBIRD_LMS_BASE_URL) + Constants.SEND_NOTIFICATION_URI),
+				System.getenv(Constants.SUNBIRD_LMS_AUTHORIZATION));
+
+		int statusCode = response.getStatusLine().getStatusCode();
+		if (statusCode == 200) {
+			return true;
+		}
+		return false;
+	}
+
+	private String isEmailOrMobileNumber(String emailOrMobile) {
+		String numberRegex = "\\d+";
+		String emailRegex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+				+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+		if (emailOrMobile.matches(numberRegex) && 10 == emailOrMobile.length()) {
+			return Constants.PHONE;
+		} else if (emailOrMobile.matches(emailRegex)) {
+			return Constants.EMAIL;
+		}
+		return StringUtils.EMPTY;
 	}
 }
