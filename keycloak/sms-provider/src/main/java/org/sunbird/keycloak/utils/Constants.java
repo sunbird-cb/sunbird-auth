@@ -61,10 +61,12 @@ public class Constants {
 	public static final String ATTR_PASSWORD = "password";
 	public static final String FLAG_LOGIN_PAGE = "login_page";
 	public static final String FLAG_OTP_PAGE = "sms_otp_page";
+	public static final String FLAG_OTP_RESEND_PAGE = "sms_otp_resend_page";
 	public static final String FLAG_PAGE = "page_type";
 	public static final String FLAG_LOGIN_WITH_PASS = "login_with_pass";
 
 	public static final String SESSION_OTP_CODE = "smsCode";
+	public static final String SESSION_OTP_EXPIRE_TIME = "smsCodeExpireTime";
 
 	public static final String PAGE_INPUT_OTP = "sms-input-otp.ftl";
 	public static final String LOGIN_PAGE = "login.ftl";
@@ -77,5 +79,13 @@ public class Constants {
 	public static final String FAST2SMS_API_URL = "fast2sms_api_url";
 	public static final String SMS_OTP_NUMBERS = "sms_allowed_numbers";
 
-	public static final String INVALID_OTP_ENTERED = "Invalid OTP. Please enter proper OTP.";
+	public static final String INVALID_OTP_ENTERED = "Invalid OTP. Please enter a valid OTP.";
+	public static final String FLOW_API = "FLOW";
+	public static final String MOBILES = "mobiles";
+	public static final String FLOW_ID = "flow_id";
+	public static final String SENDER = "sender";
+	public static final String RECIPIENTS = "recipients";
+	public static final String ATTEMPTED_MOBILE_NUMBER = "attempted_mobile_number";
+	
+	public static final String MSG91_PROVIDER = "MSG91";
 }

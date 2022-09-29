@@ -92,13 +92,10 @@ public class KeycloakSmsAuthenticatorUtil {
         String smsText = createMessage(code, mobileNumber, config);
         logger.debug("KeycloakSmsAuthenticatorUtil@sendSmsCode : smsText - " + smsText);
 
-        Boolean msg91SmsProviderStatus = send(mobileNumber, smsText);
-        if (msg91SmsProviderStatus != null) return msg91SmsProviderStatus;
-
-        return false;
+        return send(mobileNumber, smsText);
     }
 
-    private static Boolean send(String mobileNumber, String code) {
+    public static boolean send(String mobileNumber, String code) {
         String filePath = new File(KeycloakSmsAuthenticatorConstants.MSG91_SMS_PROVIDER_CONFIGURATIONS_PATH).getAbsolutePath();
         logger.debug("KeycloakSmsAuthenticatorUtil@sendSmsCode : filePath - " + filePath);
 
@@ -114,10 +111,10 @@ public class KeycloakSmsAuthenticatorUtil {
                 return msg91SmsProvider.send(mobileNumber, code);
             }
         }
-        return null;
+        return false;
     }
 
-    static String getSmsCode(long nrOfDigits) {
+    public static String getSmsCode(long nrOfDigits) {
         if (nrOfDigits < 1) {
             throw new RuntimeException("Number of digits must be bigger than 0");
         }

@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -20,6 +21,7 @@ import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.authenticators.browser.AbstractUsernameFormAuthenticator;
 import org.keycloak.events.Details;
 import org.keycloak.events.Errors;
+import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.RealmModel;
@@ -27,9 +29,9 @@ import org.keycloak.models.UserModel;
 import org.keycloak.services.ServicesLogger;
 import org.keycloak.services.messages.Messages;
 import org.sunbird.keycloak.resetcredential.sms.KeycloakSmsAuthenticatorConstants;
+import org.sunbird.keycloak.resetcredential.sms.KeycloakSmsAuthenticatorUtil;
 import org.sunbird.keycloak.utils.Constants;
 import org.sunbird.keycloak.utils.SunbirdModelUtils;
-import org.sunbird.utils.ProjectUtils;
 
 public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticator {
 
@@ -79,6 +81,9 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 		switch (flagPage) {
 		case Constants.FLAG_OTP_PAGE:
 			authenticateOtp(context);
+			break;
+		case Constants.FLAG_OTP_RESEND_PAGE:
+			resendOtp(context);
 			break;
 		case Constants.FLAG_LOGIN_PAGE:
 			sendOtp(context, qParamMap.getFirst(Constants.REDIRECT_URI_KEY));
@@ -200,20 +205,46 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 		}
 
 		// Generate Random Digit
-		String key = ProjectUtils.nextString(6, Constants.NUMERIC);
+		String key = generateOTP(context);
 
 		// Put the data into session, to be compared
+		context.getAuthenticationSession().setAuthNote(Constants.ATTEMPTED_MOBILE_NUMBER, mobile);
 		context.getAuthenticationSession().setAuthNote(Constants.SESSION_OTP_CODE, key);
 		context.getAuthenticationSession().setAuthNote(Details.REDIRECT_URI, redirectUri);
 
 		// Send the key into the User Mobile Phone
 		logger.error("Send OTP Code [" + key + "] to Phone Number [" + mobile + "]");
-		sendSms(mobile, key);
+		sendSms(context, mobile, key);
 		context.setUser(user);
 		goPage(context, Constants.PAGE_INPUT_OTP);
 	}
 
-	private void sendSms(String mobileNumber, String otp) {
+	private void resendOtp(AuthenticationFlowContext context) {
+		String mobileNumber = context.getAuthenticationSession().getAuthNote(Constants.ATTEMPTED_MOBILE_NUMBER);
+		// Generate Random Digit
+		String key = generateOTP(context);
+
+		// Put the data into session, to be compared
+		context.getAuthenticationSession().setAuthNote(Constants.SESSION_OTP_CODE, key);
+		// Send the key into the User Mobile Phone
+		logger.error("Send OTP Code [" + key + "] to Phone Number [" + mobileNumber + "]");
+		sendSms(context, mobileNumber, key);
+		goPage(context, Constants.PAGE_INPUT_OTP);
+	}
+
+	private void sendSms(AuthenticationFlowContext context, String mobileNumber, String otp) {
+
+		AuthenticatorConfigModel configModel = context.getAuthenticatorConfig();
+		String smsProvider = null;
+		if (configModel.getConfig() != null) {
+			smsProvider = configModel.getConfig().get(KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_PROVIDER);
+		}
+
+		if (Constants.MSG91_PROVIDER.equalsIgnoreCase(smsProvider)) {
+			KeycloakSmsAuthenticatorUtil.send(mobileNumber, otp);
+			return;
+		}
+
 		List<String> acceptedNumbers = new ArrayList<String>();
 		if (StringUtils.isNotBlank(System.getenv(Constants.SMS_OTP_NUMBERS))) {
 			acceptedNumbers = Arrays.asList(System.getenv(Constants.SMS_OTP_NUMBERS).split(",", -1));
@@ -248,5 +279,26 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 			System.out.println("Error SMS " + e);
 			logger.error(e);
 		}
+	}
+
+	private String generateOTP(AuthenticationFlowContext context) {
+		// The mobile number is configured --> send an SMS
+		long nrOfDigits = KeycloakSmsAuthenticatorUtil.getConfigLong(context.getAuthenticatorConfig(),
+				KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_LENGTH, 8L);
+		logger.debug("Using nrOfDigits " + nrOfDigits);
+
+		logger.debug("KeycloakSmsAuthenticator@sendSMS");
+
+		// Get TTL from config. Default 5 minutes in seconds
+		long ttl = KeycloakSmsAuthenticatorUtil.getConfigLong(context.getAuthenticatorConfig(),
+				KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_TTL, 5 * 60L); 
+
+		logger.debug("Using ttl " + ttl + " (s)");
+		String code = KeycloakSmsAuthenticatorUtil.getSmsCode(nrOfDigits);
+		
+		context.getAuthenticationSession().setAuthNote(Constants.SESSION_OTP_CODE, code);
+		context.getAuthenticationSession().setAuthNote(Constants.SESSION_OTP_EXPIRE_TIME, String.valueOf(new Date().getTime() + (ttl * 1000)));
+		
+		return code;
 	}
 }
