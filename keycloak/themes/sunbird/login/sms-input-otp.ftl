@@ -30,13 +30,14 @@
                             <div class="field">
                                 <button onclick="javascript:makeDivUnclickable()" class="ui fluid submit button" name="login" id="login" type="submit" value="${msg("doLogIn")}">${msg("doSubmit")}</button>
                             </div>
-                        </form>
-                        <div class="field or-container">
-                            <div class="or-holder">
-                                <span class="or-divider"></span>
-                                <span class="or-text">or</span>
+                            <div class="field or-container">
+                                <div class="or-holder">
+                                    <span class="or-divider"></span>
+                                    <span class="or-text">or</span>
+                                </div>
                             </div>
-                        </div>
+                            <div class="field or-container"></div>
+                        </form>
                         <form id="kc-totp-login-form" class="${properties.kcFormClass!} ui form pre-signin" action="${url.loginAction}" method="post">
 			                <input type="hidden" name="page_type" value="sms_otp_resend_page" />
                             <div class="field">
