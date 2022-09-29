@@ -186,16 +186,16 @@
 
                                     <div class="field">
                                         <div>
-                                            <label id="phoneNumberLabel" for="phoneNumber" class="">
+                                            <label id="phoneNumberLabel" for="emailOrPhone" class="">
                                                 Email/Phone number
                                             </label>
-                                            <label id="phoneNumberLabelPlaceholder" for="phoneNumber" class="activeLabelColor hide">
+                                            <label id="phoneNumberLabelPlaceholder" for="emailOrPhone" class="activeLabelColor hide">
                                                 Email/Phone number
                                             </label>
                                         </div>
-                                        <input tabindex="0" required id="phoneNumber" placeholder="Email/Phone number (10 digit number)"
+                                        <input tabindex="0" required id="emailOrPhone" placeholder="Email/Phone number (10 digit number)"
                                         class="mdc-text-field__input ${properties.kcInputClass!} mt-8" 
-                                        name="phoneNumber" type="text" autofocus autocomplete="off" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)">
+                                        name="emailOrPhone" type="text" autofocus autocomplete="off" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)">
                                     </div>
                                     
                                     <div class="mdc-card__actions">
