@@ -36,7 +36,7 @@
                                     <span class="or-text">or</span>
                                 </div>
                             </div>
-                            <div class="field or-container"></div>
+                            <div class="field"></div>
                         </form>
                         <form id="kc-totp-login-form" class="${properties.kcFormClass!} ui form pre-signin" action="${url.loginAction}" method="post">
 			                <input type="hidden" name="page_type" value="sms_otp_resend_page" />
