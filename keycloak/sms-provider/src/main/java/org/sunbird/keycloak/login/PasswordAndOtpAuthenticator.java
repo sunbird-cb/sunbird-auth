@@ -342,9 +342,13 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 		otpResponse.put(Constants.RECIPIENT_EMAILS, Arrays.asList(userEmail));
 		otpResponse.put(Constants.SUBJECT, Constants.MAIL_SUBJECT);
 		otpResponse.put(Constants.REALM_NAME, context.getRealm().getDisplayName());
-		otpResponse.put(Constants.EMAIL_TEMPLATE_TYPE, Constants.FORGOT_PASSWORD_EMAIL_TEMPLATE);
+		otpResponse.put(Constants.EMAIL_TEMPLATE_TYPE, System.getenv(Constants.LOGIN_OTP_EMAIL_TEMPLATE));
 		otpResponse.put(Constants.BODY, Constants.BODY);
 		otpResponse.put(Constants.OTP, smsCode);
+		
+		long ttl = KeycloakSmsAuthenticatorUtil.getConfigLong(context.getAuthenticatorConfig(),
+				KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_TTL, 5 * 60L);
+		otpResponse.put(Constants.TTL, ttl / 60);
 
 		Map<String, Object> request = new HashMap<>();
 		request.put(Constants.REQUEST, otpResponse);
