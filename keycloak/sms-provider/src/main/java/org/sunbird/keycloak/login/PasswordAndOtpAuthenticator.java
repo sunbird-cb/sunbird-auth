@@ -22,12 +22,15 @@ import org.jboss.logging.Logger;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.authenticators.browser.AbstractUsernameFormAuthenticator;
+import org.keycloak.credential.CredentialModel;
 import org.keycloak.events.Details;
 import org.keycloak.events.Errors;
+import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.ModelDuplicateException;
 import org.keycloak.models.RealmModel;
+import org.keycloak.models.UserCredentialModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.services.ServicesLogger;
 import org.keycloak.services.messages.Messages;
@@ -37,9 +40,15 @@ import org.sunbird.keycloak.utils.Constants;
 import org.sunbird.keycloak.utils.HttpClient;
 import org.sunbird.keycloak.utils.SunbirdModelUtils;
 
+import com.amazonaws.util.CollectionUtils;
+
 public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticator {
 
 	Logger logger = Logger.getLogger(PasswordAndOtpAuthenticator.class);
+
+	private enum CODE_STATUS {
+		VALID, INVALID, EXPIRED
+	}
 
 	/**
 	 * This page is called when UI calls
@@ -119,29 +128,15 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 	}
 
 	private void authenticateOtp(AuthenticationFlowContext context) {
-		String sessionKey = context.getAuthenticationSession().getAuthNote(Constants.SESSION_OTP_CODE);
-		if (sessionKey != null) {
-			// Get OTP from User Input
-			String otp = getValue(context, Constants.ATTR_OTP_USER);
-			// Validate OTP
-			if (otp != null) {
-				if (otp.equals(sessionKey)) {
-					MultivaluedMap<String, String> qParamMap = context.getHttpRequest().getUri()
-							.getQueryParameters(false);
-					logger.info("Validation of username + password is successful... "
-							+ qParamMap.getFirst(Constants.REDIRECT_URI_KEY));
-					context.getAuthenticationSession().removeAuthNote(Constants.SESSION_OTP_CODE);
-//					context.getAuthenticationSession().setAuthNote(Details.REDIRECT_URI,
-//							context.getAuthenticationSession().getAuthNote(Details.REDIRECT_URI));
-					context.success();
-				} else {
-					goErrorPage(context, Constants.PAGE_INPUT_OTP, Constants.INVALID_OTP_ENTERED);
-				}
-			} else {
-				goErrorPage(context, Constants.PAGE_INPUT_OTP, Constants.INVALID_OTP_ENTERED);
-			}
+		CODE_STATUS status = validateCode(context);
+		if (status == CODE_STATUS.VALID) {
+			logger.info("Validation of username + password is successful... ");
+			context.getAuthenticationSession().removeAuthNote(Constants.SESSION_OTP_CODE);
+			context.success();
+		} else if (status == CODE_STATUS.EXPIRED) {
+			goErrorPage(context, Constants.PAGE_INPUT_OTP, Constants.OTP_EXPIRED);
 		} else {
-			goErrorPage(context, Constants.PAGE_INPUT_OTP, "Failed to get OTP Details from Session.");
+			goErrorPage(context, Constants.PAGE_INPUT_OTP, Constants.INVALID_OTP_ENTERED);
 		}
 	}
 
@@ -157,6 +152,18 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 
 	private void goPage(AuthenticationFlowContext context, String page) {
 		context.challenge(context.form().createForm(page));
+	}
+
+	private void goPage(AuthenticationFlowContext context, String page, String errorMsg,
+			Map<String, String> attributes) {
+		LoginFormsProvider resForm = context.form();
+		for (Entry<String, String> entry : attributes.entrySet()) {
+			resForm.setAttribute(entry.getKey(), entry.getValue());
+		}
+		if (StringUtils.isNotBlank(errorMsg)) {
+			resForm.setError(errorMsg);
+		}
+		context.challenge(resForm.createForm(page));
 	}
 
 	protected boolean validateForm(AuthenticationFlowContext context, MultivaluedMap<String, String> formData) {
@@ -208,19 +215,20 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 			return;
 		}
 
+		context.setUser(user);
+
 		// Generate Random Digit
-		String key = generateOTP(context);
+		Map<String, String> attributes = generateOTP(context);
 
 		// Put the data into session, to be compared
 		context.getAuthenticationSession().setAuthNote(Constants.ATTEMPTED_EMAIL_OR_MOBILE_NUMBER, emailOrMobile);
-		context.getAuthenticationSession().setAuthNote(Constants.SESSION_OTP_CODE, key);
 		context.getAuthenticationSession().setAuthNote(Details.REDIRECT_URI, redirectUri);
 
 		// Send the key into the User Mobile Phone
-		logger.error("Send OTP Code [" + key + "] to Phone Number [" + emailOrMobile + "]");
-		if (sendOtpByEmailOrSms(context, emailOrMobile, key)) {
-			context.setUser(user);
-			goPage(context, Constants.PAGE_INPUT_OTP);
+		logger.error("Send OTP Code [" + attributes.get(Constants.SESSION_OTP_CODE) + "] to Phone Number ["
+				+ emailOrMobile + "]");
+		if (sendOtpByEmailOrSms(context, emailOrMobile, attributes.get(Constants.SESSION_OTP_CODE))) {
+			goPage(context, Constants.PAGE_INPUT_OTP, StringUtils.EMPTY, attributes);
 		} else {
 			goErrorPage(context, "Failed to send out SMS. Please contact Administrator.");
 		}
@@ -230,13 +238,15 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 		String mobileNumber = context.getAuthenticationSession()
 				.getAuthNote(Constants.ATTEMPTED_EMAIL_OR_MOBILE_NUMBER);
 		// Generate Random Digit
-		String key = generateOTP(context);
+		Map<String, String> attributes = generateOTP(context);
 
 		// Put the data into session, to be compared
-		context.getAuthenticationSession().setAuthNote(Constants.SESSION_OTP_CODE, key);
+		context.getAuthenticationSession().setAuthNote(Constants.SESSION_OTP_CODE,
+				attributes.get(Constants.SESSION_OTP_CODE));
 		// Send the key into the User Mobile Phone
-		logger.error("Send OTP Code [" + key + "] to Phone Number [" + mobileNumber + "]");
-		if (sendOtpByEmailOrSms(context, mobileNumber, key)) {
+		logger.error("Send OTP Code [" + attributes.get(Constants.SESSION_OTP_CODE) + "] to Phone Number ["
+				+ mobileNumber + "]");
+		if (sendOtpByEmailOrSms(context, mobileNumber, attributes.get(Constants.SESSION_OTP_CODE))) {
 			goPage(context, Constants.PAGE_INPUT_OTP);
 		} else {
 			goErrorPage(context, "Failed to send out SMS. Please contact Administrator.");
@@ -306,35 +316,30 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 		return false;
 	}
 
-	private String generateOTP(AuthenticationFlowContext context) {
+	private Map<String, String> generateOTP(AuthenticationFlowContext context) {
 		// The mobile number is configured --> send an SMS
 		long nrOfDigits = KeycloakSmsAuthenticatorUtil.getConfigLong(context.getAuthenticatorConfig(),
-				KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_LENGTH, 8L);
-		logger.debug("Using nrOfDigits " + nrOfDigits);
-
-		logger.debug("KeycloakSmsAuthenticator@sendSMS");
+				KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_LENGTH, 6L);
 
 		// Get TTL from config. Default 5 minutes in seconds
 		long ttl = KeycloakSmsAuthenticatorUtil.getConfigLong(context.getAuthenticatorConfig(),
 				KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_TTL, 5 * 60L);
 
-		logger.debug("Using ttl " + ttl + " (s)");
 		String code = KeycloakSmsAuthenticatorUtil.getSmsCode(nrOfDigits);
 
-		context.getAuthenticationSession().setAuthNote(Constants.SESSION_OTP_CODE, code);
-		context.getAuthenticationSession().setAuthNote(Constants.SESSION_OTP_EXPIRE_TIME,
-				String.valueOf(new Date().getTime() + (ttl * 1000)));
-
-		return code;
+		Long expireTime = (new Date()).getTime() + (ttl * 1000);
+		storeSMSCode(context, code, expireTime);
+		Map<String, String> attributes = new HashMap<String, String>();
+		attributes.put(KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_TTL, String.valueOf(expireTime));
+		attributes.put(Constants.SESSION_OTP_CODE, code);
+		return attributes;
 	}
 
 	private boolean sendEmailViaSunbird(AuthenticationFlowContext context, String userEmail, String smsCode) {
-		logger.debug("KeycloakSmsAuthenticator@sendEmailViaSunbird - Sending Email via Sunbird API");
 
-		List<String> emails = new ArrayList<>(Arrays.asList(userEmail));
 		Map<String, Object> otpResponse = new HashMap<String, Object>();
 
-		otpResponse.put(Constants.RECIPIENT_EMAILS, emails);
+		otpResponse.put(Constants.RECIPIENT_EMAILS, Arrays.asList(userEmail));
 		otpResponse.put(Constants.SUBJECT, Constants.MAIL_SUBJECT);
 		otpResponse.put(Constants.REALM_NAME, context.getRealm().getDisplayName());
 		otpResponse.put(Constants.EMAIL_TEMPLATE_TYPE, Constants.FORGOT_PASSWORD_EMAIL_TEMPLATE);
@@ -365,5 +370,87 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 			return Constants.EMAIL;
 		}
 		return StringUtils.EMPTY;
+	}
+
+	private void storeSMSCode(AuthenticationFlowContext context, String code, Long expiringAt) {
+		context.getAuthenticationSession().setAuthNote(Constants.SESSION_OTP_CODE, code);
+		context.getAuthenticationSession().setAuthNote(Constants.SESSION_OTP_EXPIRE_TIME, String.valueOf(expiringAt));
+	}
+
+	protected CODE_STATUS validateCode(AuthenticationFlowContext context) {
+		CODE_STATUS result = CODE_STATUS.INVALID;
+
+		MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
+		String enteredCode = formData.getFirst(KeycloakSmsAuthenticatorConstants.ANSW_SMS_CODE);
+
+		String storedCode = context.getAuthenticationSession().getAuthNote(Constants.SESSION_OTP_CODE);
+		if (storedCode != null && enteredCode != null) {
+			result = storedCode.equalsIgnoreCase(enteredCode) ? CODE_STATUS.VALID : CODE_STATUS.INVALID;
+		}
+
+		String storedExpiryValue = context.getAuthenticationSession().getAuthNote(Constants.SESSION_OTP_EXPIRE_TIME);
+		if (result == CODE_STATUS.VALID && StringUtils.isNotBlank(storedExpiryValue)) {
+			Long currentTime = (new Date()).getTime();
+			Long storedExpiryTime = Long.parseLong(storedExpiryValue);
+			logger.info(String.format("CurrentTime: %s, StoredExpiryTime: %s", currentTime, storedExpiryTime));
+			result = storedExpiryTime >= currentTime ? CODE_STATUS.VALID : CODE_STATUS.EXPIRED;
+		}
+		return result;
+	}
+
+	private void storeSMSCodeInDB(AuthenticationFlowContext context, String code, Long expiringAt) {
+		logger.debug("KeycloakSmsAuthenticator@storeSMSCode called");
+
+		UserCredentialModel credentials = new UserCredentialModel();
+		credentials.setType(KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_CODE);
+		credentials.setValue(code);
+		credentials.setNote(Constants.TTL, String.valueOf(expiringAt));
+
+		context.getSession().userCredentialManager().updateCredential(context.getRealm(), context.getUser(),
+				credentials);
+
+		credentials = new UserCredentialModel();
+		credentials.setType(KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_EXP_TIME);
+		credentials.setValue((expiringAt).toString());
+		context.getSession().userCredentialManager().updateCredential(context.getRealm(), context.getUser(),
+				credentials);
+	}
+
+	private CODE_STATUS validateCodeUsingDB(AuthenticationFlowContext context) {
+		CODE_STATUS result = CODE_STATUS.INVALID;
+
+		MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
+		String enteredCode = formData.getFirst(KeycloakSmsAuthenticatorConstants.ANSW_SMS_CODE);
+		KeycloakSession session = context.getSession();
+
+		List<?> codeCreds = session.userCredentialManager().getStoredCredentialsByType(context.getRealm(),
+				context.getUser(), KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_CODE);
+
+		if (!CollectionUtils.isNullOrEmpty(codeCreds)) {
+			CredentialModel expectedCode = (CredentialModel) codeCreds.get(0);
+			result = enteredCode.equals(expectedCode.getValue()) ? CODE_STATUS.VALID : CODE_STATUS.INVALID;
+		}
+
+		if (result == CODE_STATUS.VALID) {
+			List<?> timeCreds = session.userCredentialManager().getStoredCredentialsByType(context.getRealm(),
+					context.getUser(), KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_EXP_TIME);
+			if (!CollectionUtils.isNullOrEmpty(timeCreds)) {
+				CredentialModel expTimeString = (CredentialModel) timeCreds.get(0);
+				Long currentTime = (new Date()).getTime();
+				Long expiringAt = Long.parseLong(expTimeString.getValue());
+
+				logger.info(String.format("CurrentTime: %s, ExpiringAt: %s, isExpired ?? %s", currentTime, expiringAt,
+						(currentTime >= expiringAt)));
+				// result = currentTime <= expiringAt ? CODE_STATUS.VALID : CODE_STATUS.INVALID;
+			}
+		}
+
+		if (result == CODE_STATUS.VALID) {
+			session.userCredentialManager().removeStoredCredential(context.getRealm(), context.getUser(),
+					KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_CODE);
+			session.userCredentialManager().removeStoredCredential(context.getRealm(), context.getUser(),
+					KeycloakSmsAuthenticatorConstants.USR_CRED_MDL_SMS_EXP_TIME);
+		}
+		return result;
 	}
 }

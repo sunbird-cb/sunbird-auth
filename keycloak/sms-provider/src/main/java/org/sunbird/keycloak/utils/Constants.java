@@ -80,6 +80,7 @@ public class Constants {
 	public static final String SMS_OTP_NUMBERS = "sms_allowed_numbers";
 
 	public static final String INVALID_OTP_ENTERED = "Invalid OTP. Please enter a valid OTP.";
+	public static final String OTP_EXPIRED = "OTP is expired. Please try again.";
 	public static final String FLOW_API = "FLOW";
 	public static final String MOBILES = "mobiles";
 	public static final String FLOW_ID = "flow_id";
