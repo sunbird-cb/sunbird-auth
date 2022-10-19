@@ -34,7 +34,7 @@ body{
 .login-section{
     height: 100%;
     display: flex !important;;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
     width: 100% !important;
     min-width: 100%;
@@ -317,6 +317,18 @@ input[type='password']::placeholder {
 .mt-76{
     margin-top: 76px;
 }
+.ml-16{
+    margin-left: 16px;
+}
+
+.type-container {
+    justify-content: space-between;
+    display: flex;
+    width: inherit;
+    align-items: center;
+    margin: 0 0 2em;
+}
+
 .backToLogin {	
     color: #E76026 !important;
     font-size: 14px;	
@@ -330,6 +342,42 @@ input[type='password']::placeholder {
     /* max-height: 56px !important; */
     /* margin-top: 20px!important; */
     /* height: 120px !important; */
+}
+
+.or-container {
+    height: 40px;
+    position: relative;
+    opacity: 0.4;
+}
+
+.or-holder {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 50%;
+}
+
+.or-divider {
+    height: 1px;
+    position: absolute;
+    width: 100%;
+    border: 1px solid #bcbdc1;
+}
+
+.or-text {
+    background: #e5e5e5;
+    border: 1px solid #b9babe;
+    border-radius: 100%;
+    color: #000;
+    font-size: 14px;
+    height: 34px;
+    line-height: 16px;
+    padding: 7px;
+    text-align: center;
+    width: 34px;
+    position: absolute;
 }
 
 .ui.button{
@@ -445,9 +493,9 @@ h1, h2, h3, h4, h5,
     min-height: auto;
     display: flex !important;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     min-height: auto;
-    padding: 4.5rem 6rem !important;
+    padding: 4.5rem 1rem 0 1rem !important;
     align-items: center;
 }
 

@@ -20,4 +20,5 @@ public final class SmsConfigurationConstants {
     public static final String CONF_SMS_SENDER = "sender";
     public static final String CONF_SMS_COUNTRY = "country";
     public static final String CONF_SMS_ROUTE = "route";
+    public static final String CONF_SMS_FLOW_ID = "sms_flow_id";
 }

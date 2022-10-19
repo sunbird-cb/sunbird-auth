@@ -41,10 +41,10 @@ public class KeycloakSmsAuthenticator implements Authenticator {
 
     @Override
     public void authenticate(AuthenticationFlowContext context) {
-        logger.debug("KeycloakSmsAuthenticator@authenticate called ... context = " + context);
+        logger.info("KeycloakSmsAuthenticator@authenticate called ... context = " + context);
 
         UserModel user = context.getUser();
-        logger.debug("KeycloakSmsAuthenticator@authenticate - UserName = " + user.getUsername() + ", UserEmail = " + user.getEmail());
+        logger.info("KeycloakSmsAuthenticator@authenticate - UserName = " + user.getUsername() + ", UserEmail = " + user.getEmail());
 
         List<String> mobileNumberCreds = user.getAttribute(KeycloakSmsAuthenticatorConstants.ATTR_MOBILE);
 
