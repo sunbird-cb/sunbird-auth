@@ -20,4 +20,5 @@ public class KeycloakSmsAuthenticatorConstants {
     public static final String USR_CRED_MDL_SMS_EXP_TIME = "sms-auth.exp-time";
 
     public static final String MSG91_SMS_PROVIDER_CONFIGURATIONS_PATH = "sms-provider/Msg91Creds.json";
+    public static final String NIC_SMS_PROVIDER_CONFIGURATIONS_PATH = "sms-provider/NicSmsCreds.json";
 }

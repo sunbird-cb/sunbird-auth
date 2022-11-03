@@ -21,4 +21,16 @@ public final class SmsConfigurationConstants {
     public static final String CONF_SMS_COUNTRY = "country";
     public static final String CONF_SMS_ROUTE = "route";
     public static final String CONF_SMS_FLOW_ID = "sms_flow_id";
+    public static final String CONF_USER_NAME = "username";
+    public static final String CONF_PASSWROD = "password";
+    public static final String CONF_MESSAGE = "message";
+    public static final String CONF_DLT_ENTITY_ID = "dlt_entity_id";
+    public static final String CONF_DLT_TEMPLATE_ID = "dlt_template_id";
+    public static final String CONF_COUNTRY = "country";
+    public static final String CONF_SENDER_ID = "signature";
+    public static final String CONF_SMS_GATEWAY_URL = "gatewayUrl";
+    
+    public static final String NIC_OTP_MESSAGE_TYPES = "messageTypes";
+    public static final String NIC_LOGIN_OTP_SMS_TYPE = "loginOtp";
+    public static final String NIC_FORGOT_PASSWORD_OTP_SMS_TYPE = "forgotPasswordOtp";
 }
