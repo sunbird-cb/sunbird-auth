@@ -45,7 +45,7 @@ public class NicSmsProvider {
 	public void configure() {
 		String filePath = new File(KeycloakSmsAuthenticatorConstants.NIC_SMS_PROVIDER_CONFIGURATIONS_PATH)
 				.getAbsolutePath();
-		logger.debug("PasswordAndOtpAuthenticator@sendSmsCode : filePath - " + filePath);
+		logger.info("PasswordAndOtpAuthenticator@sendSmsCode : filePath - " + filePath);
 		this.configurations = JsonUtil.readFromJson(filePath);
 		ObjectMapper mapper = new ObjectMapper();
 		List<Map<String, String>> mapList = null;

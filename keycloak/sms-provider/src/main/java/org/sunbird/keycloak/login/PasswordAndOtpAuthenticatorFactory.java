@@ -43,7 +43,7 @@ public class PasswordAndOtpAuthenticatorFactory implements AuthenticatorFactory 
 		property = new ProviderConfigProperty();
 		property.setName(KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_PROVIDER);
 		property.setLabel("Name of the SMS Service Provider");
-		property.setHelpText("Provide the SMS Service Provider. Currently supported Providers - Free2SMS, MSG91");
+		property.setHelpText("Provide the SMS Service Provider. Currently supported Providers - NIC, MSG91");
 		configProperties.add(property);
 	}
 

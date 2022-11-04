@@ -273,6 +273,10 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 				int expiryTime = Integer.parseInt(
 						configModel.getConfig().get(KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_PROVIDER)) % 60;
 				retValue = sendSmsViaNIC(mobileNumber, otp, String.valueOf(expiryTime));
+			} else {
+				logger.error(String.format(
+						"SMS Provider is not configured property. current value: %s. Execpected value: NIC / MSG91",
+						smsProvider));
 			}
 			break;
 		case Constants.EMAIL:
