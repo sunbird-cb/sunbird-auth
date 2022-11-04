@@ -271,7 +271,7 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 				retValue = sendSmsViaFast2Sms(mobileNumber, otp);
 			} else if (Constants.NIC_PROVIDER.equalsIgnoreCase(smsProvider)) {
 				int expiryTime = Integer.parseInt(
-						configModel.getConfig().get(KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_PROVIDER)) % 60;
+						configModel.getConfig().get(KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_TTL)) % 60;
 				retValue = sendSmsViaNIC(mobileNumber, otp, String.valueOf(expiryTime));
 			} else {
 				logger.error(String.format(
