@@ -3,6 +3,7 @@ package org.sunbird.sms.nic;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +21,8 @@ import org.sunbird.sms.SMSConfigurationUtil;
 import org.sunbird.sms.SmsConfigurationConstants;
 import org.sunbird.utils.JsonUtil;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
 
 public class NicSmsProvider {
 	private Logger logger = Logger.getLogger(NicSmsProvider.class);
@@ -50,9 +51,10 @@ public class NicSmsProvider {
 		ObjectMapper mapper = new ObjectMapper();
 		List<Map<String, String>> mapList = null;
 		try {
+			CollectionType collectionList = mapper.getTypeFactory().constructCollectionType(ArrayList.class,
+					HashMap.class);
 			mapList = mapper.readValue(configurations.get(SmsConfigurationConstants.NIC_OTP_MESSAGE_TYPES),
-					new TypeReference<List<Map<String, String>>>() {
-					});
+					collectionList);
 			for (Map<String, String> map : mapList) {
 				String typeName = map.get(Constants.NAME);
 				if (!messageTypeMap.containsKey(typeName)) {
