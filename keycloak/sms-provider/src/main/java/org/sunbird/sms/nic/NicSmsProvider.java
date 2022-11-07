@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 public class NicSmsProvider {
 	private Logger logger = Logger.getLogger(NicSmsProvider.class);
 	private static NicSmsProvider nicSmsProvider = null;
-	private Map<String, String> configurations;
+	private Map<String, Object> configurations;
 	private Map<String, Map<String, String>> messageTypeMap = new HashMap<String, Map<String, String>>();
 	private boolean isConfigured;
 
@@ -47,13 +47,14 @@ public class NicSmsProvider {
 		String filePath = new File(KeycloakSmsAuthenticatorConstants.NIC_SMS_PROVIDER_CONFIGURATIONS_PATH)
 				.getAbsolutePath();
 		logger.info("PasswordAndOtpAuthenticator@sendSmsCode : filePath - " + filePath);
-		this.configurations = JsonUtil.readFromJson(filePath);
+		this.configurations = JsonUtil.readObjectFromJson(filePath);
 		ObjectMapper mapper = new ObjectMapper();
 		List<Map<String, String>> mapList = null;
 		try {
 			CollectionType collectionList = mapper.getTypeFactory().constructCollectionType(ArrayList.class,
 					HashMap.class);
-			mapList = mapper.readValue(configurations.get(SmsConfigurationConstants.NIC_OTP_MESSAGE_TYPES),
+			mapList = mapper.readValue(
+					mapper.writeValueAsString(configurations.get(SmsConfigurationConstants.NIC_OTP_MESSAGE_TYPES)),
 					collectionList);
 			for (Map<String, String> map : mapList) {
 				String typeName = map.get(Constants.NAME);
@@ -97,13 +98,11 @@ public class NicSmsProvider {
 		String dltTemplateId = SMSConfigurationUtil.getConfigString(messageTypeConfig,
 				SmsConfigurationConstants.CONF_DLT_TEMPLATE_ID);
 
-		String country = SMSConfigurationUtil.getConfigString(configurations, SmsConfigurationConstants.CONF_COUNTRY);
+		String country = (String) configurations.get(SmsConfigurationConstants.CONF_COUNTRY);
 
-		String senderId = SMSConfigurationUtil.getConfigString(configurations,
-				SmsConfigurationConstants.CONF_SENDER_ID);
+		String senderId = (String) configurations.get(SmsConfigurationConstants.CONF_SENDER_ID);
 
-		String url = SMSConfigurationUtil.getConfigString(configurations,
-				SmsConfigurationConstants.CONF_SMS_GATEWAY_URL);
+		String url = (String) configurations.get(SmsConfigurationConstants.CONF_SMS_GATEWAY_URL);
 
 		// Send an SMS
 		logger.debug("NicSmsProvider@Sending sms to mobileNumber " + mobileNumber);
