@@ -90,7 +90,7 @@ public class NicSmsProvider {
 				SmsConfigurationConstants.CONF_PASSWROD);
 
 		String message = SMSConfigurationUtil.getConfigString(messageTypeConfig,
-				SmsConfigurationConstants.CONF_PASSWROD);
+				SmsConfigurationConstants.CONF_MESSAGE);
 
 		String dltEntityId = SMSConfigurationUtil.getConfigString(messageTypeConfig,
 				SmsConfigurationConstants.CONF_DLT_ENTITY_ID);
