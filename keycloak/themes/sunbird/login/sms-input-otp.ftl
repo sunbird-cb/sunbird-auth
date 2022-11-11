@@ -45,7 +45,7 @@
                                     <span>Resend OTP after </span><span id="js-timeout"></span>
                                 </div>
                                 <button onclick="javascript:makeDivUnclickable()" class="ui fluid submit button mt-8" 
-                                name="login" id="login" type="submit" value="${msg("doLogIn")}" disabled>
+                                name="resendOTP" id="resendOTP" type="submit" value="${msg("doLogIn")}" disabled>
                                     ${msg("doResendOTP")}
                                 </button>
                             </div>
@@ -89,7 +89,7 @@
 
             if (minutes == 0 && seconds == 0) {
               clearInterval(interval);
-              document.getElementById("login").removeAttr('disabled')
+              document.getElementById("resendOTP").removeAttr('disabled')
             }
         }, 1000);
       }
