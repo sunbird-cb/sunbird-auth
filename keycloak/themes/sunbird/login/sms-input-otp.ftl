@@ -42,7 +42,7 @@
 			                <input type="hidden" name="page_type" value="sms_otp_resend_page" />
                             <div class="field">
                                 <div class="ui text textCenter">
-                                    <span>Resend OTP after </span><span class="js-timeout"></span>
+                                    <span>Resend OTP after </span><span id="js-timeout"></span>
                                 </div>
                                 <button onclick="javascript:makeDivUnclickable()" class="ui fluid submit button mt-8" 
                                 name="login" id="login" type="submit" value="${msg("doLogIn")}" disabled>
