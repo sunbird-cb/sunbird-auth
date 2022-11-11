@@ -69,10 +69,10 @@
     <script>
         var interval
         function countdown() {
-            $('.js-timeout').html("3:00");
+            document.getElementById("js-timeout").innerHTML = "3:00";
         // Update the count down every 1 second
         interval = setInterval( function() {
-            var timer = $('.js-timeout').html();
+            var timer = document.getElementById("js-timeout").innerHTML;
             console.log(timer)
             timer = timer.split(':');
             var minutes = timer[0];
@@ -85,11 +85,11 @@
             }
             else if (seconds < 10 && length.seconds != 2) seconds = '0' + seconds;
 
-            $('.js-timeout').html(minutes + ':' + seconds);
+             document.getElementById("js-timeout").innerHTML = minutes + ':' + seconds;
 
             if (minutes == 0 && seconds == 0) {
               clearInterval(interval);
-              $('#login').removeAttr('disabled')
+              document.getElementById("login").removeAttr('disabled')
             }
         }, 1000);
       }
