@@ -41,7 +41,7 @@
                         <form id="kc-totp-login-form" class="${properties.kcFormClass!} ui form pre-signin" action="${url.loginAction}" method="post">
 			                <input type="hidden" name="page_type" value="sms_otp_resend_page" />
                             <div class="field">
-                                <div class="ui text textCenter">
+                                <div class="ui text textCenter" id="timer-container">
                                     <span>Resend OTP after </span><span id="js-timeout"></span>
                                 </div>
                                 <button onclick="javascript:makeDivUnclickable()" class="ui fluid submit button mt-8" 
@@ -73,7 +73,6 @@
         // Update the count down every 1 second
         interval = setInterval( function() {
             var timer = document.getElementById("js-timeout").innerHTML;
-            console.log(timer)
             timer = timer.split(':');
             var minutes = timer[0];
             var seconds = timer[1];
@@ -89,7 +88,8 @@
 
             if (minutes == 0 && seconds == 0) {
               clearInterval(interval);
-              document.getElementById("resendOTP").removeAttr('disabled')
+              document.getElementById("resendOTP").removeAttribute('disabled')
+              document.getElementById("timer-container").setAttribute("hidden", true);
             }
         }, 1000);
       }
