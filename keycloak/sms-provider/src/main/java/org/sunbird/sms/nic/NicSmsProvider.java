@@ -184,7 +184,6 @@ public class NicSmsProvider {
 		strBuilder.append("&dlt_template_id=").append(dltTemplateId);
 		strBuilder.append("&signature=").append(senderId);
 
-		logger.info("Constructed Request -> " + strBuilder.toString());
 		return strBuilder.toString();
 	}
 
