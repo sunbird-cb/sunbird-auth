@@ -1,6 +1,10 @@
 package org.sunbird.keycloak.resetcredential.sms;
 
-import com.amazonaws.util.StringUtils;
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+
 import org.jboss.logging.Logger;
 import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.UserModel;
@@ -8,10 +12,7 @@ import org.sunbird.sms.msg91.Msg91SmsProviderFactory;
 import org.sunbird.sms.provider.ISmsProvider;
 import org.sunbird.utils.JsonUtil;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import com.amazonaws.util.StringUtils;
 
 /**
  * Created by joris on 18/11/2016.
@@ -80,7 +81,7 @@ public class KeycloakSmsAuthenticatorUtil {
         if (mobileNumber.startsWith(KeycloakSmsAuthenticatorConstants.DEFAULT_COUNTRY_CODE)) {
             mobileNumber = KeycloakSmsAuthenticatorConstants.COUNTRY_CODE + mobileNumber.substring(1);
         } else if (mobileNumber.startsWith(KeycloakSmsAuthenticatorConstants.COUNTRY_CODE)) {
-            mobileNumber = mobileNumber;
+            //nothing to do
         } else {
             mobileNumber = KeycloakSmsAuthenticatorConstants.COUNTRY_CODE + mobileNumber;
         }
@@ -119,9 +120,9 @@ public class KeycloakSmsAuthenticatorUtil {
             throw new RuntimeException("Number of digits must be bigger than 0");
         }
 
-        double maxValue = Math.pow(10.0, nrOfDigits); // 10 ^ nrOfDigits;
-        Random r = new Random();
-        long code = (long) (r.nextFloat() * maxValue);
+        long minValue = (long) Math.pow(10.0, (nrOfDigits - 1));
+        long maxValue = (long) Math.pow(10.0, nrOfDigits); // 10 ^ nrOfDigits;
+        long code = ThreadLocalRandom.current().nextLong(minValue, maxValue);
         return Long.toString(code);
     }
 

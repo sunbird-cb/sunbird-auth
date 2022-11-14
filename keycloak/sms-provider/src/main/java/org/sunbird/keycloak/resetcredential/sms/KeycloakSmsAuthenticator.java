@@ -182,11 +182,9 @@ public class KeycloakSmsAuthenticator implements Authenticator {
 
             case INVALID:
                 logger.debug("KeycloakSmsAuthenticator@action - INVALID");
-
                 if (context.getExecution().getRequirement() == AuthenticationExecutionModel.Requirement.OPTIONAL ||
                         context.getExecution().getRequirement() == AuthenticationExecutionModel.Requirement.ALTERNATIVE) {
                     logger.debug("KeycloakSmsAuthenticator@action - OPTIONAL || ALTERNATIVE");
-
                     logger.debug("Calling context.attempted()");
                     context.attempted();
                 } else if (context.getExecution().getRequirement() == AuthenticationExecutionModel.Requirement.REQUIRED) {

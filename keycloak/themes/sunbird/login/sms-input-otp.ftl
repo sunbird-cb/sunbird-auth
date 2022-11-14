@@ -41,7 +41,13 @@
                         <form id="kc-totp-login-form" class="${properties.kcFormClass!} ui form pre-signin" action="${url.loginAction}" method="post">
 			                <input type="hidden" name="page_type" value="sms_otp_resend_page" />
                             <div class="field">
-                                <button onclick="javascript:makeDivUnclickable()" class="ui fluid submit button" name="login" id="login" type="submit" value="${msg("doLogIn")}">${msg("doResendOTP")}</button>
+                                <div class="ui text textCenter" id="timer-container">
+                                    <span>Resend OTP after </span><span id="js-timeout"></span>
+                                </div>
+                                <button onclick="javascript:makeDivUnclickable()" class="ui fluid submit button mt-8" 
+                                name="resendOTP" id="resendOTP" type="submit" value="${msg("doLogIn")}" disabled>
+                                    ${msg("doResendOTP")}
+                                </button>
                             </div>
                         </form>
                         <#if client?? && client.baseUrl?has_content>
@@ -60,5 +66,35 @@
         </div>
     </div>
     </#if>
+    <script>
+        var interval
+        function countdown() {
+            document.getElementById("js-timeout").innerHTML = "3:00";
+        // Update the count down every 1 second
+        interval = setInterval( function() {
+            var timer = document.getElementById("js-timeout").innerHTML;
+            timer = timer.split(':');
+            var minutes = timer[0];
+            var seconds = timer[1];
+            seconds -= 1;
+            if (minutes < 0) return;
+            else if (seconds < 0 && minutes != 0) {
+                minutes -= 1;
+                seconds = 59;
+            }
+            else if (seconds < 10 && length.seconds != 2) seconds = '0' + seconds;
+
+             document.getElementById("js-timeout").innerHTML = minutes + ':' + seconds;
+
+            if (minutes == 0 && seconds == 0) {
+              clearInterval(interval);
+              document.getElementById("resendOTP").removeAttribute('disabled')
+              document.getElementById("timer-container").setAttribute("hidden", true);
+            }
+        }, 1000);
+      }
+
+      countdown()
+    </script>
 </@layout.registrationLayout>
 

@@ -90,6 +90,11 @@ public class Constants {
 
 	public static final String MSG91_PROVIDER = "MSG91";
 	public static final String Free2SMS_PROVIDER = "Free2SMS";
+	public static final String NIC_PROVIDER = "NIC";
 	public static final String ATTR_USER_EMAIL_OR_PHONE = "emailOrPhone";
 	public static final String LOGIN_OTP_EMAIL_TEMPLATE = "sunbird_login_otp_template";
+	
+	public static final String NAME = "name";
+	public static final String UTF_8 = "UTF-8";
+	
 }

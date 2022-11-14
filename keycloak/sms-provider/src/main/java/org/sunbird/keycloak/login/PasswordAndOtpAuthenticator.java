@@ -39,6 +39,8 @@ import org.sunbird.keycloak.resetcredential.sms.KeycloakSmsAuthenticatorUtil;
 import org.sunbird.keycloak.utils.Constants;
 import org.sunbird.keycloak.utils.HttpClient;
 import org.sunbird.keycloak.utils.SunbirdModelUtils;
+import org.sunbird.sms.SmsConfigurationConstants;
+import org.sunbird.sms.nic.NicSmsProvider;
 
 import com.amazonaws.util.CollectionUtils;
 
@@ -225,8 +227,6 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 		context.getAuthenticationSession().setAuthNote(Details.REDIRECT_URI, redirectUri);
 
 		// Send the key into the User Mobile Phone
-		logger.error("Send OTP Code [" + attributes.get(Constants.SESSION_OTP_CODE) + "] to Phone Number ["
-				+ emailOrMobile + "]");
 		if (sendOtpByEmailOrSms(context, emailOrMobile, attributes.get(Constants.SESSION_OTP_CODE))) {
 			goPage(context, Constants.PAGE_INPUT_OTP, StringUtils.EMPTY, attributes);
 		} else {
@@ -263,16 +263,32 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 			if (configModel.getConfig() != null) {
 				smsProvider = configModel.getConfig().get(KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_PROVIDER);
 			}
+			logger.info("SMS for OTP initiated with provider : " + smsProvider);
 			if (Constants.MSG91_PROVIDER.equalsIgnoreCase(smsProvider)) {
 				retValue = KeycloakSmsAuthenticatorUtil.send(mobileNumber, otp);
 			} else if (Constants.Free2SMS_PROVIDER.equalsIgnoreCase(smsProvider)) {
 				retValue = sendSmsViaFast2Sms(mobileNumber, otp);
+			} else if (Constants.NIC_PROVIDER.equalsIgnoreCase(smsProvider)) {
+				int expiryTime = Integer.parseInt(
+						configModel.getConfig().get(KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_TTL)) % 60;
+				retValue = sendSmsViaNIC(mobileNumber, otp, String.valueOf(expiryTime));
+			} else {
+				logger.error(String.format(
+						"SMS Provider is not configured property. current value: %s. Execpected value: NIC / MSG91",
+						smsProvider));
 			}
 			break;
 		case Constants.EMAIL:
 			retValue = sendEmailViaSunbird(context, mobileNumber, otp);
 			break;
 		}
+		logger.info("SMS for OTP send successfully ? " + retValue);
+		return retValue;
+	}
+
+	private boolean sendSmsViaNIC(String mobileNumber, String otp, String expiryTime) {
+		boolean retValue = NicSmsProvider.getInstance().send(mobileNumber, otp, expiryTime,
+				SmsConfigurationConstants.NIC_LOGIN_OTP_SMS_TYPE);
 		return retValue;
 	}
 
@@ -345,7 +361,7 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 		otpResponse.put(Constants.EMAIL_TEMPLATE_TYPE, System.getenv(Constants.LOGIN_OTP_EMAIL_TEMPLATE));
 		otpResponse.put(Constants.BODY, Constants.BODY);
 		otpResponse.put(Constants.OTP, smsCode);
-		
+
 		long ttl = KeycloakSmsAuthenticatorUtil.getConfigLong(context.getAuthenticatorConfig(),
 				KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_TTL, 5 * 60L);
 		otpResponse.put(Constants.TTL, ttl / 60);
