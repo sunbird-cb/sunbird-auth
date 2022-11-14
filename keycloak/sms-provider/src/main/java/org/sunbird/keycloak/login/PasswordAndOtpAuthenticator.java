@@ -267,9 +267,9 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 			} else if (Constants.Free2SMS_PROVIDER.equalsIgnoreCase(smsProvider)) {
 				retValue = sendSmsViaFast2Sms(mobileNumber, otp);
 			} else if (Constants.NIC_PROVIDER.equalsIgnoreCase(smsProvider)) {
-				int expiryTime = Integer.parseInt(
-						configModel.getConfig().get(KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_TTL)) % 60;
-				retValue = sendSmsViaNIC(mobileNumber, otp, String.valueOf(expiryTime));
+				long ttl = KeycloakSmsAuthenticatorUtil.getConfigLong(context.getAuthenticatorConfig(),
+						KeycloakSmsAuthenticatorConstants.CONF_PRP_SMS_CODE_TTL, 5 * 60L);
+				retValue = sendSmsViaNIC(mobileNumber, otp, String.valueOf(ttl / 60));
 			} else {
 				logger.error(String.format(
 						"SMS Provider is not configured property. current value: %s. Execpected value: NIC / MSG91",
