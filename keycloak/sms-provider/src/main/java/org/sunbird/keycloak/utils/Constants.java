@@ -93,6 +93,7 @@ public class Constants {
 	public static final String NIC_PROVIDER = "NIC";
 	public static final String ATTR_USER_EMAIL_OR_PHONE = "emailOrPhone";
 	public static final String LOGIN_OTP_EMAIL_TEMPLATE = "sunbird_login_otp_template";
+	public static final String LOGIN_OTP_MAIL_SUBJECT = "sunbird_login_otp_email_subject";
 	
 	public static final String NAME = "name";
 	public static final String UTF_8 = "UTF-8";

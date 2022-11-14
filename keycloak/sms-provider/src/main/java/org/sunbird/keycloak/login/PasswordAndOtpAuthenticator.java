@@ -354,7 +354,7 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 		Map<String, Object> otpResponse = new HashMap<String, Object>();
 
 		otpResponse.put(Constants.RECIPIENT_EMAILS, Arrays.asList(userEmail));
-		otpResponse.put(Constants.SUBJECT, Constants.MAIL_SUBJECT);
+		otpResponse.put(Constants.SUBJECT, System.getenv(Constants.LOGIN_OTP_MAIL_SUBJECT));
 		otpResponse.put(Constants.REALM_NAME, context.getRealm().getDisplayName());
 		otpResponse.put(Constants.EMAIL_TEMPLATE_TYPE, System.getenv(Constants.LOGIN_OTP_EMAIL_TEMPLATE));
 		otpResponse.put(Constants.BODY, Constants.BODY);
