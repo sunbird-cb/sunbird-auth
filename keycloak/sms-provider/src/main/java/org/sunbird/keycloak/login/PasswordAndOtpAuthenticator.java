@@ -244,8 +244,6 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 		context.getAuthenticationSession().setAuthNote(Constants.SESSION_OTP_CODE,
 				attributes.get(Constants.SESSION_OTP_CODE));
 		// Send the key into the User Mobile Phone
-		logger.error("Send OTP Code [" + attributes.get(Constants.SESSION_OTP_CODE) + "] to Phone Number ["
-				+ mobileNumber + "]");
 		if (sendOtpByEmailOrSms(context, mobileNumber, attributes.get(Constants.SESSION_OTP_CODE))) {
 			goPage(context, Constants.PAGE_INPUT_OTP);
 		} else {

@@ -104,9 +104,10 @@ public class NicSmsProvider {
 
 		String url = (String) configurations.get(SmsConfigurationConstants.CONF_SMS_GATEWAY_URL);
 
-		// Send an SMS
-		logger.debug("NicSmsProvider@Sending sms to mobileNumber " + mobileNumber);
+		logger.debug(String.format("NicSmsProvider@Sending sms to mobileNumber %s, otpKey: %s, otpExpiry: %s",
+				mobileNumber, otpKey, otpExpiry));
 
+		// Send an SMS
 		CloseableHttpClient httpClient = null;
 		try {
 			httpClient = HttpClients.createDefault();
