@@ -279,8 +279,11 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 		case Constants.EMAIL:
 			retValue = sendEmailViaSunbird(context, mobileNumber, otp);
 			break;
+		default:
+			logger.error("Failed to identify given key is email or mobile.");
+			break;
 		}
-		logger.info("SMS for OTP send successfully ? " + retValue);
+		logger.info("Email/SMS for OTP send successfully ? " + retValue);
 		return retValue;
 	}
 
@@ -367,13 +370,22 @@ public class PasswordAndOtpAuthenticator extends AbstractUsernameFormAuthenticat
 		Map<String, Object> request = new HashMap<>();
 		request.put(Constants.REQUEST, otpResponse);
 
-		HttpResponse response = HttpClient.post(request,
-				(System.getenv(Constants.SUNBIRD_LMS_BASE_URL) + Constants.SEND_NOTIFICATION_URI),
-				System.getenv(Constants.SUNBIRD_LMS_AUTHORIZATION));
-
-		int statusCode = response.getStatusLine().getStatusCode();
-		if (statusCode == 200) {
-			return true;
+		HttpResponse response = null;
+		try {
+			response = HttpClient.post(request,
+					(System.getenv(Constants.SUNBIRD_LMS_BASE_URL) + Constants.SEND_NOTIFICATION_URI),
+					System.getenv(Constants.SUNBIRD_LMS_AUTHORIZATION));
+			if (response.getStatusLine() != null) {
+				int statusCode = response.getStatusLine().getStatusCode();
+				if (statusCode == 200) {
+					return true;
+				} else {
+					logger.error(
+							String.format("Failed to send email for OTP Login. Received StatusCode: %s", statusCode));
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Failed to send Email Notification for OTP Login. Exception: ", e);
 		}
 		return false;
 	}
