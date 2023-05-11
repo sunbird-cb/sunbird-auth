@@ -296,7 +296,7 @@
 
     
             function validateEmailChar() {
-                let validemaildomian = ["gov.in", "nic.in"]
+                const validemaildomian = ["gov.in", "nic.in"]
                 let userEmail = document.getElementById("username").value
                 if (userEmail && userEmail.length > 0) {
                 const email = userEmail.split('@')
