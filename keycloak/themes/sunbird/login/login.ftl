@@ -304,6 +304,7 @@
                             document.getElementById("emailLengthErr").innerHTML = "Max 64 characters before '@' are valid."
                             document.getElementById("login").disabled = true
                         } else {
+                            document.getElementById("emailLengthErr").innerHTML = ""
                             document.getElementById("login").disabled = false
                             }
                         }
