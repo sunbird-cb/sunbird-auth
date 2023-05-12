@@ -300,8 +300,8 @@
                 if (userEmail && userEmail.length > 0) {
                     const email = userEmail.split('@')
                     if (email && email.length === 2) {
-                        if((email[0] && email[0].length > 64)) {
-                            document.getElementById("emailLengthErr").innerHTML = "Max 64 characters before '@' are valid."
+                        if((email[0] && email[0].length > 64 ) || (email[1] && email[1].length >255)) {
+                            document.getElementById("emailLengthErr").innerHTML = "Max 64 characters before "@" & 255 characters after "@" are valid."
                             document.getElementById("login").disabled = true
                         } else {
                             document.getElementById("emailLengthErr").innerHTML = ""
