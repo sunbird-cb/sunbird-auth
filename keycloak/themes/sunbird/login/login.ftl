@@ -95,7 +95,7 @@
                                         <input class="mt-8" id="username" name="username" type="text" disabled />
                                         <#else>
                                         <input class="mt-8" id="username" name="username" onkeyup="validateEmailChar()" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)" type="text" autofocus autocomplete="off" />
-                                        <span id="emailLengthErr" class="ui text error fs-11"></span>
+                                        <span id="emailLengthErr" class="ui text error" style="font-size:11px!important;"></span>
                                         </#if>
                                     </div>
                                     <div class="field">
