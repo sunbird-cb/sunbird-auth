@@ -298,6 +298,10 @@
                 document.getElementById("login").disabled = false
                 let userEmail = document.getElementById("username").value
                 if (userEmail && userEmail.length > 0) {
+                    if(userEmail.length > 5 && !userEmail.match(validRegex)) {
+                        document.getElementById("emailLengthErr").innerHTML = "email is not valid"
+                        document.getElementById("login").disabled = true
+                    }
                     const email = userEmail.split('@')
                     if (email && email.length === 2) {
                         if((email[0] && email[0].length > 64 ) || (email[1] && email[1].length >255)) {
@@ -308,6 +312,10 @@
                             document.getElementById("login").disabled = false
                             }
                         }
+                    } 
+                    else if (userEmail.length == 0) {
+                        document.getElementById("emailLengthErr").innerHTML = "email field can not be blank"
+                        document.getElementById("login").disabled = true
                     }
                 } 
     </script>
