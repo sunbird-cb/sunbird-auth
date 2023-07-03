@@ -114,6 +114,8 @@
       loginAttempts += 1
       sessionStorage.setItem("loginAttempts", loginAttempts)
       loginCount = sessionStorage.getItem("loginAttempts")
+      pendingLoginAttempt = totalLoginAttempts - loginAttempts
+      document.getElementById("otpAttemptErr").innerHTML = `You have ${pendingLoginAttempt} remaining attemp.`
       enableFields()
     }
 
