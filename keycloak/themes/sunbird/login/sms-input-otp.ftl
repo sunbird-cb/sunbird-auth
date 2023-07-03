@@ -25,10 +25,11 @@
                         <form id="kc-totp-login-form" class="${properties.kcFormClass!} ui form pre-signin" action="${url.loginAction}" method="post">
 			                <input type="hidden" name="page_type" value="sms_otp_page" />
                             <div class="field">
-                                <input id="totp" name="smsCode" type="text" class=" smsinput" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)"/>
+                                <input id="totp" name="smsCode" type="text" class=" smsinput" onkeyup="validateOtpChar()" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)"/>
                             </div>
+                            <span id="otpLengthErr"></span>
                             <div class="field">
-                                <button onclick="javascript:makeDivUnclickable()" class="ui fluid submit button" name="login" id="login" type="submit" value="${msg("doLogIn")}">${msg("doSubmit")}</button>
+                                <button onclick="javascript:loginUser()" class="ui fluid submit button" name="login" id="login" type="submit" value="${msg("doLogIn")}">${msg("doSubmit")}</button>
                             </div>
                             <div class="field or-container">
                                 <div class="or-holder">
@@ -95,6 +96,69 @@
       }
 
       countdown()
+
+      function validateOtpChar() {
+        let userOptVal = document.getElementById("totp").value.trim()
+        if (userOptVal && userOptVal.length !== 6) {
+            document.getElementById("otpLengthErr").innerHTML = "email is not valid"
+        }
+      }
+
+  var timeLeftForUnblock = 30
+  var loginAttempts = 0 // Variable to keep track of login attempts
+  var totalLoginAttempts = 3
+
+  function loginUser(e) {
+    let loginCount = sessionStorage.getItem("loginAttempts")
+    if (!loginCount || loginCount === null || loginCount < totalLoginAttempts) {
+      loginAttempts += 1
+      sessionStorage.setItem("loginAttempts", loginAttempts)
+      loginCount = sessionStorage.getItem("loginAttempts")
+      enableFields()
+    }
+
+    if (loginCount && loginCount == totalLoginAttempts) {
+      disableFields()
+      timerCount()
+    }
+  }
+ 
+
+  
+
+  function disableFields() {
+    document.getElementById("username").disabled = true
+    document.getElementById("password").disabled = true
+    document.getElementById("login").disabled = true
+  }
+
+  function enableFields() {
+    document.getElementById("username").disabled = false
+    document.getElementById("password").disabled = false
+    document.getElementById("login").disabled = false
+  }
+
+
+  function onStart() {
+    if (sessionStorage.getItem("loginAttempts")) {
+      loginAttempts = Number(sessionStorage.getItem("loginAttempts"))
+    }
+    if (sessionStorage.getItem("timeLeftForUnblock",)) {
+      timeLeftForUnblock = sessionStorage.getItem("timeLeftForUnblock")
+    }
+    if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock != -1) {
+      disableFields()
+      timerCount()
+    
+    }
+    if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock == -1) {
+      enableFields()
+      sessionStorage.removeItem("loginAttempts")
+      sessionStorage.removeItem("timeLeftForUnblock")
+      clearInterval(timeInterval)
+    }
+  }
+  onStart()
     </script>
 </@layout.registrationLayout>
 
