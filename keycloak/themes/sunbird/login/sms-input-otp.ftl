@@ -29,7 +29,7 @@
                             </div>
                             <span id="otpLengthErr"></span>
                             <div class="field">
-                                <button onclick="javascript:makeDivUnclickable()" class="ui fluid submit button" name="login" id="login" type="submit" value="${msg("doLogIn")}">${msg("doSubmit")}</button>
+                                <button onclick="loginUser()" class="ui fluid submit button" name="login" id="login" type="submit" value="${msg("doLogIn")}">${msg("doSubmit")}</button>
                             </div>
                             <div class="field or-container">
                                 <div class="or-holder">
