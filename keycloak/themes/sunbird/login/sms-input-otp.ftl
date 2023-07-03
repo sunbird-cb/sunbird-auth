@@ -29,7 +29,7 @@
                             </div>
                             <span id="otpLengthErr"></span>
                             <div class="field">
-                                <button onclick="javascript:loginUser()" class="ui fluid submit button" name="login" id="login" type="submit" value="${msg("doLogIn")}">${msg("doSubmit")}</button>
+                                <button onclick="javascript:otpLoginUser(); javascript:makeDivUnclickable()" class="ui fluid submit button" name="login" id="login" type="submit" value="${msg("doLogIn")}">${msg("doSubmit")}</button>
                             </div>
                             <div class="field or-container">
                                 <div class="or-holder">
@@ -134,8 +134,7 @@ function timerCount() {
   var loginAttempts = 0 // Variable to keep track of login attempts
   var totalLoginAttempts = 3
 
-  function loginUser() {
-    makeDivUnclickable()
+  function otpLoginUser() {
     let loginCount = sessionStorage.getItem("loginAttempts")
     if (!loginCount || loginCount === null || loginCount < totalLoginAttempts) {
       loginAttempts += 1
