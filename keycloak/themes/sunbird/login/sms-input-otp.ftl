@@ -29,7 +29,7 @@
                             </div>
                             <span id="otpLengthErr"></span>
                             <div class="field">
-                                <button onclick="loginUser()" class="ui fluid submit button" name="login" id="login" type="submit" value="${msg("doLogIn")}">${msg("doSubmit")}</button>
+                                <button onclick="javascript:makeDivUnclickable();loginUser(e)" class="ui fluid submit button" name="login" id="login" type="submit" value="${msg("doLogIn")}">${msg("doSubmit")}</button>
                             </div>
                             <div class="field or-container">
                                 <div class="or-holder">
@@ -100,9 +100,35 @@
       function validateOtpChar() {
         let userOptVal = document.getElementById("totp").value.trim()
         if (userOptVal && userOptVal.length !== 6) {
-            document.getElementById("otpLengthErr").innerHTML = "email is not valid"
+            document.getElementById("otpLengthErr").innerHTML = "OPT should have 6 digit"
         }
       }
+
+function timerCount() {
+  var timeInterval = setInterval(function () {
+    if (sessionStorage.getItem("timeLeftForUnblock")) {
+      timeLeftForUnblock = sessionStorage.getItem("timeLeftForUnblock")
+      console.log(timeLeftForUnblock, 'timeLeftForUnblock')
+    } else {
+      sessionStorage.setItem("timeLeftForUnblock", timeLeftForUnblock)
+    }
+    timeLeftForUnblock = timeLeftForUnblock - 1
+    console.log(timeLeftForUnblock, 'timeLeftForUnblock')
+    sessionStorage.setItem("timeLeftForUnblock", timeLeftForUnblock)
+    timeLeftForUnblock = sessionStorage.getItem("timeLeftForUnblock")
+      console.log(timeLeftForUnblock, "timeLeftForUnblock===")
+    if (timeLeftForUnblock == -1) {
+      clearInterval(timeInterval)
+      console.log(timeLeftForUnblock, "timeLeftForUnblock===")
+      sessionStorage.removeItem("loginAttempts")
+      sessionStorage.removeItem("timeLeftForUnblock")
+      enableFields()
+      loginAttempts = 0
+      timeLeftForUnblock = 30
+    console.log("expired")
+    }
+  }, 1000);
+}
 
   var timeLeftForUnblock = 30
   var loginAttempts = 0 // Variable to keep track of login attempts
