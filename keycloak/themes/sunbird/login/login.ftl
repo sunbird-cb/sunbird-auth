@@ -304,6 +304,7 @@
 
     
         function validateEmailChar() {
+            const validRegex = "/^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*@((?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?){2,}\.){1,3}(?:\w){2,}$/"
             document.getElementById("login").disabled = false
             let userEmail = document.getElementById("username").value
             if (userEmail && userEmail.length > 0) {
