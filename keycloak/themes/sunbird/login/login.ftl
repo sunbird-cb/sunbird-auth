@@ -318,6 +318,7 @@
                         document.getElementById("login").disabled = true
                     }
                 } 
+            }
 
                 var resendOptVal = 0
                 getNextUrl() {
