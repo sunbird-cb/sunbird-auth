@@ -294,7 +294,7 @@
         }
 
         var resendOptVal = 0
-        getNextUrl() {
+        function getNextUrl() {
             let resendOptVal = sessionStorage.getItem("resendOptVal")
             if(resendOptVal == 0) {
                 sessionStorage.setItem("resendOptVal", 1)
