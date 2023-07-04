@@ -205,7 +205,7 @@
                                         </a>  -->
                                         
                                         <div class="field">
-                                            <button tabindex="0" name="login" id="kc-login" type="submit" class="ui fluid button">
+                                            <button tabindex="0" name="login" id="kc-login" type="submit" class="ui fluid button" onclick="javascript:getNextUrl()">
                                                     Request OTP
                                             </button>
                                         </div>
@@ -318,6 +318,15 @@
                         document.getElementById("login").disabled = true
                     }
                 } 
+
+                var resendOptVal = 0
+                getNextUrl() {
+                    let resendOptVal = sessionStorage.getItem("resendOptVal")
+                    if(resendOptVal == 0) {
+                        sessionStorage.setItem("resendOptVal", 1)
+                    }
+                    
+                }
     </script>
     </#if>
 </#if>
