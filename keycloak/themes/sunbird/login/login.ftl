@@ -294,10 +294,14 @@
         }
 
         var resendOptVal = 0
+         sessionStorage.setItem("resendOptVal", 0)
         function getNextUrl() {
-            let resendOptVal = sessionStorage.getItem("resendOptVal")
-            if(resendOptVal == 0) {
+           console.log("button clicked")
+           let resendOptVal = sessionStorage.getItem("resendOptVal")
+            if(resendOptVal && resendOptVal == 0) {
                 sessionStorage.setItem("resendOptVal", 1)
+            } else {
+                 sessionStorage.setItem("resendOptVal", 1)
             }
             
         }
