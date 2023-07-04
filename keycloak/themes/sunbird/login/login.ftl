@@ -172,7 +172,7 @@
                                 </form>
                             </div>
                             <div id="useOTPDiv" class="mw-100" style="display:none">
-                                <form id="kc-form-login" class="${properties.kcFormClass!} ui form" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
+                                <form id="kc-form-login-two" class="${properties.kcFormClass!} ui form" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
                                     <input type="hidden" name="page_type" value="login_page" />
                                     <#--  <div class="${properties.kcFormGroupClass!}">
                                         <div class="mdc-text-field mdc-text-field--with-leading-icon ${properties.kcLabelClass!} <#if usernameEditDisabled??>mdc-text-field--disabled</#if>">
