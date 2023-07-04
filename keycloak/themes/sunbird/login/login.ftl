@@ -267,67 +267,69 @@
         showSlides();
 
         function showSlides() {
-		var i;
-		var slides = document.getElementsByClassName("mySlides");
-		var dots = document.getElementsByClassName("dot");
-		for (i = 0; i < slides.length; i++) {
-		    slides[i].style.display = "none";  
-		}
-		slideIndex++;
-		if (slideIndex > slides.length) {slideIndex = 1}    
-		for (i = 0; i < dots.length; i++) {
-		    dots[i].className = dots[i].className.replace(" active", "");
-		}
-		slides[slideIndex-1].style.display = "block";  
-		dots[slideIndex-1].className += " active";
-		setTimeout(showSlides, 5000); // Change image every 5 seconds
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("dot");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}    
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex-1].style.display = "block";  
+            dots[slideIndex-1].className += " active";
+            setTimeout(showSlides, 5000); // Change image every 5 seconds
         }
 
-	function passwordOrOtp() {
-                if (document.getElementById('usePasswordRB').checked) {
-                    document.getElementById('usePasswordDiv').style.display = 'block';
-                    document.getElementById('useOTPDiv').style.display = 'none';
-                } else {
-                    document.getElementById('usePasswordDiv').style.display = 'none';
-                    document.getElementById('useOTPDiv').style.display = 'block';
-                }
+        function passwordOrOtp() {
+            if (document.getElementById('usePasswordRB').checked) {
+                document.getElementById('usePasswordDiv').style.display = 'block';
+                document.getElementById('useOTPDiv').style.display = 'none';
+            } else {
+                document.getElementById('usePasswordDiv').style.display = 'none';
+                document.getElementById('useOTPDiv').style.display = 'block';
             }
+        }
+
+        var resendOptVal = 0
+        getNextUrl() {
+            let resendOptVal = sessionStorage.getItem("resendOptVal")
+            if(resendOptVal == 0) {
+                sessionStorage.setItem("resendOptVal", 1)
+            }
+            
+        }
 
     
-            function validateEmailChar() {
-                document.getElementById("login").disabled = false
-                let userEmail = document.getElementById("username").value
-                if (userEmail && userEmail.length > 0) {
-                    if(userEmail.length > 5 && !userEmail.match(validRegex)) {
-                        document.getElementById("emailLengthErr").innerHTML = "email is not valid"
-                        document.getElementById("login").disabled = true
-                    }
-                    const email = userEmail.split('@')
-                    if (email && email.length === 2) {
-                        if((email[0] && email[0].length > 64 ) || (email[1] && email[1].length >255)) {
-                            document.getElementById("emailLengthErr").innerHTML = "Max 64 characters before @ & 255 characters after @ are valid."
-                            document.getElementById("login").disabled = true
-                        } else {
-                            document.getElementById("emailLengthErr").innerHTML = ""
-                            document.getElementById("login").disabled = false
-                            }
-                        }
-                    } 
-                    else if (userEmail.length == 0) {
-                        document.getElementById("emailLengthErr").innerHTML = "email field can not be blank"
-                        document.getElementById("login").disabled = true
-                    }
-                } 
-            }
-
-                var resendOptVal = 0
-                getNextUrl() {
-                    let resendOptVal = sessionStorage.getItem("resendOptVal")
-                    if(resendOptVal == 0) {
-                        sessionStorage.setItem("resendOptVal", 1)
-                    }
-                    
+        function validateEmailChar() {
+            document.getElementById("login").disabled = false
+            let userEmail = document.getElementById("username").value
+            if (userEmail && userEmail.length > 0) {
+                if(userEmail.length > 5 && !userEmail.match(validRegex)) {
+                    document.getElementById("emailLengthErr").innerHTML = "email is not valid"
+                    document.getElementById("login").disabled = true
                 }
+                const email = userEmail.split('@')
+                if (email && email.length === 2) {
+                    if((email[0] && email[0].length > 64 ) || (email[1] && email[1].length >255)) {
+                        document.getElementById("emailLengthErr").innerHTML = "Max 64 characters before @ & 255 characters after @ are valid."
+                        document.getElementById("login").disabled = true
+                    } else {
+                        document.getElementById("emailLengthErr").innerHTML = ""
+                        document.getElementById("login").disabled = false
+                    }
+                }
+            } 
+                else if (userEmail.length == 0) {
+                    document.getElementById("emailLengthErr").innerHTML = "email field can not be blank"
+                    document.getElementById("login").disabled = true
+                }
+            } 
+            
+
+               
     </script>
     </#if>
 </#if>
