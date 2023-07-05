@@ -111,8 +111,8 @@
 
 function timerCount() {
   var timeInterval = setInterval(function () {
-    if (sessionStorage.getItem("timeLeftForUnblock")) {
-      timeLeftForUnblock = sessionStorage.getItem("timeLeftForUnblock")
+    if (parseInt(sessionStorage.getItem("timeLeftForUnblock"), 10)) {
+      timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock"), 10)
       console.log(timeLeftForUnblock, 'timeLeftForUnblock')
     } else {
       sessionStorage.setItem("timeLeftForUnblock", timeLeftForUnblock)
@@ -120,7 +120,7 @@ function timerCount() {
     timeLeftForUnblock = timeLeftForUnblock - 1
     console.log(timeLeftForUnblock, 'timeLeftForUnblock')
     sessionStorage.setItem("timeLeftForUnblock", timeLeftForUnblock)
-    timeLeftForUnblock = sessionStorage.getItem("timeLeftForUnblock")
+    timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock"), 10)
       console.log(timeLeftForUnblock, "timeLeftForUnblock===")
     if (timeLeftForUnblock == -1) {
       clearInterval(timeInterval)
