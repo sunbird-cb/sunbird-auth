@@ -149,7 +149,7 @@ function timerCount() {
       sessionStorage.setItem("loginAttempts", loginAttempts)
       loginCount = sessionStorage.getItem("loginAttempts")
       var pendingLoginAttempt = totalLoginAttempts - loginAttempts
-      document.getElementById("otpAttemptErr").innerHTML = `You have ${pendingLoginAttempt} remaining attempts.`
+     console.log(pendingLoginAttempt, "pendingLoginAttempt===)
       enableFields()
     }
 
