@@ -149,7 +149,7 @@ function timerCount() {
       sessionStorage.setItem("loginAttempts", loginAttempts)
       loginCount = sessionStorage.getItem("loginAttempts")
       var pendingLoginAttempt = totalLoginAttempts - loginAttempts
-     console.log(pendingLoginAttempt, "pendingLoginAttempt===)
+     console.log(pendingLoginAttempt, "pendingLoginAttempt===")
       enableFields()
     }
 
