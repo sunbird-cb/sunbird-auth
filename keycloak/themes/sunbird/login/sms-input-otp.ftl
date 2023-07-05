@@ -26,8 +26,9 @@
 			                <input type="hidden" name="page_type" value="sms_otp_page" />
                             <div class="field">
                                 <input id="totp" name="smsCode" type="text" class=" smsinput" onkeyup="validateOtpChar()" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)"/>
+                                <span id="otpLengthErr" class="ui text error"></span>
                             </div>
-                            <span id="otpLengthErr"></span>
+                            
                             <div class="field">
                                 <button onclick="javascript:makeDivUnclickable(); javascript:otpLoginUser()" class="ui fluid submit button" name="login" id="login" type="submit" value="${msg("doLogIn")}">${msg("doSubmit")}</button>
                             </div>
@@ -162,24 +163,24 @@ function timerCount() {
   
 
   function disableFields() {
-    document.getElementById("username").disabled = true
-    document.getElementById("password").disabled = true
+    document.getElementById("totp").disabled = true
     document.getElementById("login").disabled = true
+    document.getElementById("resendOTP").disabled = true
   }
 
   function enableFields() {
-    document.getElementById("username").disabled = false
-    document.getElementById("password").disabled = false
+    document.getElementById("totp").disabled = false
     document.getElementById("login").disabled = false
+    document.getElementById("resendOTP").disabled = false
   }
 
 
   function onStart() {
-    if (sessionStorage.getItem("loginAttempts")) {
-      loginAttempts = Number(sessionStorage.getItem("loginAttempts"))
+    if (parseInt(sessionStorage.getItem("loginAttempts"), 10)) {
+      loginAttempts = parseInt(sessionStorage.getItem("loginAttempts"), 10)
     }
     if (sessionStorage.getItem("timeLeftForUnblock",)) {
-      timeLeftForUnblock = sessionStorage.getItem("timeLeftForUnblock")
+      timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock"), 10)
     }
     if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock != -1) {
       disableFields()
