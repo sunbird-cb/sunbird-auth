@@ -205,7 +205,7 @@
                                         </a>  -->
                                         
                                         <div class="field">
-                                            <button tabindex="0" name="login" id="kc-login" type="submit" class="ui fluid button" onclick="javascript:getNextUrl()">
+                                            <button tabindex="0" name="login" id="kc-login" type="submit" class="ui fluid button">
                                                     Request OTP
                                             </button>
                                         </div>
@@ -293,20 +293,7 @@
             }
         }
 
-        var resendOptVal = 0
-         sessionStorage.setItem("resendOptVal", 0)
-        function getNextUrl() {
-           console.log("button clicked")
-           let resendOptVal = sessionStorage.getItem("resendOptVal")
-            if(resendOptVal && resendOptVal == 0) {
-                sessionStorage.setItem("resendOptVal", 1)
-            } else {
-                 sessionStorage.setItem("resendOptVal", 1)
-            }
-            
-        }
 
-    
         function validateEmailChar() {
             const validRegex = "/^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*@((?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?){2,}\.){1,3}(?:\w){2,}$/"
             document.getElementById("login").disabled = false

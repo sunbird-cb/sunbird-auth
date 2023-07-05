@@ -100,7 +100,7 @@
       function validateOtpChar() {
         let userOptVal = document.getElementById("totp").value.trim()
         if (userOptVal && userOptVal.length !== 6) {
-            document.getElementById("otpLengthErr").innerHTML = "OPT should have 6 digit"
+            document.getElementById("otpLengthErr").innerHTML = "OPT should have 6 digits"
         }
       }
 
@@ -143,11 +143,14 @@ function timerCount() {
   var totalLoginAttempts = 3
 
   function otpLoginUser() {
-    let loginCount = sessionStorage.getItem("loginAttempts")
+    console.log("otp button clicked")
+    let loginCount = parseInt(sessionStorage.getItem("loginAttempts"))
+    console.log(loginCount, "loginCount--")
     if (!loginCount || loginCount === null || loginCount < totalLoginAttempts) {
       loginAttempts += 1
       sessionStorage.setItem("loginAttempts", loginAttempts)
-      loginCount = sessionStorage.getItem("loginAttempts")
+      loginCount = parseInt(sessionStorage.getItem("loginAttempts"))
+      console.log(loginCount, "loginCount--")
       var pendingLoginAttempt = totalLoginAttempts - loginAttempts
      console.log(pendingLoginAttempt, "pendingLoginAttempt===")
       enableFields()
