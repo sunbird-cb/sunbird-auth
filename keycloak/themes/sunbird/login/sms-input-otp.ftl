@@ -101,16 +101,12 @@
         let userOptVal = document.getElementById("totp").value.trim()
         if (userOptVal && userOptVal.length !== 6) {
             document.getElementById("otpLengthErr").innerHTML = "OPT should have 6 digits"
+        } else if (userOptVal && userOptVal.length === 6) {
+            document.getElementById("otpLengthErr").innerHTML = ""
         }
       }
 
-      let resendOptVal = sessionStorage.getItem("resendOptVal")
-      if(resendOptVal == 1 ) {
-        sessionStorage.setItem("resendOptVal", 0)
-       
-       
-        
-      }
+    
 
 function timerCount() {
   var timeInterval = setInterval(function () {
@@ -139,17 +135,17 @@ function timerCount() {
 }
 
   var timeLeftForUnblock = 30
-  var loginAttempts = 0 // Variable to keep track of login attempts
-  var totalLoginAttempts = 3
+  var loginAttempts = Number(0) 
+  var totalLoginAttempts = Number(3)
 
   function otpLoginUser() {
     console.log("otp button clicked")
-    let loginCount = parseInt(sessionStorage.getItem("loginAttempts"))
+    var loginCount = parseInt(sessionStorage.getItem("loginAttempts"), 10)
     console.log(loginCount, "loginCount--")
     if (!loginCount || loginCount === null || loginCount < totalLoginAttempts) {
       loginAttempts += 1
       sessionStorage.setItem("loginAttempts", loginAttempts)
-      loginCount = parseInt(sessionStorage.getItem("loginAttempts"))
+      loginCount = parseInt(sessionStorage.getItem("loginAttempts"), 10)
       console.log(loginCount, "loginCount--")
       var pendingLoginAttempt = totalLoginAttempts - loginAttempts
      console.log(pendingLoginAttempt, "pendingLoginAttempt===")
