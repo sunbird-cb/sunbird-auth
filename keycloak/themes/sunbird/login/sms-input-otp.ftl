@@ -71,6 +71,7 @@
     </div>
     </#if>
     <script>
+    document.getElementById("timer-container").setAttribute("hidden", true);
         var interval
         function countdown() {
             document.getElementById("js-timeout").innerHTML = "3:00";
@@ -164,11 +165,13 @@ function timerCount() {
       }
       enableFields()
       countdown()
+      document.getElementById("timer-container").setAttribute("hidden", false);
     }
 
     if (loginCount && loginCount == totalLoginAttempts) {
       disableFields()
       timerCount()
+      document.getElementById("timer-container").setAttribute("hidden", true);
    
     }
   }
