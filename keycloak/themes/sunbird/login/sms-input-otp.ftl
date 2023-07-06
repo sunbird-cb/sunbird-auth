@@ -109,13 +109,13 @@
         }
       }
 
-var pendingTime
+
 function convertStoMs(seconds) {
          let minutes = Math.floor(seconds / 60);
          let extraSeconds = seconds % 60;
          minutes = minutes < 10 ? "0" + minutes : minutes;
          extraSeconds = extraSeconds< 10 ? "0" + extraSeconds : extraSeconds;
-         pendingTime = minutes + " : " + extraSeconds;
+         return minutes + " : " + extraSeconds;
       } 
 
 function timerCount() {
@@ -128,21 +128,21 @@ function timerCount() {
     }
     timeLeftForUnblock = timeLeftForUnblock - 1
     sessionStorage.setItem("timeLeftForUnblock", timeLeftForUnblock)
-    timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock"))
-    let pendingTiming = convertStoMs(timeLeftForUnblock)
-    document.getElementById("js-timeout-box").innerHTML = pendingTiming
-    if (timeLeftForUnblock == -1) {
+    timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock"), 10)
+    document.getElementById("js-timeout-box").innerHTML = convertStoMs(parseInt(timeLeftForUnblock), 10)
+    if (timeLeftForUnblock == 0) {
       clearInterval(timeInterval)
       sessionStorage.removeItem("loginAttempts")
       sessionStorage.removeItem("timeLeftForUnblock")
+      document.getElementById("js-timeout-box").innerHTML = ""
       enableFields()
       loginAttempts = 0
-      timeLeftForUnblock = 30
+      timeLeftForUnblock = 120
     }
   }, 1000);
 }
 
-  var timeLeftForUnblock = 30
+  var timeLeftForUnblock = 120
   var loginAttempts = Number(0) 
   var totalLoginAttempts = Number(3)
 
@@ -154,6 +154,9 @@ function timerCount() {
       loginCount = parseInt(sessionStorage.getItem("loginAttempts"), 10)
       var pendingLoginAttempt = totalLoginAttempts - loginAttempts
       document.getElementById("attempCount").innerHTML = "You have " + pendingLoginAttempt + " more attempts"
+      if(pendingLoginAttempt == 0) {
+        document.getElementById("attempCount").innerHTML = ""
+      }
       enableFields()
       countdown()
     }
@@ -186,13 +189,13 @@ function timerCount() {
     if (sessionStorage.getItem("timeLeftForUnblock",)) {
       timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock"), 10)
     }
-    if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock != -1) {
+    if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock != 0) {
       disableFields()
       timerCount()
      
     
     }
-    if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock == -1) {
+    if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock == 0) {
       enableFields()
       sessionStorage.removeItem("loginAttempts")
       sessionStorage.removeItem("timeLeftForUnblock")
