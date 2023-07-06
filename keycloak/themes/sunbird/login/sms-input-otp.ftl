@@ -109,7 +109,14 @@
         }
       }
 
-    
+var pendingTime
+function convertStoMs(seconds) {
+         let minutes = Math.floor(seconds / 60);
+         let extraSeconds = seconds % 60;
+         minutes = minutes < 10 ? "0" + minutes : minutes;
+         extraSeconds = extraSeconds< 10 ? "0" + extraSeconds : extraSeconds;
+         pendingTime = minutes + " : " + extraSeconds;
+      } 
 
 function timerCount() {
   var timeInterval = setInterval(function () {
@@ -122,7 +129,8 @@ function timerCount() {
     timeLeftForUnblock = timeLeftForUnblock - 1
     sessionStorage.setItem("timeLeftForUnblock", timeLeftForUnblock)
     timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock"))
-
+    let pendingTiming = convertStoMs(timeLeftForUnblock)
+    document.getElementById("js-timeout-box").innerHTML = pendingTiming
     if (timeLeftForUnblock == -1) {
       clearInterval(timeInterval)
       sessionStorage.removeItem("loginAttempts")
@@ -153,42 +161,11 @@ function timerCount() {
     if (loginCount && loginCount == totalLoginAttempts) {
       disableFields()
       timerCount()
-      blocCountdown()
+   
     }
   }
 
-  document.getElementById("blockSpan").style.display = 'none';  
-    var unBlockinterval
-        function blocCountdown() {
-           document.getElementById("blockSpan").style.display = 'block';  
-            document.getElementById("js-timeout-box").innerHTML = "15:00";
-        // Update the count down every 1 second
-        unBlockinterval = setInterval( function() {
-            var timer = document.getElementById("js-timeout-box").innerHTML;
-            timer = timer.split(':');
-            var minutes = timer[0];
-            var seconds = timer[1];
-            seconds -= 1;
-            if (minutes < 0) return;
-            else if (seconds < 0 && minutes != 0) {
-                minutes -= 1;
-                seconds = 59;
-            }
-            else if (seconds < 10 && length.seconds != 2) seconds = '0' + seconds;
-
-             document.getElementById("js-timeout-box").innerHTML = minutes + ':' + seconds;
-
-            if (minutes == 0 && seconds == 0) {
-              clearInterval(unBlockinterval);
-               document.getElementById("blockSpan").setAttribute("hidden", true);
-            
-            }
-        }, 1000);
-      }
  
-
-  
-
   function disableFields() {
     document.getElementById("totp").disabled = true
     document.getElementById("login").disabled = true
@@ -212,7 +189,7 @@ function timerCount() {
     if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock != -1) {
       disableFields()
       timerCount()
-      blocCountdown()
+     
     
     }
     if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock == -1) {
