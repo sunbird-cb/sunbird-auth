@@ -27,6 +27,7 @@
                             <div class="field">
                                 <input id="totp" name="smsCode" type="text" class=" smsinput" onkeyup="validateOtpChar()" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)"/>
                                 <span id="otpLengthErr" class="ui text error"></span>
+                                 <span id="blockSpan">You will be unblock after </span><span id="js-timeout-box"></span>
                             </div>
                             
                             <div class="field">
@@ -96,7 +97,7 @@
         }, 1000);
       }
 
-      countdown()
+      
 
       function validateOtpChar() {
         let userOptVal = document.getElementById("totp").value.trim()
@@ -111,26 +112,23 @@
 
 function timerCount() {
   var timeInterval = setInterval(function () {
-    if (parseInt(sessionStorage.getItem("timeLeftForUnblock"), 10)) {
-      timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock"), 10)
-      console.log(timeLeftForUnblock, 'timeLeftForUnblock')
+    if (sessionStorage.getItem("timeLeftForUnblock")) {
+      timeLeftForUnblock = sessionStorage.getItem("timeLeftForUnblock")
+
     } else {
       sessionStorage.setItem("timeLeftForUnblock", timeLeftForUnblock)
     }
     timeLeftForUnblock = timeLeftForUnblock - 1
-    console.log(timeLeftForUnblock, 'timeLeftForUnblock')
     sessionStorage.setItem("timeLeftForUnblock", timeLeftForUnblock)
-    timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock"), 10)
-      console.log(timeLeftForUnblock, "timeLeftForUnblock===")
+    timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock")
+
     if (timeLeftForUnblock == -1) {
       clearInterval(timeInterval)
-      console.log(timeLeftForUnblock, "timeLeftForUnblock===")
       sessionStorage.removeItem("loginAttempts")
       sessionStorage.removeItem("timeLeftForUnblock")
       enableFields()
       loginAttempts = 0
       timeLeftForUnblock = 30
-    console.log("expired")
     }
   }, 1000);
 }
@@ -140,24 +138,52 @@ function timerCount() {
   var totalLoginAttempts = Number(3)
 
   function otpLoginUser() {
-    console.log("otp button clicked")
     var loginCount = parseInt(sessionStorage.getItem("loginAttempts"), 10)
-    console.log(loginCount, "loginCount--")
     if (!loginCount || loginCount === null || loginCount < totalLoginAttempts) {
       loginAttempts += 1
       sessionStorage.setItem("loginAttempts", loginAttempts)
       loginCount = parseInt(sessionStorage.getItem("loginAttempts"), 10)
-      console.log(loginCount, "loginCount--")
       var pendingLoginAttempt = totalLoginAttempts - loginAttempts
-     console.log(pendingLoginAttempt, "pendingLoginAttempt===")
+      document.getElementById("otpLengthErr").innerHTML = "You have " + pendingLoginAttempt + " more attempts"
       enableFields()
+      countdown()
     }
 
     if (loginCount && loginCount == totalLoginAttempts) {
       disableFields()
       timerCount()
+      blocCountdown()
     }
   }
+
+  document.getElementById("blockSpan").setAttribute("hidden", true);
+    var unBlockinterval
+        function blocCountdown() {
+           document.getElementById("blockSpan").setAttribute("hidden", false);
+            document.getElementById("js-timeout-box").innerHTML = "15:00";
+        // Update the count down every 1 second
+        unBlockinterval = setInterval( function() {
+            var timer = document.getElementById("js-timeout-box").innerHTML;
+            timer = timer.split(':');
+            var minutes = timer[0];
+            var seconds = timer[1];
+            seconds -= 1;
+            if (minutes < 0) return;
+            else if (seconds < 0 && minutes != 0) {
+                minutes -= 1;
+                seconds = 59;
+            }
+            else if (seconds < 10 && length.seconds != 2) seconds = '0' + seconds;
+
+             document.getElementById("js-timeout-box").innerHTML = minutes + ':' + seconds;
+
+            if (minutes == 0 && seconds == 0) {
+              clearInterval(unBlockinterval);
+               document.getElementById("blockSpan").setAttribute("hidden", true);
+            
+            }
+        }, 1000);
+      }
  
 
   
@@ -185,6 +211,7 @@ function timerCount() {
     if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock != -1) {
       disableFields()
       timerCount()
+      blocCountdown()
     
     }
     if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock == -1) {
