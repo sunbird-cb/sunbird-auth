@@ -27,7 +27,8 @@
                             <div class="field">
                                 <input id="totp" name="smsCode" type="text" class=" smsinput" onkeyup="validateOtpChar()" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)"/>
                                 <span id="otpLengthErr" class="ui text error"></span>
-                                 <span id="blockSpan">You will be unblock after </span><span id="js-timeout-box"></span>
+                                <span id="attempCount" class="ui text error"></span>
+                                 <span id="blockSpan" class="ui text error">You will be unblock after </span><span id="js-timeout-box"></span>
                             </div>
                             
                             <div class="field">
@@ -120,7 +121,7 @@ function timerCount() {
     }
     timeLeftForUnblock = timeLeftForUnblock - 1
     sessionStorage.setItem("timeLeftForUnblock", timeLeftForUnblock)
-    timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock")
+    timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock"))
 
     if (timeLeftForUnblock == -1) {
       clearInterval(timeInterval)
@@ -144,7 +145,7 @@ function timerCount() {
       sessionStorage.setItem("loginAttempts", loginAttempts)
       loginCount = parseInt(sessionStorage.getItem("loginAttempts"), 10)
       var pendingLoginAttempt = totalLoginAttempts - loginAttempts
-      document.getElementById("otpLengthErr").innerHTML = "You have " + pendingLoginAttempt + " more attempts"
+      document.getElementById("attempCount").innerHTML = "You have " + pendingLoginAttempt + " more attempts"
       enableFields()
       countdown()
     }
@@ -156,10 +157,10 @@ function timerCount() {
     }
   }
 
-  document.getElementById("blockSpan").setAttribute("hidden", true);
+  document.getElementById("blockSpan").style.display = 'none';  
     var unBlockinterval
         function blocCountdown() {
-           document.getElementById("blockSpan").setAttribute("hidden", false);
+           document.getElementById("blockSpan").style.display = 'block';  
             document.getElementById("js-timeout-box").innerHTML = "15:00";
         // Update the count down every 1 second
         unBlockinterval = setInterval( function() {
