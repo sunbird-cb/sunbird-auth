@@ -28,7 +28,7 @@
                                 <input id="totp" name="smsCode" type="text" class=" smsinput" onkeyup="validateOtpChar()" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)"/>
                                 <span id="otpLengthErr" class="ui text error"></span>
                                 <span id="attempCount" class="ui text error"></span>
-                                 <span id="blockSpan" class="ui text error">You will be unblock after <span id="js-timeout-box"></span> minutes </span>
+                                 <p id="blockSpan" class="ui text error">You will be unblock after <span id="js-timeout-box"></span> minutes </p>
                             </div>
                             
                             <div class="field">
@@ -118,6 +118,7 @@ function convertStoMs(seconds) {
          return minutes + " : " + extraSeconds;
       } 
 
+document.getElementById("blockSpan").style.display = "none"
 function timerCount() {
   var timeInterval = setInterval(function () {
     if (sessionStorage.getItem("timeLeftForUnblock")) {
@@ -146,6 +147,7 @@ function timerCount() {
   var timeLeftForUnblock = 120
   var loginAttempts = Number(0) 
   var totalLoginAttempts = Number(3)
+  document.getElementById("attempCount").style.display = "none"
 
   function otpLoginUser() {
     var loginCount = parseInt(sessionStorage.getItem("loginAttempts"), 10)
@@ -154,7 +156,7 @@ function timerCount() {
       sessionStorage.setItem("loginAttempts", loginAttempts)
       loginCount = parseInt(sessionStorage.getItem("loginAttempts"), 10)
       var pendingLoginAttempt = totalLoginAttempts - loginAttempts
-      document.getElementById("attempCount").style.display = "display"
+      document.getElementById("attempCount").style.display = "block"
       document.getElementById("attempCount").innerHTML = "You have " + pendingLoginAttempt + " more attempts"
       if(pendingLoginAttempt == 0) {
          document.getElementById("attempCount").style.display = "none"
