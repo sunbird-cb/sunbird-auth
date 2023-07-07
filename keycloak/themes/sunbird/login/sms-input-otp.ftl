@@ -119,8 +119,9 @@ function convertStoMs(seconds) {
          return minutes + " : " + extraSeconds;
       } 
 
-document.getElementById("blockSpan").style.display = "none"
+
 function timerCount() {
+  document.getElementById("blockSpan").style.display = "none"
   var timeInterval = setInterval(function () {
     if (sessionStorage.getItem("timeLeftForUnblock")) {
       timeLeftForUnblock = sessionStorage.getItem("timeLeftForUnblock")
@@ -148,9 +149,10 @@ function timerCount() {
   var timeLeftForUnblock = 120
   var loginAttempts = Number(0) 
   var totalLoginAttempts = Number(3)
-  document.getElementById("attempCount").style.display = "none"
+  
 
   function otpLoginUser() {
+    document.getElementById("attempCount").style.display = "none"
     var loginCount = parseInt(sessionStorage.getItem("loginAttempts"), 10)
     if (!loginCount || loginCount === null || loginCount < totalLoginAttempts) {
       loginAttempts += 1
