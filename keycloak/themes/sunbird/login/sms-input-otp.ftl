@@ -17,7 +17,7 @@
                         </div>
                         <div class="ui content textCenter mt-8 mb-28">
                             <#if message?has_content>
-                            <div class="ui text ${message.type}">
+                            <div class="ui text ${message.type}" id="errorMsgMainBox">
                                 ${message.summary}
                             </div>
                             </#if>
@@ -171,8 +171,8 @@ function timerCount() {
     if (loginCount && loginCount == totalLoginAttempts) {
       disableFields()
       timerCount()
-      document.getElementById("timer-container").setAttribute("hidden", true);
-   
+      document.getElementById("timer-container").setAttribute("hidden", true); 
+      document.getElementById("errorMsgMainBox").setAttribute("hidden", true); 
     }
   }
 
