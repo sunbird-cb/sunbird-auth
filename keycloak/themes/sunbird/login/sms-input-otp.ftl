@@ -20,6 +20,7 @@
                             <div class="ui text ${message.type}" id="errorMsgMainBox">
                                 ${message.summary}
                             </div>
+                            <span id="attempCount" class="ui text error"></span>
                             </#if>
                         </div>
                         <form id="kc-totp-login-form" class="${properties.kcFormClass!} ui form pre-signin" action="${url.loginAction}" method="post">
@@ -27,7 +28,7 @@
                             <div class="field">
                                 <input id="totp" name="smsCode" type="text" class=" smsinput" onkeyup="validateOtpChar()" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)"/>
                                 <span id="otpLengthErr" class="ui text error"></span>
-                                <span id="attempCount" class="ui text error"></span>
+                                
                                  <p id="blockSpan" class="ui text error">You will be unblock after <span id="js-timeout-box"></span> minutes </p>
                             </div>
                             
@@ -71,7 +72,6 @@
     </div>
     </#if>
     <script>
-    document.getElementById("timer-container").setAttribute("hidden", true);
         var interval
         function countdown() {
             document.getElementById("js-timeout").innerHTML = "3:00";
