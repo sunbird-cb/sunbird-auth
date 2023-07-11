@@ -133,12 +133,14 @@ function timerCount() {
     timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock"), 10)
     document.getElementById("js-timeout-box").innerHTML = "You will be unblock after " + convertStoMs(parseInt(timeLeftForUnblock), 10) + " minutes" 
     if (timeLeftForUnblock == 0) {
+      document.getElementById("js-timeout-box").innerHTML = ""
       clearInterval(timeInterval)
       sessionStorage.removeItem("loginAttempts")
       sessionStorage.removeItem("timeLeftForUnblock")
       enableFields()
       loginAttempts = 0
       timeLeftForUnblock = 120
+      
     }
   }, 1000);
 }
@@ -149,17 +151,17 @@ function timerCount() {
   
 
   function otpLoginUser() {
-    document.getElementById("attempCount").style.display = "none"
     var loginCount = parseInt(sessionStorage.getItem("loginAttempts"), 10)
     if (!loginCount || loginCount === null || loginCount < totalLoginAttempts) {
       loginAttempts += 1
       sessionStorage.setItem("loginAttempts", loginAttempts)
       loginCount = parseInt(sessionStorage.getItem("loginAttempts"), 10)
       var pendingLoginAttempt = totalLoginAttempts - loginAttempts
-      document.getElementById("attempCount").style.display = "block"
-      document.getElementById("attempCount").innerHTML = "You have " + pendingLoginAttempt + " more attempts"
+      if(pendingLoginAttempt > 0) {
+        document.getElementById("attempCount").innerHTML = "You have " + pendingLoginAttempt + " more attempts"
+      }
+      
       if(pendingLoginAttempt == 0) {
-         document.getElementById("attempCount").style.display = "none"
         document.getElementById("attempCount").innerHTML = ""
       }
       enableFields()
@@ -193,10 +195,16 @@ function timerCount() {
     if (parseInt(sessionStorage.getItem("loginAttempts"), 10)) {
       loginAttempts = parseInt(sessionStorage.getItem("loginAttempts"), 10)
       var LoginAttemptPending = totalLoginAttempts - loginAttempts
-      document.getElementById("attempCount").style.display = "block"
-      document.getElementById("attempCount").innerHTML = "You have " + LoginAttemptPending + " more attempts"
+       if(pendingLoginAttempt > 0) {
+        document.getElementById("attempCount").innerHTML = "You have " + LoginAttemptPending + " more attempts"
+      }
+      
+      if(pendingLoginAttempt == 0) {
+        document.getElementById("attempCount").innerHTML = ""
+      }
+      
     }
-    if (sessionStorage.getItem("timeLeftForUnblock",)) {
+    if (parseInt(sessionStorage.getItem("timeLeftForUnblock"), 10)) {
       timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock"), 10)
     }
     if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock != 0) {
