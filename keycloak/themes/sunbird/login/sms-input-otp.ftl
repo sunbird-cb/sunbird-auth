@@ -202,7 +202,7 @@ function timerCount() {
     if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock != 0) {
       disableFields()
       timerCount()
-      document.getElementById("attempCount").innerHTML = "
+      document.getElementById("attempCount").innerHTML = ""
      
     
     }
