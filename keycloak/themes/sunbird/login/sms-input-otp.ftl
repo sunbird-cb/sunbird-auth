@@ -194,7 +194,7 @@ function timerCount() {
       loginAttempts = parseInt(sessionStorage.getItem("loginAttempts"), 10)
       var LoginAttemptPending = totalLoginAttempts - loginAttempts
       document.getElementById("attempCount").style.display = "block"
-      document.getElementById("attempCount").innerHTML = "You have " + pendingLoginAttempt + " more attempts"
+      document.getElementById("attempCount").innerHTML = "You have " + LoginAttemptPending + " more attempts"
     }
     if (sessionStorage.getItem("timeLeftForUnblock",)) {
       timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock"), 10)
