@@ -28,7 +28,7 @@
                             <div class="field">
                                 <input id="totp" name="smsCode" type="text" class=" smsinput" onkeyup="validateOtpChar()" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)"/>
                                 <span id="otpLengthErr" class="ui text error"></span>
-                                <span id="js-timeout-box"></span>
+                                <span id="js-timeout-box" class="ui text error"></span>
                               
                             </div>
                             
