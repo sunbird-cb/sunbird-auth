@@ -99,6 +99,8 @@
         }, 1000);
       }
 
+       countdown()
+
       
 
       function validateOtpChar() {
@@ -145,6 +147,8 @@ function timerCount() {
   }, 1000);
 }
 
+
+
   var timeLeftForUnblock = 120
   var loginAttempts = Number(0) 
   var totalLoginAttempts = Number(3)
@@ -156,7 +160,7 @@ function timerCount() {
       loginAttempts += 1
       sessionStorage.setItem("loginAttempts", loginAttempts)
       loginCount = parseInt(sessionStorage.getItem("loginAttempts"), 10)
-      countdown()
+     
       var pendingLoginAttempt = totalLoginAttempts - loginCount
       if(pendingLoginAttempt != null && pendingLoginAttempt > 0) {
         document.getElementById("attempCount").innerHTML = "You have " + pendingLoginAttempt + " more attempts"
@@ -169,11 +173,20 @@ function timerCount() {
 
     if (loginCount && loginCount == totalLoginAttempts && timeLeftForUnblock != 0) {
       document.getElementById("attempCount").innerHTML = ""
+      document.getElementById("totp").value = ""
       disableFields()
       timerCount()
       document.getElementById("timer-container").setAttribute("hidden", true); 
       document.getElementById("errorMsgMainBox").setAttribute("hidden", true); 
     }
+     if (loginCount && loginCount == totalLoginAttempts && timeLeftForUnblock == 0) {
+       enableFields()
+      sessionStorage.removeItem("loginAttempts")
+      document.getElementById("attempCount").innerHTML = ""
+      sessionStorage.removeItem("timeLeftForUnblock")
+      clearInterval(timeInterval)
+      document.getElementById("timer-container").setAttribute("hidden", false); 
+     }
   }
 
  
@@ -204,19 +217,21 @@ function timerCount() {
       timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock"), 10)
     }
     if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock != 0) {
+      document.getElementById("totp").value
       disableFields()
       timerCount()
       document.getElementById("attempCount").innerHTML = ""
+      document.getElementById("timer-container").setAttribute("hidden", true); 
      
     
     }
     if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock == 0) {
-       countdown()
       enableFields()
       sessionStorage.removeItem("loginAttempts")
       document.getElementById("attempCount").innerHTML = ""
       sessionStorage.removeItem("timeLeftForUnblock")
       clearInterval(timeInterval)
+      document.getElementById("timer-container").setAttribute("hidden", false); 
      
     }
   }
