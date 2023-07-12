@@ -156,17 +156,18 @@ function timerCount() {
       loginAttempts += 1
       sessionStorage.setItem("loginAttempts", loginAttempts)
       loginCount = parseInt(sessionStorage.getItem("loginAttempts"), 10)
-      var pendingLoginAttempt = totalLoginAttempts - loginAttempts
-      if(pendingLoginAttempt > 0) {
+      countdown()
+      var pendingLoginAttempt = totalLoginAttempts - loginCount
+      if(pendingLoginAttempt != null && pendingLoginAttempt > 0) {
         document.getElementById("attempCount").innerHTML = "You have " + pendingLoginAttempt + " more attempts"
       }
       
       enableFields()
-      countdown()
+      
       document.getElementById("timer-container").setAttribute("hidden", false);
     }
 
-    if (loginCount && loginCount == totalLoginAttempts) {
+    if (loginCount && loginCount == totalLoginAttempts && timeLeftForUnblock != 0) {
       document.getElementById("attempCount").innerHTML = ""
       disableFields()
       timerCount()
@@ -193,7 +194,7 @@ function timerCount() {
     if (parseInt(sessionStorage.getItem("loginAttempts"), 10)) {
       loginAttempts = parseInt(sessionStorage.getItem("loginAttempts"), 10)
       var LoginAttemptPending = totalLoginAttempts - loginAttempts
-       if(LoginAttemptPending > 0) {
+       if(LoginAttemptPending != null && LoginAttemptPending > 0) {
         document.getElementById("attempCount").innerHTML = "You have " + LoginAttemptPending + " more attempts"
       }
       
@@ -210,12 +211,13 @@ function timerCount() {
     
     }
     if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock == 0) {
+       countdown()
       enableFields()
       sessionStorage.removeItem("loginAttempts")
       document.getElementById("attempCount").innerHTML = ""
       sessionStorage.removeItem("timeLeftForUnblock")
       clearInterval(timeInterval)
-      countdown()
+     
     }
   }
   onStart()
