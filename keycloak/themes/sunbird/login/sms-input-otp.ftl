@@ -195,11 +195,11 @@ function timerCount() {
     if (parseInt(sessionStorage.getItem("loginAttempts"), 10)) {
       loginAttempts = parseInt(sessionStorage.getItem("loginAttempts"), 10)
       var LoginAttemptPending = totalLoginAttempts - loginAttempts
-       if(pendingLoginAttempt > 0) {
+       if(LoginAttemptPending > 0) {
         document.getElementById("attempCount").innerHTML = "You have " + LoginAttemptPending + " more attempts"
       }
       
-      if(pendingLoginAttempt == 0) {
+      if(LoginAttemptPending == 0) {
         document.getElementById("attempCount").innerHTML = ""
       }
       
