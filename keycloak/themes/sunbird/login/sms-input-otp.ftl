@@ -161,15 +161,13 @@ function timerCount() {
         document.getElementById("attempCount").innerHTML = "You have " + pendingLoginAttempt + " more attempts"
       }
       
-      if(pendingLoginAttempt == 0) {
-        document.getElementById("attempCount").innerHTML = ""
-      }
       enableFields()
       countdown()
       document.getElementById("timer-container").setAttribute("hidden", false);
     }
 
     if (loginCount && loginCount == totalLoginAttempts) {
+      document.getElementById("attempCount").innerHTML = ""
       disableFields()
       timerCount()
       document.getElementById("timer-container").setAttribute("hidden", true); 
@@ -199,9 +197,6 @@ function timerCount() {
         document.getElementById("attempCount").innerHTML = "You have " + LoginAttemptPending + " more attempts"
       }
       
-      if(LoginAttemptPending == 0) {
-        document.getElementById("attempCount").innerHTML = ""
-      }
       
     }
     if (parseInt(sessionStorage.getItem("timeLeftForUnblock"), 10)) {
@@ -220,6 +215,7 @@ function timerCount() {
       document.getElementById("attempCount").innerHTML = ""
       sessionStorage.removeItem("timeLeftForUnblock")
       clearInterval(timeInterval)
+      countdown()
     }
   }
   onStart()
