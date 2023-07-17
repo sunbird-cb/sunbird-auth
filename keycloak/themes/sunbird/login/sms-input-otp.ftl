@@ -74,6 +74,7 @@
     <script>
         var interval
         function countdown() {
+          console.log("function called")
             document.getElementById("js-timeout").innerHTML = "3:00";
         // Update the count down every 1 second
         interval = setInterval( function() {
@@ -99,7 +100,7 @@
         }, 1000);
       }
 
-       countdown()
+       
 
       
 
@@ -141,7 +142,7 @@ function timerCount() {
       sessionStorage.removeItem("timeLeftForUnblock")
       enableFields()
       loginAttempts = 0
-      timeLeftForUnblock = 120
+      timeLeftForUnblock = 900
       
     }
   }, 1000);
@@ -149,7 +150,7 @@ function timerCount() {
 
 
 
-  var timeLeftForUnblock = 120
+  var timeLeftForUnblock = 900
   var loginAttempts = Number(0) 
   var totalLoginAttempts = Number(3)
   
@@ -157,6 +158,7 @@ function timerCount() {
   function otpLoginUser() {
     var loginCount = parseInt(sessionStorage.getItem("loginAttempts"), 10)
     if (!loginCount || loginCount === null || loginCount < totalLoginAttempts) {
+      countdown()
       loginAttempts += 1
       sessionStorage.setItem("loginAttempts", loginAttempts)
       loginCount = parseInt(sessionStorage.getItem("loginAttempts"), 10)
@@ -180,6 +182,7 @@ function timerCount() {
       document.getElementById("errorMsgMainBox").setAttribute("hidden", true); 
     }
      if (loginCount && loginCount == totalLoginAttempts && timeLeftForUnblock == 0) {
+      countdown()
        enableFields()
       sessionStorage.removeItem("loginAttempts")
       document.getElementById("attempCount").innerHTML = ""
