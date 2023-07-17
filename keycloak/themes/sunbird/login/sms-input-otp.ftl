@@ -230,6 +230,7 @@ function timerCount() {
     }
     if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock == 0) {
       enableFields()
+      countdown()
       sessionStorage.removeItem("loginAttempts")
       document.getElementById("attempCount").innerHTML = ""
       sessionStorage.removeItem("timeLeftForUnblock")
