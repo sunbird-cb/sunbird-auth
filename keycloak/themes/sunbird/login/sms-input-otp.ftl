@@ -28,8 +28,9 @@
                             <div class="field">
                                 <input id="totp" name="smsCode" type="text" class=" smsinput" onkeyup="validateOtpChar()" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)"/>
                                 <span id="otpLengthErr" class="ui text error"></span>
-                                <span id="js-timeout-box" class="ui text error"></span>
-                              
+                                <div id="main-timeout-box">
+                                  <span id="js-timeout-box" class="ui text error"></span>
+                                </div>
                             </div>
                             
                             <div class="field">
@@ -158,7 +159,6 @@ function timerCount() {
   function otpLoginUser() {
     var loginCount = parseInt(sessionStorage.getItem("loginAttempts"), 10)
     if (!loginCount || loginCount === null || loginCount < totalLoginAttempts) {
-      countdown()
       loginAttempts += 1
       sessionStorage.setItem("loginAttempts", loginAttempts)
       loginCount = parseInt(sessionStorage.getItem("loginAttempts"), 10)
@@ -182,7 +182,6 @@ function timerCount() {
       document.getElementById("errorMsgMainBox").setAttribute("hidden", true); 
     }
      if (loginCount && loginCount == totalLoginAttempts && timeLeftForUnblock == 0) {
-      countdown()
        enableFields()
       sessionStorage.removeItem("loginAttempts")
       document.getElementById("attempCount").innerHTML = ""
@@ -194,15 +193,12 @@ function timerCount() {
 
  
   function disableFields() {
-    document.getElementById("totp").disabled = true
-    document.getElementById("login").disabled = true
-    document.getElementById("resendOTP").disabled = true
+   document.getElementById("main-timeout-box").style.display = "block"
   }
 
   function enableFields() {
-    document.getElementById("totp").disabled = false
-    document.getElementById("login").disabled = false
-    document.getElementById("resendOTP").disabled = false
+    document.getElementById("main-timeout-box").style.display = "none"
+    countdown()
   }
 
 
@@ -230,7 +226,7 @@ function timerCount() {
     }
     if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock == 0) {
       enableFields()
-      countdown()
+    
       sessionStorage.removeItem("loginAttempts")
       document.getElementById("attempCount").innerHTML = ""
       sessionStorage.removeItem("timeLeftForUnblock")
