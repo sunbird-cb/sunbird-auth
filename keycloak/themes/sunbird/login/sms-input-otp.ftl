@@ -174,8 +174,6 @@ function timerCount() {
     }
 
     if (loginCount && loginCount == totalLoginAttempts && timeLeftForUnblock != 0) {
-      document.getElementById("attempCount").innerHTML = ""
-      document.getElementById("totp").value = ""
       disableFields()
       timerCount()
       document.getElementById("timer-container").setAttribute("hidden", true); 
