@@ -187,6 +187,7 @@ function timerCount() {
       document.getElementById("attempCount").innerHTML = ""
       sessionStorage.removeItem("timeLeftForUnblock")
       clearInterval(timeInterval)
+      window.location.reload()
       document.getElementById("timer-container").setAttribute("hidden", false); 
      }
   }
