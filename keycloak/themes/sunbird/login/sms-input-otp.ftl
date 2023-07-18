@@ -137,7 +137,7 @@ function timerCount() {
     timeLeftForUnblock = timeLeftForUnblock - 1
     sessionStorage.setItem("timeLeftForUnblock", timeLeftForUnblock)
     timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock"), 10)
-    document.getElementById("js-timeout-box").innerHTML = "You will be unblock after " + convertStoMs(parseInt(timeLeftForUnblock), 10) + " minutes" 
+    document.getElementById("js-timeout-box").innerHTML = "You will be unblocked after " + convertStoMs(parseInt(timeLeftForUnblock), 10) + " minutes" 
     if (timeLeftForUnblock == 0) {
       document.getElementById("js-timeout-box").innerHTML = ""
       clearInterval(timeInterval)

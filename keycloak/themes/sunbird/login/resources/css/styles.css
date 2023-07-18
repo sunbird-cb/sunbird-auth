@@ -198,20 +198,4 @@ a.zocial {
     padding-bottom: 0.2em;
 }
 
-#main-timeout-box {
-    position: fixed;
-    opacity: 1;
-    height: 450px;
-    width: 320px;
-    background: #fff;
-    left: 0;
-    z-index: 1;
-    text-align: center;
-    padding-top: 210px;
-    top: -75px;
-}
 
-#js-timeout-box {
-    font-weight: 600;
-    font-size: 14px;
-}
