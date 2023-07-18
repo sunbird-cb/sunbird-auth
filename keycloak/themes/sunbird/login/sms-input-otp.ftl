@@ -198,7 +198,7 @@ function timerCount() {
 
   function enableFields() {
     document.getElementById("main-timeout-box").style.display = "none"
-    countdown()
+    
   }
 
 
