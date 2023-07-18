@@ -101,6 +101,8 @@
         }, 1000);
       }
 
+      countdown()
+
        
 
       
@@ -214,7 +216,6 @@ function timerCount() {
       timeLeftForUnblock = parseInt(sessionStorage.getItem("timeLeftForUnblock"), 10)
     }
     if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock != 0) {
-      document.getElementById("totp").value
       disableFields()
       timerCount()
       document.getElementById("attempCount").innerHTML = ""
