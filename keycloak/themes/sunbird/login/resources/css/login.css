@@ -578,6 +578,10 @@ img {vertical-align: middle;}
     text-align: center;
     padding-top: 210px;
     top: -75px;
+    
+}
+#main-timeout-box {
+    display: none;
 }
 
 #js-timeout-box {
