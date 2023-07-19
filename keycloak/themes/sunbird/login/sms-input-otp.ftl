@@ -28,7 +28,7 @@
                             <div class="field">
                                 <input id="totp" name="smsCode" type="text" class=" smsinput" onkeyup="validateOtpChar()" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)"/>
                                 <span id="otpLengthErr" class="ui text error"></span>
-                                <div id="main-timeout-box">
+                                <div id="main-timeout-box" class="main-timeout-inner-box">
                                   <span id="js-timeout-box" class="ui text error"></span>
                                 </div>
                             </div>
@@ -231,6 +231,7 @@ function timerCount() {
       document.getElementById("attempCount").innerHTML = ""
       sessionStorage.removeItem("timeLeftForUnblock")
       clearInterval(timeInterval)
+      window.location.reload()
       document.getElementById("timer-container").setAttribute("hidden", false); 
      
     }

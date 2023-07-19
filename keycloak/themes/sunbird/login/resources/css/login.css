@@ -567,7 +567,7 @@ img {vertical-align: middle;}
     }
 }
 
-#main-timeout-box {
+.main-timeout-inner-box {
     position: absolute;
     opacity: 1;
     height: 425px;
