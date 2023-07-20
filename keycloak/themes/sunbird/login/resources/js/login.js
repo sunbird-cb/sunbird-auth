@@ -439,5 +439,5 @@ var redirectToPortal = (redirectUrlPath) => { // redirectUrlPath for sso and sel
 };
 
 function reloadPage() {
-	window.location.reload()
+	window.location.reload();
 } 
