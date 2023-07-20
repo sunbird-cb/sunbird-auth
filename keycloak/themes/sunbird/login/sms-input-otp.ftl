@@ -75,7 +75,6 @@
     <script>
         var interval
         function countdown() {
-          console.log("function called")
             document.getElementById("js-timeout").innerHTML = "3:00";
         // Update the count down every 1 second
         interval = setInterval( function() {
@@ -171,7 +170,7 @@ function timerCount() {
       }
       
       enableFields()
-      
+      window.location.reload()
       document.getElementById("timer-container").setAttribute("hidden", false);
     }
 
@@ -183,11 +182,12 @@ function timerCount() {
     }
      if (loginCount && loginCount == totalLoginAttempts && timeLeftForUnblock == 0) {
        enableFields()
+       window.location.reload()
       sessionStorage.removeItem("loginAttempts")
       document.getElementById("attempCount").innerHTML = ""
       sessionStorage.removeItem("timeLeftForUnblock")
       clearInterval(timeInterval)
-      window.location.reload()
+      
       document.getElementById("timer-container").setAttribute("hidden", false); 
      }
   }
@@ -199,7 +199,7 @@ function timerCount() {
 
   function enableFields() {
     document.getElementById("main-timeout-box").style.display = "none"
-    
+    window.location.reload()
   }
 
 
@@ -226,12 +226,11 @@ function timerCount() {
     }
     if ((loginAttempts == totalLoginAttempts) && timeLeftForUnblock == 0) {
       enableFields()
-    
+      window.location.reload()
       sessionStorage.removeItem("loginAttempts")
       document.getElementById("attempCount").innerHTML = ""
       sessionStorage.removeItem("timeLeftForUnblock")
       clearInterval(timeInterval)
-      window.location.reload()
       document.getElementById("timer-container").setAttribute("hidden", false); 
      
     }
