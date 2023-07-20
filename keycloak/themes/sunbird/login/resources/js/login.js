@@ -437,3 +437,7 @@ var redirectToPortal = (redirectUrlPath) => { // redirectUrlPath for sso and sel
 		redirectToLib();
 	}
 };
+
+function reloadPage() {
+	window.location.reload()
+} 
