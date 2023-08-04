@@ -33,7 +33,7 @@
                                         <i class="eye icon link" onclick="viewPassword(this)"></i>
                                         <!--i id="preview-hide" class="eye slash icon hide link"></i-->
                                     </div>
-                                    <span id="otpLengthErr" class="ui text error"></span>
+                                    <span id="passLengthErr" class="ui text error"></span>
                                 </div>
                             </div>
                             <div class="field">
