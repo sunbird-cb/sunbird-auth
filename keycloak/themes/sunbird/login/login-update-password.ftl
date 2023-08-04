@@ -29,10 +29,11 @@
                                 </label>
                                 <div class="ui search">
                                     <div class="ui icon input">
-                                        <input class="" type="password" id="password-new" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)" name="password-new" autocomplete="off" />    
+                                        <input class="" type="password" id="password-new" onkeyup="validatePasswordChar()" onfocusin="inputBoxFocusIn(this)" onfocusout="inputBoxFocusOut(this)" name="password-new" autocomplete="off" />    
                                         <i class="eye icon link" onclick="viewPassword(this)"></i>
                                         <!--i id="preview-hide" class="eye slash icon hide link"></i-->
                                     </div>
+                                    <span id="otpLengthErr" class="ui text error"></span>
                                 </div>
                             </div>
                             <div class="field">
@@ -63,4 +64,15 @@
         </div>
     </div>
     </#if>
+
+    <script>
+     function validatePasswordChar() {
+        let userPassVal = document.getElementById("password-new").value.trim()
+        if (userPassVal && userPassVal.length < 4) {
+            document.getElementById("passLengthErr").innerHTML = "Password must have atleast 4 charators"
+        } else {
+            document.getElementById("passLengthErr").innerHTML = ""
+        }
+      }
+    </script>
 </@layout.registrationLayout>
