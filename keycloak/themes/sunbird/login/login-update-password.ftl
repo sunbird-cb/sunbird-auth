@@ -63,11 +63,13 @@
             </div>
         </div>
     </div>
-    </#if>
+    
 
-    <script>
+    <script type="text/javascript">
      function validatePasswordChar() {
         let userPassVal = document.getElementById("password-new").value.trim()
+        console.log(userPassVal, "userPassVal")
+        console.log(userPassVal.length, "userPassVal length==")
         if (userPassVal && userPassVal.length < 4) {
             document.getElementById("passLengthErr").innerHTML = "Password must have atleast 4 charators"
         } else {
@@ -75,4 +77,5 @@
         }
       }
     </script>
+    </#if>
 </@layout.registrationLayout>
