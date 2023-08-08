@@ -72,10 +72,10 @@
         console.log(userPassVal.length, "userPassVal length==")
         if (userPassVal && userPassVal.length < 4) {
             document.getElementById("passLengthErr").innerHTML = "Password must have atleast 4 charators"
-            document.getElementById("login").disabled = false
+            document.getElementById("login").disabled = true
         } else {
             document.getElementById("passLengthErr").innerHTML = ""
-            document.getElementById("login").disabled = true
+            document.getElementById("login").disabled = false
         }
       }
     </script>
