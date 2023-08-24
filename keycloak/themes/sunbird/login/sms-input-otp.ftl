@@ -71,7 +71,7 @@
             </div>
         </div>
     </div>
-    </#if>
+   
     <script>
         var interval
         function countdown() {
@@ -233,5 +233,7 @@ function timerCount() {
   }
   onStart()
     </script>
+     </#if>
+  </#if>
 </@layout.registrationLayout>
 
