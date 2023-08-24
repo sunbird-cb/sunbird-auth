@@ -236,6 +236,6 @@ function timerCount() {
   }
   onStart()
     </script>
-    </#if>  
+ 
 </@layout.registrationLayout>
 
