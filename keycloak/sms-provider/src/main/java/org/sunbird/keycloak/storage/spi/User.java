@@ -11,6 +11,7 @@ public class User {
   private String password;
   private boolean enabled;
   private String countryCode;
+  private String rootorgid;
 
   public User() {}
 
@@ -91,5 +92,8 @@ public class User {
   public void setCountryCode(String countryCode) {
     this.countryCode = countryCode;
   }
-  
+
+  public String getRootorgid() { return rootorgid; }
+
+  public void setRootorgid(String rootorgid) { this.rootorgid = rootorgid; }
 }
