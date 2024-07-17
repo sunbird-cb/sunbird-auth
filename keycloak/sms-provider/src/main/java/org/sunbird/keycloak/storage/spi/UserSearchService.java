@@ -53,6 +53,7 @@ public class UserSearchService {
           }
         });
       }
+      logger.info("UserSearchService:returning userList "+userList);
       return userList;
     }
     return Collections.emptyList();
@@ -67,6 +68,7 @@ public class UserSearchService {
     user.setPhone((String) userMap.get(Constants.PHONE));
     user.setUsername((String) userMap.get("userName"));
     user.setCountryCode((String) userMap.get("countryCode"));
+    user.setRootorgid((String) userMap.get("rootorgid"));
     if ( null != userMap.get("status") && ((Integer)userMap.get("status")) == 0) {
       user.setEnabled(false);
     } else {
