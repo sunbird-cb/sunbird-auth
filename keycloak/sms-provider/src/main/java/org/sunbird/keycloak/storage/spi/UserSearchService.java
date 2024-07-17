@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.Logger;
+import org.keycloak.util.JsonSerialization;
 import org.sunbird.keycloak.utils.Constants;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -53,7 +54,12 @@ public class UserSearchService {
           }
         });
       }
-      logger.info("UserSearchService:returning userList "+userList);
+      try {
+        logger.info("UserSearchService:returning userList " + JsonSerialization.mapper.writeValueAsString(userList));
+      }catch (Exception e){
+        logger.info("failed to print UserList");
+      }
+
       return userList;
     }
     return Collections.emptyList();
