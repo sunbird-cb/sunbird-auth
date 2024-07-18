@@ -16,7 +16,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 	private static final Logger logger = Logger.getLogger(UserAdapter.class);
   private final User user;
   private final String keycloakId;
-  public static String RootOrgId ;
+  public static String rootOrgId ;
 
   public UserAdapter(KeycloakSession session, RealmModel realm, ComponentModel storageProviderModel,
       User user) {
@@ -109,11 +109,11 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     return keycloakId;
   }
 
-  public String getRootOrgId(){
+  public String getRootOrgId() {
     return user.getRootorgid();
   }
 
-  public void setRootOrgId(String rootOrgId){
-     user.setRootorgid(rootOrgId);
+  public void setRootOrgId(String rootOrgId) {
+    user.setRootorgid(rootOrgId);
   }
 }
