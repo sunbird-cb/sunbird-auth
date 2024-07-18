@@ -11,6 +11,7 @@ import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.storage.StorageId;
 import org.keycloak.storage.adapter.AbstractUserAdapterFederatedStorage;
+import org.keycloak.util.JsonSerialization;
 
 public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 	private static final Logger logger = Logger.getLogger(UserAdapter.class);
@@ -100,7 +101,14 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     List<String> countrycodeValues = new ArrayList<>();
     countrycodeValues.add(user.getCountryCode());
     attributes.put("countryCode", countrycodeValues);
-    logger.info("UserAdapter:getAttributes method ended " );
+    List<String> rootOrgIdValues = new ArrayList<>();
+    rootOrgIdValues.add(user.getRootorgid());
+    attributes.put("rootOrgId",rootOrgIdValues);
+    try {
+      logger.info("UserAdapter:getAttributes method ended " + JsonSerialization.mapper.writeValueAsString(attributes));
+    }catch (Exception e){
+      logger.info("error while printing attributes");
+    }
     return attributes;
   }
 
