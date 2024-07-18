@@ -11,7 +11,7 @@ public class User {
   private String password;
   private boolean enabled;
   private String countryCode;
-  private String rootorgid;
+  private String org;
 
   public User() {}
 
@@ -93,7 +93,7 @@ public class User {
     this.countryCode = countryCode;
   }
 
-  public String getRootorgid() { return rootorgid; }
+  public String getOrg() { return org; }
 
-  public void setRootorgid(String rootorgid) { this.rootorgid = rootorgid; }
+  public void setOrg(String org) { this.org = org; }
 }

@@ -17,7 +17,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 	private static final Logger logger = Logger.getLogger(UserAdapter.class);
   private final User user;
   private final String keycloakId;
-  public static String rootOrgId ;
+  public static String org;
 
   public UserAdapter(KeycloakSession session, RealmModel realm, ComponentModel storageProviderModel,
       User user) {
@@ -101,13 +101,13 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     List<String> countrycodeValues = new ArrayList<>();
     countrycodeValues.add(user.getCountryCode());
     attributes.put("countryCode", countrycodeValues);
-    List<String> rootOrgIdValues = new ArrayList<>();
-    rootOrgIdValues.add(user.getRootorgid());
-    attributes.put("rootOrgId",rootOrgIdValues);
     try {
-      logger.info("UserAdapter:getAttributes method ended " + JsonSerialization.mapper.writeValueAsString(attributes));
+      List<String> rootOrgIdValues = new ArrayList<>();
+      logger.info("UserAdapter:getAttributes method " + JsonSerialization.mapper.writeValueAsString(attributes));
+      rootOrgIdValues.add(user.getOrg());
+      attributes.put("rootOrgId",rootOrgIdValues);
     }catch (Exception e){
-      logger.info("error while printing attributes");
+      logger.info("error while printing attributes" + e);
     }
     return attributes;
   }
@@ -117,11 +117,11 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     return keycloakId;
   }
 
-  public String getRootOrgId() {
-    return user.getRootorgid();
+  public String getOrg() {
+    return user.getOrg();
   }
 
-  public void setRootOrgId(String rootOrgId) {
-    user.setRootorgid(rootOrgId);
+  public void setOrg(String org) {
+    user.setOrg(org);
   }
 }
