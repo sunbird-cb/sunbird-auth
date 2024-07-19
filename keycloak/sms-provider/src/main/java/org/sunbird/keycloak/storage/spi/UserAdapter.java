@@ -104,8 +104,8 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     try {
       List<String> rootOrgIdValues = new ArrayList<>();
       logger.info("UserAdapter:getAttributes method " + JsonSerialization.mapper.writeValueAsString(attributes));
-      rootOrgIdValues.add(user.getOrg());
-      attributes.put("rootOrgId",rootOrgIdValues);
+      //rootOrgIdValues.add(user.getOrg());
+      //attributes.put("org",rootOrgIdValues);
     }catch (Exception e){
       logger.info("error while printing attributes" + e);
     }
