@@ -16,6 +16,7 @@ import org.keycloak.storage.StorageId;
 import org.keycloak.storage.UserStorageProvider;
 import org.keycloak.storage.user.UserLookupProvider;
 import org.keycloak.storage.user.UserQueryProvider;
+import org.keycloak.util.JsonSerialization;
 import org.sunbird.keycloak.utils.Constants;
 
 public class UserServiceProvider
@@ -49,6 +50,11 @@ public class UserServiceProvider
   public UserModel getUserByUsername(String username, RealmModel realm) {
     logger.info("UserServiceProvider: getUserByUsername called");
     List<User> users = userService.getByUsername(username);
+    try {
+      logger.info("UserSearchProvider: user data : " + JsonSerialization.mapper.writeValueAsString(users));
+    }catch (Exception e){
+      logger.info("failed to print user data");
+    }
     if (users != null && users.size() == 1) {
       return new UserAdapter(session, realm, model, users.get(0));
     } else if (users != null && users.size() > 1) {
